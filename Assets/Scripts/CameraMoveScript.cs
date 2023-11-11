@@ -5,13 +5,15 @@ using UnityEngine;
 public class CameraMoveScript : MonoBehaviour
 {
     public Camera mainCamera; //reference to main camera
-    public float lerpSpeed = 5.0f; // speed of movement (interpolated, see comments below)
-
+    public float positionLerpSpeed = 0.25f; // speed of movement (interpolated, see comments below)
+    public float zoomLerpSpeed = 0.25f;
+    public float zoomLevel = 10.0f; // zoom level
     private bool toRight = true; // toggle for right-/leftside movement
 
     // a coroutine is a method by unity to handle actions over multiple frames (movement, animation, etc.)
     // for this script to work properly the current Coroutine must be tracked (and stoped before another coroutine starts)
     private Coroutine currentLerp;
+    private bool zoomedIn = false;
 
     public RectTransform arrowRectTransform;
 
@@ -24,14 +26,14 @@ public class CameraMoveScript : MonoBehaviour
         
         if (toRight) // move camera to right
         {
-            newCameraPosition = new Vector3(38.0f, -5.0f, -10f);
+            newCameraPosition = new Vector3(9f,-0.1f,-10f);
             arrowRectTransform.localRotation = Quaternion.Euler(0f, 0f, 180f);
             toRight = false;
             audioSourceRightClick.Play();
         }
         else // move camera to left
         {
-            newCameraPosition = new Vector3(0f, -5.0f, -10f);
+            newCameraPosition = new Vector3(-9.65f,-0.1f,-10f);
             arrowRectTransform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             toRight = true;
             audioSourceLeftClick.Play();
@@ -42,24 +44,51 @@ public class CameraMoveScript : MonoBehaviour
             // stop the current Coroutine if it's running
             StopCoroutine(currentLerp);
         }
+        if (zoomedIn)
+        {
+            currentLerp = StartCoroutine(LerpToPosition(newCameraPosition, 6.95f, positionLerpSpeed, zoomLerpSpeed));
+            zoomedIn = false;
+        }
+        else
+        {
+            // If not zoomed in, zoom in
+            currentLerp = StartCoroutine(LerpToPosition(newCameraPosition, zoomLevel, positionLerpSpeed, zoomLerpSpeed));
+            zoomedIn = true;
+        }
 
         // set currentLerp to current Coroutine
-        currentLerp = StartCoroutine(LerpToPosition(newCameraPosition));
+        //currentLerp = StartCoroutine(LerpToPosition(newCameraPosition, zoomLevel, positionLerpSpeed, zoomLerpSpeed));
     }
-    
-    // interpolation algorithm for the camera movement, while loop tracks the distance and changes speed of movement for a smooth transition
-    private IEnumerator LerpToPosition(Vector3 newCameraPosition)
-    {
-        float journeyLength = Vector3.Distance(mainCamera.transform.position, newCameraPosition);
-        float startTime = Time.time;
 
-        while (Time.time < startTime + journeyLength / lerpSpeed)
-        {
-            float distanceCovered = (Time.time - startTime) * lerpSpeed;
-            float fractionOfJourney = distanceCovered / journeyLength;
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, newCameraPosition, fractionOfJourney);
-            yield return null;
-        }
-        mainCamera.transform.position = newCameraPosition; // final camera position
+    private IEnumerator LerpToPosition(Vector3 targetPosition, float targetZoom, float positionSpeed, float zoomSpeed)
+{
+    float startTime = Time.time;
+
+    Vector3 initialPosition = mainCamera.transform.position;
+    float initialZoom = mainCamera.orthographicSize;
+
+    while (Time.time < startTime + positionSpeed)
+    {
+        float t_pos = (Time.time - startTime) / positionSpeed;
+        float t_zoom = (Time.time - startTime) / zoomSpeed;
+
+        // Calculate separate t values for position and zoom
+        float positionT = Mathf.SmoothStep(0f, 1f, t_pos);
+        float zoomT = Mathf.SmoothStep(0f, 1f, t_zoom);
+
+        // Lerp for position
+        mainCamera.transform.position = Vector3.Lerp(initialPosition, targetPosition, positionT);
+
+        // Lerp for zoom
+        mainCamera.orthographicSize = Mathf.Lerp(initialZoom, targetZoom, zoomT);
+
+        yield return null;
     }
+
+    // Ensure the camera is at the exact target position and zoom level
+    mainCamera.transform.position = targetPosition;
+    mainCamera.orthographicSize = targetZoom;
+}
+
+
 }
