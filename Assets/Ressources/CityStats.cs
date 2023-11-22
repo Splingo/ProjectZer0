@@ -2,32 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CityStats : MonoBehaviour
+public class CityStats : ScriptableObject
 {
-    int HealthPoints { get; set; }
-    int Gold { get; set; }
-    int Wood { get; set; }
-    int Stone { get; set; }
-    int MetaTrophies { get; set; }
+    public readonly int healthPoints;
+    public readonly int gold;
+    public readonly int wood;
+    public readonly int stone;
+    public readonly int metaTrophies;
 
     public CityStats(int healthPoints, int gold, int wood, int stone, int metaTrophies)
     {
-        HealthPoints = healthPoints;
-        Gold = gold;
-        Wood = wood;
-        Stone = stone;
-        MetaTrophies = metaTrophies;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        this.healthPoints = healthPoints;
+        this.gold = gold;
+        this.wood = wood;
+        this.stone = stone;
+        this.metaTrophies = metaTrophies;
     }
 }
