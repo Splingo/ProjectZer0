@@ -17,7 +17,9 @@ public class CityStatsDisplay : MonoBehaviour
 
     public CityStatsDisplay(CityStats stats)
     {
-        cityStats = stats;
+        // Replace these lines when CityStats are coming from external source.
+        CityStats cityStats = ScriptableObject.CreateInstance<CityStats>();
+        cityStats.Init(5, 4, 3, 2, 1);
         this.cityStats = cityStats;
     }
 
