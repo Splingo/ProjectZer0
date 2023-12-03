@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - EnemyTarget
+  - Enemy
+  - FriendlyUnit
+  - EnemyUnit
   layers:
   - Default
   - TransparentFX
@@ -55,4 +59,13 @@ TagManager:
     locked: 0
   - name: New Layer 5
     uniqueID: 460289595
+    locked: 0
+  - name: New Layer 6
+    uniqueID: 809298703
+    locked: 0
+  - name: New Layer 7
+    uniqueID: 1409492203
+    locked: 0
+  - name: New Layer 8
+    uniqueID: 1137447739
     locked: 0
