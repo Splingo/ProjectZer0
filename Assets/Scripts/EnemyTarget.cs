@@ -7,7 +7,7 @@ public class EnemyTarget : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // remove enemy from canvas on collision
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("EnemyUnit"))
         {
             Destroy(other.gameObject);
         }
