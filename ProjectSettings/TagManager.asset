@@ -8,6 +8,10 @@ TagManager:
   - Enemy
   - FriendlyUnit
   - EnemyUnit
+  - MeleeEnemy
+  - RangedEnemy
+  - MeeleFriendlyUnit
+  - RangedFriendlyUnit
   layers:
   - Default
   - TransparentFX
@@ -15,12 +19,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - ROW 0
+  - ROW 1
+  - ROW 2
+  - ROW 3
+  - ROW 4
+  - ROW 5
   - 
   - 
   - 

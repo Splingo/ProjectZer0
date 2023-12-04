@@ -1,75 +1,134 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseUnit_Script : MonoBehaviour
 {
-    public int healthPoints;
-    public int defense;
-    public int attackDamage;
+    private float maxHP = 10f;
+    private float currentHP;
+    private int defense;
+    private float attackDamage = 1f;
 
-    public float attackSpeed;
-    public float attackRange = 2f;
+    private float attackSpeed = 1f;
+    private float attackRange = 1.05f;
 
-    private Transform targetEnemy;
-    // Start is called before the first frame update
-    void Start()
+    public GameObject targetEnemyUnit;
+
+    public GameObject hpBarPrefab;
+
+    private GameObject hpBarInstance;
+
+    private bool waiting = false;
+
+    private void Start()
     {
+        currentHP = maxHP;
         gameObject.tag = "FriendlyUnit";
+        CreateHPBar(); // Move CreateHPBar to Start
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (targetEnemy == null)
+        if (targetEnemyUnit == null)
         {
-            DetectEnemiesInAttackRange();
+            DetectEnemyUnit();
         }
-
-        if (targetEnemy != null)
+        else
         {
-            Debug.Log("Target enemy not null");
-            if (IsEnemyInAttackRange(targetEnemy))
+            if (IsTargetInRange())
             {
-                Debug.Log("Enemy in attack range");
-                Attack();
+                if(waiting == false)
+                {
+                    StartCoroutine(AttackWithDelay());
+                    waiting = true;
+                }
+                
+            }
+        }
+    }
+IEnumerator AttackWithDelay()
+{
+    
+    Enemy enemyTargetScript = targetEnemyUnit.GetComponent<Enemy>();
+
+    // If the script is found, deal damage
+    if (enemyTargetScript != null)
+    {
+        enemyTargetScript.TakeDamage(attackDamage);
+    }
+    yield return new WaitForSeconds(attackSpeed);
+    waiting = false;
+}
+    private bool IsTargetInRange()
+    {
+        if (targetEnemyUnit == null)
+            return false;
+
+        float distance = Vector2.Distance(transform.position, targetEnemyUnit.transform.position);
+        return distance <= attackRange;
+    }
+
+    private void CreateHPBar()
+    {
+        if (hpBarPrefab != null)
+        {
+            hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
+            hpBarInstance.transform.SetParent(transform);
+            UpdateHPBar(); // Call UpdateHPBar immediately after creating hpBarInstance
+        }
+    }
+
+    private void UpdateHPBar()
+    {
+        if (hpBarInstance != null)
+        {
+            Image hpBarImage = hpBarInstance.GetComponent<Image>();
+
+            if (hpBarImage != null)
+            {
+                float fillAmount = currentHP / maxHP;
+                hpBarImage.fillAmount = fillAmount;
             }
         }
     }
 
-    void Attack()
-{
-    Debug.Log("Friendly: Attacking!");
-}
-
-    void DetectEnemiesInAttackRange()
+    public void TakeDamage(float damage)
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        currentHP -= damage;
+
+        // Update the HP bar
+        UpdateHPBar();
+
+        if (currentHP <= 0f)
+        {
+            // Implement logic for enemy death
+            Destroy(gameObject);
+        }
+    }
+
+    void DetectEnemyUnit()
+    {
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(
+            transform.position,
+            new Vector2(attackRange, attackRange),
+            0f
+        );
+
+        // Reset the target enemy
+        targetEnemyUnit = null;
 
         foreach (Collider2D collider in colliders)
         {
-            if (collider != null && collider.CompareTag("EnemyUnit"))
+            float distance = Vector2.Distance(transform.position, collider.transform.position);
+
+            // Check if the collider is an enemy unit with the correct tag and layer
+            if (collider.CompareTag("EnemyUnit") && gameObject.layer == collider.gameObject.layer)
             {
-                Enemy enemyScript = collider.GetComponent<Enemy>();
-
-                if (enemyScript != null)
-                {
-                    Vector2 enemyGridPosition = enemyScript.GetGridPosition();
-
-                    if (Mathf.RoundToInt(transform.position.y) == Mathf.RoundToInt(enemyGridPosition.y))
-                    {
-                        targetEnemy = collider.transform;
-                        Debug.Log("Target enemy set: " + targetEnemy.name);
-                        break;
-                    }
-                }
+                // Set the detected enemy unit as the target
+                targetEnemyUnit = collider.gameObject;
+                break; // Exit the loop after finding the first enemy unit
             }
         }
-    }
-    bool IsEnemyInAttackRange(Transform enemyTransform)
-    {
-        float distanceToEnemy = Vector3.Distance(transform.position, enemyTransform.position);
-        Debug.Log("Distance to enemy: " + distanceToEnemy);
-        return distanceToEnemy <= attackRange;
     }
 }

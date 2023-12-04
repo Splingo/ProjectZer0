@@ -1,141 +1,161 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     private System.Random rand = new System.Random();
-    public float movementSpeed;
-    public int healthPoints;
-    public int defense;
-    public int attackDamage;
+    private float movementSpeed;
+    private float maxHP = 5f;
+    private float currentHP;
+    private int defense;
+    private float attackDamage = 1f;
+    private float attackSpeed = 1f;
+    private float attackRange = 1.05f;
 
-    public float attackSpeed;
-    public float attackRange = 1f;
-    public Transform targetUnit;
-    private bool isMoving = true; // Flag to control movement
+    public GameObject targetFriendlyUnit;
 
-    // set MovementSpeed to random value between 1(included) and 3(excluded)
+    public GameObject hpBarPrefab;
+
+    private GameObject hpBarInstance;
+
+    private Collider2D enemyCollider;
+    private bool shouldMove = true;
+
+     private bool waiting = false;
+
     private void Start()
     {
+        currentHP = maxHP;
+        CreateHPBar();
         gameObject.tag = "EnemyUnit";
         movementSpeed = (float)rand.NextDouble() * (3 - 1) + 1;
-    }
 
+        // Assuming you have a Collider2D attached to the enemy
+        enemyCollider = GetComponent<Collider2D>();
+
+        // Check if the Collider2D is not null
+        if (enemyCollider == null)
+        {
+            enemyCollider = gameObject.AddComponent<BoxCollider2D>();
+        }
+    }
 
     private void Update()
     {
-        if (targetUnit == null)
+        
+        if (targetFriendlyUnit == null)
         {
-            if (isMoving)
-            {
-                MoveLeft();
-                UpdateRangeIndicator();
-            }
             DetectFriendlyUnit();
+            MoveLeft();
         }
         else
         {
-            // If there's a target enemy within attack range, attack
-            if (IsEnemyInAttackRange(targetUnit))
+            if (IsTargetInRange())
             {
-                Attack();
+                if(waiting == false)
+                {
+                    StartCoroutine(AttackWithDelay());
+                    waiting = true;
+                }
             }
         }
     }
-    private void UpdateRangeIndicator()
+    private bool IsTargetInRange()
     {
-        // Raycast to detect mouse position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-        // Check if the hit collider is the same as the collider of this unit
-        if (hit.collider != null && hit.collider.gameObject == gameObject)
+        if (targetFriendlyUnit == null)
         {
-            ShowRangeIndicator();
+            return false;
         }
-        else
+
+        float distance = Vector2.Distance(transform.position, targetFriendlyUnit.transform.position);
+        return distance <= attackRange;
+    }
+
+    private void CreateHPBar()
+    {
+        hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
+        hpBarInstance.transform.SetParent(transform);
+    }
+    private void UpdateHPBar()
+    {
+        Debug.Log("TEST 1");
+        if (hpBarInstance != null)
         {
-            HideRangeIndicator();
+            Image hpBarImage = hpBarInstance.GetComponent<Image>();
+            Debug.Log("TEST 2");
+            if (hpBarImage != null)
+            {
+                Debug.Log("TEST 3");
+                float fillAmount = currentHP / maxHP;
+                Debug.Log("Fill Amount: " + fillAmount);
+                hpBarImage.fillAmount = fillAmount;
+            }
+        }
+    }
+    public void TakeDamage(float damage)
+    {
+
+        currentHP -= damage;
+
+        // Update the HP bar
+        UpdateHPBar();
+
+        if (currentHP <= 0f)
+        {
+            // Implement logic for enemy death
+            Destroy(gameObject);
         }
     }
 
-    private void ShowRangeIndicator()
+    void MoveLeft()
     {
-        // Get the AttackRangeIndicator script attached to the enemy
-        AttackRangeIndicatorForEnemyUnits indicatorScript = GetComponent<AttackRangeIndicatorForEnemyUnits>();
-
-        // Check if the indicator script is not null
-        if (indicatorScript != null)
+        if (shouldMove)
         {
-            indicatorScript.ShowIndicator();
+            // Move the enemy unit to the left
+            transform.Translate(Vector3.left * movementSpeed * Time.deltaTime);
         }
     }
 
-    private void HideRangeIndicator()
-    {
-        // Get the AttackRangeIndicator script attached to the enemy
-        AttackRangeIndicatorForEnemyUnits indicatorScript = GetComponent<AttackRangeIndicatorForEnemyUnits>();
 
-        // Check if the indicator script is not null
-        if (indicatorScript != null)
-        {
-            indicatorScript.HideIndicator();
-        }
-    }
-
-    private void MoveLeft()
-    {
-        // Move Enemy to the left
-        transform.Translate(Vector3.left * movementSpeed * Time.deltaTime);
-    }
-
-    private void DetectFriendlyUnit()
+    IEnumerator AttackWithDelay()
 {
-    // Check if the targetUnit is already set (meaning the friendly unit is already in attack range)
-    if (targetUnit == null)
+    BaseUnit_Script friendlyTargetScript = targetFriendlyUnit.GetComponent<BaseUnit_Script>();
+
+    // If the script is found, deal damage
+    if (friendlyTargetScript != null)
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        friendlyTargetScript.TakeDamage(attackDamage);
+    }
+    yield return new WaitForSeconds(attackSpeed);
+    waiting = false;
+}
+    void DetectFriendlyUnit()
+    {
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(
+            transform.position,
+            enemyCollider.bounds.size,
+            0f
+        );
+
+        targetFriendlyUnit = null; // Reset the target
 
         foreach (Collider2D collider in colliders)
         {
-            if (collider != null && collider.CompareTag("FriendlyUnit"))
+            if (collider.CompareTag("FriendlyUnit") && gameObject.layer == collider.gameObject.layer)
             {
-                StopMoving();
-                        break;
+                // Set the detected friendly unit as the target
+                targetFriendlyUnit = collider.gameObject;
+                shouldMove = false; // Stop moving
+                break; // Exit the loop after finding the first friendly unit
             }
         }
-    }
-}
-    private void StopMoving()
-    {
-        // Add any additional logic you need when the enemy stops moving
-        isMoving = false; // Stop further movement
-        Debug.Log("Enemy stopped moving!");
-    }
-    private void Attack()
-    {
-        // Add your attack logic here
-        Debug.Log("Enemy: Attacking!");
-    }
 
-    private bool IsEnemyInAttackRange(Transform enemyTransform)
-    {
-        float distanceToEnemy = Vector3.Distance(transform.position, enemyTransform.position);
-        return distanceToEnemy <= attackRange;
-    }
-
-    //private Vector2 GetGridPosition()
-    //{
-    //    // Assuming each grid cell is 1 unit in size and starts from (0, 0)
-    //    return new Vector2(transform.position.x, transform.position.y);
-    //}   
-    public Vector2 GetGridPosition()
-    {
-        // Assuming each grid cell is 100 units in size and starts from (0, 0)
-        float gridX = Mathf.Floor(transform.position.x / 100) * 100;
-        float gridY = Mathf.Floor(transform.position.y / 100) * 100;
-
-        return new Vector2(gridX, gridY);
+        if (targetFriendlyUnit == null)
+        {
+            // Resume movement if no friendly unit is detected
+            shouldMove = true;
+        }
     }
 }
