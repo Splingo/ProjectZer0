@@ -51,6 +51,7 @@ public class EnemySpawner : MonoBehaviour
         else
         {
             StopAllCoroutines();
+            waiting = false;
         }
         
     }
