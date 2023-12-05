@@ -498,7 +498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &321741821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -532,6 +532,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 3
+  startFightButton: {fileID: 0}
+  spawnInterval: 6
+  waiting: 0
+  buttonText: 
 --- !u!212 &321741823
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -641,7 +645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Spawn Enemy
+  m_text: Start Fight
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -968,7 +972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &406394213
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1002,6 +1006,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 1
+  startFightButton: {fileID: 0}
+  spawnInterval: 6
+  waiting: 0
+  buttonText: 
 --- !u!212 &406394215
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28358,7 +28366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &881814789
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28392,6 +28400,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 2
+  startFightButton: {fileID: 0}
+  spawnInterval: 6
+  waiting: 0
+  buttonText: 
 --- !u!212 &881814791
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28679,7 +28691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &897067631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28713,6 +28725,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 4
+  startFightButton: {fileID: 0}
+  spawnInterval: 6
+  waiting: 0
+  buttonText: 
 --- !u!212 &897067633
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -30064,6 +30080,7 @@ GameObject:
   - component: {fileID: 1535402860}
   - component: {fileID: 1535402859}
   - component: {fileID: 1535402858}
+  - component: {fileID: 1535402861}
   m_Layer: 5
   m_Name: Spawn_enemy_button
   m_TagString: Untagged
@@ -30245,6 +30262,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535402856}
   m_CullTransparentMesh: 1
+--- !u!114 &1535402861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535402856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 0}
+  enemyLayerName: 
+  startFightButton: {fileID: 1535402856}
+  spawnInterval: 6
+  waiting: 0
+  buttonText: 
 --- !u!1 &1589321069
 GameObject:
   m_ObjectHideFlags: 0
@@ -32346,6 +32381,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 0
+  startFightButton: {fileID: 0}
+  spawnInterval: 6
+  waiting: 0
+  buttonText: 
 --- !u!212 &1827043162
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -38584,7 +38623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2054872070
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38618,6 +38657,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 5
+  startFightButton: {fileID: 0}
+  spawnInterval: 6
+  waiting: 0
+  buttonText: 
 --- !u!212 &2054872072
 SpriteRenderer:
   m_ObjectHideFlags: 0
