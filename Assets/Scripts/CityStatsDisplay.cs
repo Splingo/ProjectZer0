@@ -27,6 +27,11 @@ public class CityStatsDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // This is only needed to fix null Ref.
+        // Remove these lines when constructor 'public CityStatsDisplay(CityStats stats)' is used.
+        CityStats cityStats = ScriptableObject.CreateInstance<CityStats>();
+        cityStats.Init(5, 4, 3, 2, 1);
+        this.cityStats = cityStats;
 
     }
 
