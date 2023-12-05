@@ -43,7 +43,6 @@ public class EnemySpawner : MonoBehaviour
     // function called by Button on canvas
     public void SpawnEnemy()
     {
-        Debug.Log(startFightButtonText.text);
         if (startFightButtonText.text == "Start Fight")
         {
             StartCoroutine(SpawnEnemyWithInterval());
