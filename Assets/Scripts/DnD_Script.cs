@@ -4,15 +4,15 @@ using UnityEngine.Tilemaps;
 
 public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private Vector2 initialPosition;
+    private Vector3 initialPosition;
     private Vector3 startPosition;
     private Vector3 previousPosition;
-    private RectTransform rectTransform;
     private Canvas canvas;
     public Grid grid;
     public Vector3 gridOffset; // Offset basierend auf der Grid-Position
     public Vector2Int gridRange; // Bereich des Rasters, in dem das Objekt platziert werden kann
     private Vector3Int initialCellPosition;
+
     private void Awake()
     {
         initialPosition = transform.position; // Speichere die ursprüngliche Position bei Start/Awake
@@ -21,7 +21,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
         canvas = FindObjectOfType<Canvas>(); // Finde die Canvas im Spiel
 
         grid = FindObjectOfType<Grid>(); // Finde das Grid-Skript im Spiel
@@ -37,20 +36,24 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             Debug.LogError("Grid-Skript nicht gefunden!");
         }
     }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         // Speichere die Zellenposition, in der sich das Objekt zu Beginn befindet
         initialCellPosition = grid.gridTilemap.WorldToCell(transform.position);
-        
+
         // Entferne die Zelle, in der sich das Objekt zu Beginn befand, aus der besetzten Liste
         grid.RemoveObjectFromCell(initialCellPosition);
         previousPosition = transform.position;
     }
+
     public void OnDrag(PointerEventData eventData)
-    { 
-        Vector2 mousePos;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out mousePos);
-        transform.position = canvas.transform.TransformPoint(mousePos);
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10; // Entfernung der Canvas-Ebene
+        Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
+        transform.position = screenPos;
+
         Vector3 dropPosition = transform.position;
 
         if (IsWithinAllowedRange(dropPosition))
@@ -58,14 +61,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             Vector3Int cellPosition = grid.gridTilemap.WorldToCell(dropPosition);
             Vector3 cellCenter = grid.gridTilemap.GetCellCenterWorld(cellPosition);
             transform.position = cellCenter; // Snappen an die Zellenposition
-            if(grid.IsCellFilled(cellPosition)){
-
+            if (grid.IsCellFilled(cellPosition))
+            {
                 dropPosition = previousPosition;
                 transform.position = previousPosition;
-              
             }
         }
-        
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -89,7 +90,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         transform.position = startPosition; // Setze zurück zur ursprünglichen Position
     }
 
-   private bool IsWithinAllowedRange(Vector3 position)
+    private bool IsWithinAllowedRange(Vector3 position)
     {
         Vector3 cellPosition = grid.gridTilemap.WorldToCell(position);
 
@@ -98,9 +99,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         // Überprüfe, ob die Zellenposition innerhalb des erlaubten Bereichs liegt
         return cellPosition.x >= 0 && cellPosition.x < gridRange.x &&
-            cellPosition.y >= 0 && cellPosition.y < gridRange.y;
+               cellPosition.y >= 0 && cellPosition.y < gridRange.y;
     }
-
-   
-
 }
