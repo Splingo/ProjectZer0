@@ -1,14 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CityStats : ScriptableObject
 {
-    public int HealthPoints;
-    public int Gold;
-    public int Wood;
-    public int Stone;
-    public int MetaTrophies;
+    public enum StatType
+    {
+        HealthPoints,
+        Gold,
+        Wood,
+        Stone,
+        MetaTrophies
+    }
+
+    private int HealthPoints;
+    private int Gold;
+    private int Wood;
+    private int Stone;
+    private int MetaTrophies;
 
     public static CityStats CreateInstance(int healthPoints, int gold, int wood, int stone, int metaTrophies)
     {
@@ -24,5 +34,49 @@ public class CityStats : ScriptableObject
         Wood = wood;
         Stone = stone;
         MetaTrophies = metaTrophies;
+    }
+    public int GetStat(StatType statType)
+    {
+        switch (statType)
+        {
+            case StatType.HealthPoints:
+                return HealthPoints;
+            case StatType.Gold:
+                return Gold;
+            case StatType.Wood:
+                return Wood;
+            case StatType.Stone:
+                return Stone;
+            case StatType.MetaTrophies:
+                return MetaTrophies;
+            default:
+                Debug.LogError($"Unknown stat type: {statType}");
+                return -1;
+        }
+    }
+
+    public void UpdateStatValue(StatType statType, int value)
+    {
+        switch (statType)
+        {
+            case StatType.HealthPoints:
+                HealthPoints += value;
+                break;
+            case StatType.Gold:
+                Gold += value;
+                break;
+            case StatType.Wood:
+                Wood += value;
+                break;
+            case StatType.Stone:
+                Stone += value;
+                break;
+            case StatType.MetaTrophies:
+                MetaTrophies += value;
+                break;
+            default:
+                Debug.LogError($"Unknown stat type: {statType}");
+                break;
+        }
     }
 }
