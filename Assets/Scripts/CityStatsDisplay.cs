@@ -17,23 +17,31 @@ public class CityStatsDisplay : MonoBehaviour
 
     public CityStatsDisplay(CityStats stats)
     {
-        cityStats = stats;
+        // Replace these lines when CityStats are coming from external source.
+        CityStats cityStats = ScriptableObject.CreateInstance<CityStats>();
+        cityStats.Init(5, 4, 3, 2, 1);
+        this.cityStats = cityStats;
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        cityStats = new(5, 4, 3, 2, 1);
+        // This is only needed to fix null Ref.
+        // Remove these lines when constructor 'public CityStatsDisplay(CityStats stats)' is used.
+        CityStats cityStats = ScriptableObject.CreateInstance<CityStats>();
+        cityStats.Init(5, 4, 3, 2, 1);
+        this.cityStats = cityStats;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Health.text = cityStats.healthPoints.ToString();
-        Gold.text = cityStats.gold.ToString();
-        Wood.text = cityStats.wood.ToString();
-        Stone.text = cityStats.stone.ToString();
-        MetaTrophies.text = cityStats.metaTrophies.ToString();
+        Health.text = cityStats.HealthPoints().ToString();
+        Gold.text = cityStats.Gold().ToString();
+        Wood.text = cityStats.Wood().ToString();
+        Stone.text = cityStats.Stone().ToString();
+        MetaTrophies.text = cityStats.MetaTrophies().ToString();
     }
 }
