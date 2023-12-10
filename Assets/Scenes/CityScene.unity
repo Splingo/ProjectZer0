@@ -28789,6 +28789,7 @@ GameObject:
   - component: {fileID: 920097306}
   - component: {fileID: 920097305}
   - component: {fileID: 920097304}
+  - component: {fileID: 920097307}
   m_Layer: 5
   m_Name: CityStatsBoard
   m_TagString: Untagged
@@ -28880,6 +28881,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920097302}
   m_CullTransparentMesh: 1
+--- !u!114 &920097307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920097302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52903ce8e01c5b04b92c7437d79a469c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cityStatsDisplay: {fileID: 920097304}
 --- !u!1 &928707145
 GameObject:
   m_ObjectHideFlags: 0
