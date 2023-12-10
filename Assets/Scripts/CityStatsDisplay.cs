@@ -7,41 +7,24 @@ using TMPro;
 
 public class CityStatsDisplay : MonoBehaviour
 {
-    private CityStats cityStats;
-
     public TextMeshProUGUI Health;
     public TextMeshProUGUI Gold;
     public TextMeshProUGUI Wood;
     public TextMeshProUGUI Stone;
     public TextMeshProUGUI MetaTrophies;
 
-    public CityStatsDisplay(CityStats stats)
+    public void RefreshCityStatsUI(CityStats cityStats)
     {
-        // Replace these lines when CityStats are coming from external source.
-        CityStats cityStats = ScriptableObject.CreateInstance<CityStats>();
-        cityStats.Init(5, 4, 3, 2, 1);
-        this.cityStats = cityStats;
-    }
+        if (cityStats == null)
+        {
+            Debug.LogWarning("Player stats are null");
+            return;
+        }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // This is only needed to fix null Ref.
-        // Remove these lines when constructor 'public CityStatsDisplay(CityStats stats)' is used.
-        CityStats cityStats = ScriptableObject.CreateInstance<CityStats>();
-        cityStats.Init(5, 4, 3, 2, 1);
-        this.cityStats = cityStats;
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Health.text = cityStats.HealthPoints().ToString();
-        Gold.text = cityStats.Gold().ToString();
-        Wood.text = cityStats.Wood().ToString();
-        Stone.text = cityStats.Stone().ToString();
-        MetaTrophies.text = cityStats.MetaTrophies().ToString();
+        Health.text = cityStats.HealthPoints.ToString();
+        Gold.text = cityStats.Gold.ToString();
+        Wood.text = cityStats.Wood.ToString();
+        Stone.text = cityStats.Stone.ToString();
+        MetaTrophies.text = cityStats.MetaTrophies.ToString();
     }
 }
