@@ -105,6 +105,7 @@ public class Enemy : MonoBehaviour
         if (currentHP <= 0f)
         {
             // Implement logic for enemy death
+            EventManager.EnemeyKilledEvent.Invoke();
             Destroy(gameObject);
         }
     }

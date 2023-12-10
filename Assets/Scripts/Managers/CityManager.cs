@@ -15,6 +15,10 @@ public class CityManager : MonoBehaviour
         this.cityStats = cityStats;
 
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
+
+        EventManager.EnemeyKilledEvent.AddListener(HandleEnemyKilled);
+        EventManager.EnemyDiedEvent.AddListener(HandleEnemyDied);
+
     }
 
     // Update is called once per frame
@@ -33,4 +37,15 @@ public class CityManager : MonoBehaviour
         cityStats.UpdateStatValue(type, changeValue);
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
     }
+
+    public void HandleEnemyKilled()
+    {
+        UpdateCityStat(CityStats.StatType.MetaTrophies, 1);
+    }
+
+    public void HandleEnemyDied()
+    {
+        UpdateCityStat(CityStats.StatType.HealthPoints, -1);
+    }
+
 }
