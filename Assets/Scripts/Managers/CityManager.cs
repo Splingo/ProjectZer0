@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CityManager : MonoBehaviour
 {
-    public CityStats cityStats;
+    private CityStats cityStats;
     public CityStatsDisplay cityStatsDisplay;
 
     // Start is called before the first frame update
@@ -20,11 +20,17 @@ public class CityManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // This is only an example of an stat change. Later we will call UpdateCityStat() from outside to manipulate stats.
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            cityStats.HealthPoints += 1;
-            cityStatsDisplay.RefreshCityStatsUI(cityStats);
+            UpdateCityStat(CityStats.StatType.HealthPoints, -1);
         }
+    }
 
+    // We can call this function to update a specific CityStat value and refresh the UI
+    public void UpdateCityStat(CityStats.StatType type, int changeValue)
+    {
+        cityStats.UpdateStatValue(type, changeValue);
+        cityStatsDisplay.RefreshCityStatsUI(cityStats);
     }
 }
