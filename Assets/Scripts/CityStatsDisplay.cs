@@ -21,10 +21,10 @@ public class CityStatsDisplay : MonoBehaviour
             return;
         }
 
-        Health.text = cityStats.HealthPoints.ToString();
-        Gold.text = cityStats.Gold.ToString();
-        Wood.text = cityStats.Wood.ToString();
-        Stone.text = cityStats.Stone.ToString();
-        MetaTrophies.text = cityStats.MetaTrophies.ToString();
+        Health.text = cityStats.GetStat(CityStats.StatType.HealthPoints).ToString();
+        Gold.text = cityStats.GetStat(CityStats.StatType.Gold).ToString();
+        Wood.text = cityStats.GetStat(CityStats.StatType.Wood).ToString();
+        Stone.text = cityStats.GetStat(CityStats.StatType.Stone).ToString();
+        MetaTrophies.text = cityStats.GetStat(CityStats.StatType.MetaTrophies).ToString();
     }
 }
