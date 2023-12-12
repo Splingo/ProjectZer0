@@ -104,10 +104,16 @@ public class Enemy : MonoBehaviour
 
         if (currentHP <= 0f)
         {
-            // Implement logic for enemy death
+            EnemyKilled();
+        }
+    }
+    /// <summary>
+    /// This function destroys the gameObject and triggers on killed stuff
+    /// </summary>
+    private void EnemyKilled()
+    {
             EventManager.EnemeyKilledEvent.Invoke();
             Destroy(gameObject);
-        }
     }
 
     void MoveLeft()
