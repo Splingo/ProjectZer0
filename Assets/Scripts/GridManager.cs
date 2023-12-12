@@ -10,14 +10,12 @@ public class GridManager : MonoBehaviour
     public TileBase defaultTile;
 
     [SerializeField]
-    private List<Vector2Int> occupiedCells = new List<Vector2Int>(); // Liste für die belegten Zellen
 
-    private List<Vector3Int> occupiedPositions = new List<Vector3Int>();
+    public List<Vector3Int> occupiedPositions = new List<Vector3Int>();
 
     void Start()
     {
         GenerateGrid();
-        OccupyCells(occupiedCells); // Besetze die Zellen für das spezifische Gebäude
     }
 
     void GenerateGrid()

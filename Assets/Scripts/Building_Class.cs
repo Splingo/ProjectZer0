@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 public class Building_Class : MonoBehaviour
 {
+    public enum BuildingShape
+    {
+        T_Shape,
+        L_Shape
+        // Weitere Formen hier hinzufügen
+    }
+    public GridManager gridManager;
     public string buildingName;
     public int resourceProductionRate;
     public Sprite buildingSprite;
@@ -11,6 +18,7 @@ public class Building_Class : MonoBehaviour
     public bool canUpgrade;
     public int buildingCount;
     public List<Vector2Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    public BuildingShape shape;
 
     // Konstruktor für die Klasse Buildings
     public Building_Class(string name, int productionRate, Sprite sprite, int requiredResources, bool upgradeStatus, int count, List<Vector2Int> occupiedCells)
@@ -50,5 +58,20 @@ public class Building_Class : MonoBehaviour
         {
             Debug.Log("Upgrade nicht möglich für " + buildingName);
         }
+    }
+
+    public void OccupyCellsBasedOnShape(Vector2Int center, List<Vector2Int> shape)
+    {
+        List<Vector2Int> occupiedCells = new List<Vector2Int>();
+
+        // Für jedes Zellenschema in der Form berechne die tatsächliche Zellenposition und füge sie zu den belegten Zellen hinzu
+        foreach (Vector2Int cell in shape)
+        {
+            Vector2Int cellPosition = new Vector2Int(center.x + cell.x, center.y + cell.y);
+            occupiedCells.Add(cellPosition);
+        }
+
+        // Übergebe die Liste der belegten Zellen dem GridManager, um diese Zellen zu besetzen
+        gridManager.OccupyCells(occupiedCells);
     }
 }
