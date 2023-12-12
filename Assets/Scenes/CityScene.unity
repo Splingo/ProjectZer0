@@ -498,7 +498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &321741821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -532,6 +532,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 3
+  startFightButtonText: {fileID: 346868662}
+  spawnInterval: 12
+  waiting: 0
 --- !u!212 &321741823
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -641,7 +644,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Spawn Enemy
+  m_text: Start Fight
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -968,7 +971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &406394213
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1002,6 +1005,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 1
+  startFightButtonText: {fileID: 346868662}
+  spawnInterval: 12
+  waiting: 0
 --- !u!212 &406394215
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28358,7 +28364,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &881814789
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28392,6 +28398,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 2
+  startFightButtonText: {fileID: 346868662}
+  spawnInterval: 12
+  waiting: 0
 --- !u!212 &881814791
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28679,7 +28688,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &897067631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28713,6 +28722,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 4
+  startFightButtonText: {fileID: 346868662}
+  spawnInterval: 12
+  waiting: 0
 --- !u!212 &897067633
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -30064,6 +30076,7 @@ GameObject:
   - component: {fileID: 1535402860}
   - component: {fileID: 1535402859}
   - component: {fileID: 1535402858}
+  - component: {fileID: 1535402861}
   m_Layer: 5
   m_Name: Spawn_enemy_button
   m_TagString: Untagged
@@ -30137,7 +30150,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1827043161}
         m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: SpawnEnemy
+        m_MethodName: ToggleEnemySpawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30149,7 +30162,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 406394214}
         m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: SpawnEnemy
+        m_MethodName: ToggleEnemySpawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30161,7 +30174,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 881814790}
         m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: SpawnEnemy
+        m_MethodName: ToggleEnemySpawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30173,7 +30186,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 321741822}
         m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: SpawnEnemy
+        m_MethodName: ToggleEnemySpawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30185,7 +30198,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 897067632}
         m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: SpawnEnemy
+        m_MethodName: ToggleEnemySpawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30197,7 +30210,19 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2054872071}
         m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: SpawnEnemy
+        m_MethodName: ToggleEnemySpawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1535402861}
+        m_TargetAssemblyTypeName: StartFightButton, Assembly-CSharp
+        m_MethodName: ToggleText
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30245,6 +30270,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535402856}
   m_CullTransparentMesh: 1
+--- !u!114 &1535402861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535402856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c10e2c41af3003c429d6b4dcc5735ce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonText: {fileID: 346868662}
 --- !u!1 &1589321069
 GameObject:
   m_ObjectHideFlags: 0
@@ -32346,6 +32384,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 0
+  startFightButtonText: {fileID: 346868662}
+  spawnInterval: 12
+  waiting: 0
 --- !u!212 &1827043162
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -38584,7 +38625,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2054872070
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38618,6 +38659,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
   enemyLayerName: ROW 5
+  startFightButtonText: {fileID: 346868662}
+  spawnInterval: 12
+  waiting: 0
 --- !u!212 &2054872072
 SpriteRenderer:
   m_ObjectHideFlags: 0
