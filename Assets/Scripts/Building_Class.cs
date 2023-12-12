@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Building_Class : MonoBehaviour
 {
@@ -9,9 +10,10 @@ public class Building_Class : MonoBehaviour
     public int resourcesRequiredForUpgrade;
     public bool canUpgrade;
     public int buildingCount;
+    public List<Vector2Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
 
     // Konstruktor für die Klasse Buildings
-    public Building_Class(string name, int productionRate, Sprite sprite, int requiredResources, bool upgradeStatus, int count)
+    public Building_Class(string name, int productionRate, Sprite sprite, int requiredResources, bool upgradeStatus, int count, List<Vector2Int> occupiedCells)
     {
         buildingName = name;
         resourceProductionRate = productionRate;
@@ -20,6 +22,7 @@ public class Building_Class : MonoBehaviour
         canUpgrade = upgradeStatus;
         buildingCount = count;
         collectedResources = 0; // Initialisiere die gesammelten Ressourcen mit 0
+        this.occupiedCells = occupiedCells; // Setze die Liste der belegten Zellen
     }
 
     // Methode zum Erhöhen der gesammelten Ressourcen

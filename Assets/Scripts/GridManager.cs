@@ -2,75 +2,67 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
-public class Grid : MonoBehaviour
+public class GridManager : MonoBehaviour
 {
-  public int rows = 10; // Anzahl der Reihen im Raster
-    public int columns = 10; // Anzahl der Spalten im Raster
-    
-    public Tilemap gridTilemap; // Referenz auf die Tilemap
-    public TileBase defaultTile; // Standard-Tile für die Zellen
+    public int rows = 10;
+    public int columns = 10;
+    public Tilemap gridTilemap;
+    public TileBase defaultTile;
+
+    [SerializeField]
+    private List<Vector2Int> occupiedCells = new List<Vector2Int>(); // Liste für die belegten Zellen
+
     private List<Vector3Int> occupiedPositions = new List<Vector3Int>();
-    
+
     void Start()
     {
         GenerateGrid();
+        OccupyCells(occupiedCells); // Besetze die Zellen für das spezifische Gebäude
     }
 
     void GenerateGrid()
     {
-
-        // Finde die untere linke Ecke der Tilemap
         Vector3Int bottomLeft = gridTilemap.origin;
 
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < columns; col++)
             {
-                Vector3Int cellPosition =  new Vector3Int(row-11, col-5,0); // Position der Zelle im Raster
-                gridTilemap.SetTile(cellPosition, defaultTile); // Lege das Standard-Tile in der Zelle an
+                Vector3Int cellPosition = new Vector3Int(row, col, 0);
+                gridTilemap.SetTile(cellPosition, defaultTile);
             }
         }
     }
-    public bool IsCellFilled(Vector3Int position)
-    {
-        return occupiedPositions.Contains(position);
-    }
 
-    public void PlaceObjectInCell(Vector3Int cellPosition, bool isFilled)
+    public bool AreCellsOccupied(List<Vector3Int> positions)
     {
-        if (!IsCellFilled(cellPosition))
+        foreach (Vector3Int position in positions)
         {
-            occupiedPositions.Add(cellPosition);
-            if (isFilled)
+            if (occupiedPositions.Contains(position))
             {
-                // Überprüfe, ob ein Standard-Tile festgelegt wurde, um gefüllte Zellen darzustellen
-                if (defaultTile != null)
-                {
-                    gridTilemap.SetTile(cellPosition, defaultTile); // Setze das Standard-Tile in der Zelle
-                }
-                else
-                {
-                    Debug.LogError("Es wurde kein Standard-Tile festgelegt, um gefüllte Zellen darzustellen!");
-                }
+                return true;
             }
         }
-        else
-        {
-            Debug.Log("Zelle ist bereits gefüllt!");
-        }
+        return false;
     }
 
-    public void RemoveObjectFromCell(Vector3Int cellPosition)
+    public void OccupyCells(List<Vector2Int> positions)
     {
-        if (IsCellFilled(cellPosition))
+        foreach (Vector2Int position in positions)
         {
-            occupiedPositions.Remove(cellPosition);
-            gridTilemap.SetTile(cellPosition, defaultTile); 
-        }
-        else
-        {
-            Debug.Log("Zelle ist bereits leer!");
+            Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
+            occupiedPositions.Add(cellPosition);
+            gridTilemap.SetTile(cellPosition, defaultTile);
         }
     }
 
+    public void ReleaseCells(List<Vector2Int> positions)
+    {
+        foreach (Vector2Int position in positions)
+        {
+            Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
+            occupiedPositions.Remove(cellPosition);
+            gridTilemap.SetTile(cellPosition, null);
+        }
+    }
 }
