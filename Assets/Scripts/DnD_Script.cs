@@ -45,7 +45,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
 
         // Entferne die Zelle, in der sich das Objekt zu Beginn befand, aus der besetzten Liste
-        gridManager.ReleaseCells(new List<Vector2Int> { new Vector2Int(initialCellPosition.x, initialCellPosition.y) });
+        gridManager.ReleaseCells(new List<Vector3Int> { new Vector3Int(initialCellPosition.x, initialCellPosition.y,0) });
         previousPosition = transform.position;
     }
 
@@ -71,7 +71,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
     }
 
-   public void OnEndDrag(PointerEventData eventData)
+public void OnEndDrag(PointerEventData eventData)
 {
     Vector3 dropPosition = transform.position;
     if (IsWithinAllowedRange(dropPosition))
@@ -81,10 +81,22 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (!gridManager.AreCellsOccupied(new List<Vector3Int> { cellPosition }))
         {
             Vector3Int initialCellPosition = gridManager.gridTilemap.WorldToCell(initialPosition);
-            gridManager.ReleaseCells(new List<Vector2Int> { new Vector2Int(initialCellPosition.x, initialCellPosition.y) });
+            gridManager.ReleaseCells(new List<Vector3Int> { new Vector3Int(initialCellPosition.x, initialCellPosition.y, 0) });
+            List<Vector3Int> convertedCells = new List<Vector3Int>();
+            if (draggedBuilding != null)
+            {
+                List<Vector3Int> buildingOccupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition);
+                    if(buildingOccupiedCells != null){
 
-            gridManager.OccupyCells(draggedBuilding.occupiedCells);
-            Debug.Log(draggedBuilding.occupiedCells);
+                foreach (Vector3Int cell in buildingOccupiedCells)
+                {
+                    convertedCells.Add(cell);
+                }
+                    }
+
+                gridManager.OccupyCells(convertedCells);
+            }
+
             Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
             transform.position = cellCenter; // Snappen an die Zellenposition
 
@@ -94,6 +106,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     transform.position = startPosition; // Setze zurück zur ursprünglichen Position
 }
+
 
 
     private bool IsWithinAllowedRange(Vector3 position)

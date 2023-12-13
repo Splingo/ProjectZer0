@@ -44,9 +44,9 @@ public class GridManager : MonoBehaviour
         return false;
     }
 
-    public void OccupyCells(List<Vector2Int> positions)
+    public void OccupyCells(List<Vector3Int> positions)
     {
-        foreach (Vector2Int position in positions)
+        foreach (Vector3Int position in positions)
         {
             Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
             occupiedPositions.Add(cellPosition);
@@ -54,9 +54,9 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void ReleaseCells(List<Vector2Int> positions)
+    public void ReleaseCells(List<Vector3Int> positions)
     {
-        foreach (Vector2Int position in positions)
+        foreach (Vector3Int position in positions)
         {
             Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
             occupiedPositions.Remove(cellPosition);

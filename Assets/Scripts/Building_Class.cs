@@ -5,9 +5,14 @@ public class Building_Class : MonoBehaviour
 {
     public enum BuildingShape
     {
+        Block_2x2,
+        Block_1x1,
+        Tower_1x3,
+        Block_2x1,
         T_Shape,
-        L_Shape
-        // Weitere Formen hier hinzufügen
+        L_Shape,
+        Cross,
+        U_Shape
     }
     public GridManager gridManager;
     public string buildingName;
@@ -17,21 +22,28 @@ public class Building_Class : MonoBehaviour
     public int resourcesRequiredForUpgrade;
     public bool canUpgrade;
     public int buildingCount;
-    public List<Vector2Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    private List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    public List<Vector3Int> GetOccupiedCells(Vector3Int center)
+    {
+        OccupyCellsBasedOnShape(center, shape);
+        return occupiedCells;
+    }
+
     public BuildingShape shape;
 
     // Konstruktor für die Klasse Buildings
-    public Building_Class(string name, int productionRate, Sprite sprite, int requiredResources, bool upgradeStatus, int count, List<Vector2Int> occupiedCells)
-    {
-        buildingName = name;
-        resourceProductionRate = productionRate;
-        buildingSprite = sprite;
-        resourcesRequiredForUpgrade = requiredResources;
-        canUpgrade = upgradeStatus;
-        buildingCount = count;
-        collectedResources = 0; // Initialisiere die gesammelten Ressourcen mit 0
-        this.occupiedCells = occupiedCells; // Setze die Liste der belegten Zellen
-    }
+    public Building_Class(string name, int productionRate, Sprite sprite, int requiredResources, bool upgradeStatus, BuildingShape shape, int count)
+{
+    buildingName = name;
+    resourceProductionRate = productionRate;
+    buildingSprite = sprite;
+    resourcesRequiredForUpgrade = requiredResources;
+    canUpgrade = upgradeStatus;
+    buildingCount = count;
+    collectedResources = 0; // Initialisiere die gesammelten Ressourcen mit 0
+    this.shape = shape;
+    this.occupiedCells = new List<Vector3Int>();
+}
 
     // Methode zum Erhöhen der gesammelten Ressourcen
     public void IncreaseResources(int amount)
@@ -60,18 +72,78 @@ public class Building_Class : MonoBehaviour
         }
     }
 
-    public void OccupyCellsBasedOnShape(Vector2Int center, List<Vector2Int> shape)
+    public void OccupyCellsBasedOnShape(Vector3Int center, BuildingShape shape)
+{
+    shape = this.shape;
+    this.occupiedCells = new List<Vector3Int>();
+
+    switch (shape)
     {
-        List<Vector2Int> occupiedCells = new List<Vector2Int>();
-
-        // Für jedes Zellenschema in der Form berechne die tatsächliche Zellenposition und füge sie zu den belegten Zellen hinzu
-        foreach (Vector2Int cell in shape)
-        {
-            Vector2Int cellPosition = new Vector2Int(center.x + cell.x, center.y + cell.y);
-            occupiedCells.Add(cellPosition);
-        }
-
-        // Übergebe die Liste der belegten Zellen dem GridManager, um diese Zellen zu besetzen
-        gridManager.OccupyCells(occupiedCells);
+        case BuildingShape.Block_2x2:
+            // Zentrum ist unten links, nimmt eine Zelle rechts und jeweils über den beiden Zellen ein
+            occupiedCells.Add(center);
+            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x, center.y + 1, 0));
+            occupiedCells.Add(new Vector3Int(center.x + 1, center.y + 1, 0));
+            break;
+        case BuildingShape.Block_1x1:
+            // Zentrum ist die einzelne Zelle und nimmt nur diese Zelle ein
+            occupiedCells.Add(center);
+            break;
+        case BuildingShape.Tower_1x3:
+            // Zentrum ist die mittlere Zelle, nimmt eine Zelle über und unter sich ein
+            occupiedCells.Add(center);
+            occupiedCells.Add(new Vector3Int(center.x, center.y + 1, 0));
+            occupiedCells.Add(new Vector3Int(center.x, center.y - 1, 0));
+            break;
+        case BuildingShape.Block_2x1:
+            // Zentrum ist die linke Zelle, nimmt eine weitere Zelle rechts von sich ein
+            occupiedCells.Add(center);
+            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
+            break;
+        case BuildingShape.T_Shape:
+            // Zentrum ist die mittlere Zelle, hat links und rechts eine Zelle und von der Mitte runter 2 Zellen
+            occupiedCells.Add(center);
+            occupiedCells.Add(new Vector3Int(center.x - 1, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x, center.y - 1, 0));
+            break;
+        case BuildingShape.L_Shape:
+            // Korrigierte Implementierung für L_Shape
+            occupiedCells.Add(center);
+            occupiedCells.Add(new Vector3Int(center.x, center.y - 1, 0));
+            occupiedCells.Add(new Vector3Int(center.x, center.y - 2, 0));
+            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x + 2, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x + 3, center.y, 0));
+            break;
+        case BuildingShape.Cross:
+            // Korrigierte Implementierung für Cross
+            occupiedCells.Add(center);
+            occupiedCells.Add(new Vector3Int(center.x, center.y + 1, 0));
+            occupiedCells.Add(new Vector3Int(center.x, center.y + 2, 0));
+            occupiedCells.Add(new Vector3Int(center.x - 1, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x, center.y - 1, 0));
+            occupiedCells.Add(new Vector3Int(center.x, center.y - 2, 0));
+            break;
+        case BuildingShape.U_Shape:
+            // Zentrum ist unten in der Mitte, links und rechts eine Zelle und von diesen Zellen eine Zelle nach oben jeweils
+            occupiedCells.Add(center);
+            occupiedCells.Add(new Vector3Int(center.x - 1, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
+            occupiedCells.Add(new Vector3Int(center.x - 1, center.y + 1, 0));
+            occupiedCells.Add(new Vector3Int(center.x + 1, center.y + 1, 0));
+            break;
+        default:
+            // Für den Fall, dass keine passende Form angegeben ist, wird Block_1x1 als Standardform verwendet
+            occupiedCells.Add(center);
+            break;
     }
+
+    // Übergebe die Liste der belegten Zellen dem GridManager, um diese Zellen zu besetzen
+    gridManager.OccupyCells(occupiedCells);
+}
+
+
 }

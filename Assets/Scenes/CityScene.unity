@@ -274,9 +274,7 @@ MonoBehaviour:
   resourcesRequiredForUpgrade: 0
   canUpgrade: 0
   buildingCount: 0
-  occupiedCells:
-  - {x: 1, y: 1}
-  shape: 0
+  shape: 6
 --- !u!114 &145475851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31272,9 +31270,7 @@ MonoBehaviour:
   resourcesRequiredForUpgrade: 0
   canUpgrade: 0
   buildingCount: 0
-  occupiedCells:
-  - {x: -11, y: 4}
-  shape: 0
+  shape: 1
 --- !u!1 &1783212436
 GameObject:
   m_ObjectHideFlags: 0
