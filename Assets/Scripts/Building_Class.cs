@@ -72,7 +72,7 @@ public class Building_Class : MonoBehaviour
         }
     }
 
-    public void OccupyCellsBasedOnShape(Vector3Int center, BuildingShape shape)
+    public void OccupyCellsBasedOnShape(Vector3Int beginCell, BuildingShape shape)
 {
     shape = this.shape;
     this.occupiedCells = new List<Vector3Int>();
@@ -80,64 +80,60 @@ public class Building_Class : MonoBehaviour
     switch (shape)
     {
         case BuildingShape.Block_2x2:
-            // Zentrum ist unten links, nimmt eine Zelle rechts und jeweils über den beiden Zellen ein
-            occupiedCells.Add(center);
-            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x, center.y + 1, 0));
-            occupiedCells.Add(new Vector3Int(center.x + 1, center.y + 1, 0));
+            // beginCell ist unten links, nimmt eine Zelle rechts und jeweils über den beiden Zellen ein
+            occupiedCells.Add(beginCell);
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y + 1, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y + 1, 0));
             break;
         case BuildingShape.Block_1x1:
-            // Zentrum ist die einzelne Zelle und nimmt nur diese Zelle ein
-            occupiedCells.Add(center);
+            // beginCell ist die einzelne Zelle und nimmt nur diese Zelle ein
+            occupiedCells.Add(beginCell);
             break;
         case BuildingShape.Tower_1x3:
-            // Zentrum ist die mittlere Zelle, nimmt eine Zelle über und unter sich ein
-            occupiedCells.Add(center);
-            occupiedCells.Add(new Vector3Int(center.x, center.y + 1, 0));
-            occupiedCells.Add(new Vector3Int(center.x, center.y - 1, 0));
+            // beginCell ist die mittlere Zelle, nimmt eine Zelle über und unter sich ein
+            occupiedCells.Add(beginCell);
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y + 1, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y - 1, 0));
             break;
         case BuildingShape.Block_2x1:
-            // Zentrum ist die linke Zelle, nimmt eine weitere Zelle rechts von sich ein
-            occupiedCells.Add(center);
-            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
+            // beginCell ist die linke Zelle, nimmt eine weitere Zelle rechts von sich ein
+            occupiedCells.Add(beginCell);
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y, 0));
             break;
         case BuildingShape.T_Shape:
-            // Zentrum ist die mittlere Zelle, hat links und rechts eine Zelle und von der Mitte runter 2 Zellen
-            occupiedCells.Add(center);
-            occupiedCells.Add(new Vector3Int(center.x - 1, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x, center.y - 1, 0));
+            // beginCell ist die mittlere Zelle, hat links und rechts eine Zelle und von der Mitte runter 2 Zellen
+            occupiedCells.Add(beginCell);
+            occupiedCells.Add(new Vector3Int(beginCell.x - 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y - 1, 0));
             break;
         case BuildingShape.L_Shape:
             // Korrigierte Implementierung für L_Shape
-            occupiedCells.Add(center);
-            occupiedCells.Add(new Vector3Int(center.x, center.y - 1, 0));
-            occupiedCells.Add(new Vector3Int(center.x, center.y - 2, 0));
-            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x + 2, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x + 3, center.y, 0));
+            occupiedCells.Add(beginCell);
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y - 1, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y, 0));
             break;
         case BuildingShape.Cross:
             // Korrigierte Implementierung für Cross
-            occupiedCells.Add(center);
-            occupiedCells.Add(new Vector3Int(center.x, center.y + 1, 0));
-            occupiedCells.Add(new Vector3Int(center.x, center.y + 2, 0));
-            occupiedCells.Add(new Vector3Int(center.x - 1, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x, center.y - 1, 0));
-            occupiedCells.Add(new Vector3Int(center.x, center.y - 2, 0));
+            occupiedCells.Add(beginCell);
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y + 1, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x - 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y - 1, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y - 2, 0));
             break;
         case BuildingShape.U_Shape:
-            // Zentrum ist unten in der Mitte, links und rechts eine Zelle und von diesen Zellen eine Zelle nach oben jeweils
-            occupiedCells.Add(center);
-            occupiedCells.Add(new Vector3Int(center.x - 1, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x + 1, center.y, 0));
-            occupiedCells.Add(new Vector3Int(center.x - 1, center.y + 1, 0));
-            occupiedCells.Add(new Vector3Int(center.x + 1, center.y + 1, 0));
+            // beginCell ist unten in der Mitte, links und rechts eine Zelle und von diesen Zellen eine Zelle nach oben jeweils
+            occupiedCells.Add(beginCell);
+            occupiedCells.Add(new Vector3Int(beginCell.x - 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x - 1, beginCell.y - 1, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y - 1, 0));
             break;
         default:
             // Für den Fall, dass keine passende Form angegeben ist, wird Block_1x1 als Standardform verwendet
-            occupiedCells.Add(center);
+            occupiedCells.Add(beginCell);
             break;
     }
 
