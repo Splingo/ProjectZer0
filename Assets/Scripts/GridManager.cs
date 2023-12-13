@@ -45,22 +45,34 @@ public class GridManager : MonoBehaviour
     }
 
     public void OccupyCells(List<Vector3Int> positions)
+{
+    foreach (Vector3Int position in positions)
     {
-        foreach (Vector3Int position in positions)
+        Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
+
+        // Überprüfe, ob die Zelle bereits in der Liste enthalten ist
+        if (!occupiedPositions.Contains(cellPosition))
         {
-            Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
             occupiedPositions.Add(cellPosition);
             gridTilemap.SetTile(cellPosition, defaultTile);
         }
     }
+}
 
-    public void ReleaseCells(List<Vector3Int> positions)
+
+   public void ReleaseCells(List<Vector3Int> positions)
+{
+    foreach (Vector3Int position in positions)
     {
-        foreach (Vector3Int position in positions)
+        Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
+
+        // Entferne alle Vorkommen der Zelle aus occupiedPositions
+        while (occupiedPositions.Contains(cellPosition))
         {
-            Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
             occupiedPositions.Remove(cellPosition);
             gridTilemap.SetTile(cellPosition, null);
         }
     }
+}
+
 }

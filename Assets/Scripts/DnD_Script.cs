@@ -39,15 +39,23 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        // Speichere die Zellenposition, in der sich das Objekt zu Beginn befindet
-        initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
+   public void OnBeginDrag(PointerEventData eventData)
+{
+    // Speichere die Zellenposition, in der sich das Objekt zu Beginn befindet
+    initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
 
-        // Entferne die Zelle, in der sich das Objekt zu Beginn befand, aus der besetzten Liste
-        gridManager.ReleaseCells(new List<Vector3Int> { new Vector3Int(initialCellPosition.x, initialCellPosition.y,0) });
-        previousPosition = transform.position;
+    // Erhalte die belegten Zellen für das aktuelle Element
+    List<Vector3Int> occupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition);
+
+    // Entferne die Zellen, die durch das Element besetzt sind
+    if (occupiedCells != null && occupiedCells.Count > 0)
+    {
+        gridManager.ReleaseCells(occupiedCells);
     }
+
+    previousPosition = transform.position;
+}
+
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -80,25 +88,15 @@ public void OnEndDrag(PointerEventData eventData)
 
         if (!gridManager.AreCellsOccupied(new List<Vector3Int> { cellPosition }))
         {
-            Vector3Int initialCellPosition = gridManager.gridTilemap.WorldToCell(initialPosition);
-            gridManager.ReleaseCells(new List<Vector3Int> { new Vector3Int(initialCellPosition.x, initialCellPosition.y, 0) });
-            List<Vector3Int> convertedCells = new List<Vector3Int>();
-            if (draggedBuilding != null)
-            {
-                List<Vector3Int> buildingOccupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition);
-                    if(buildingOccupiedCells != null){
+            // Erhalte die neuen belegten Zellen für das gezogene Gebäude
+            List<Vector3Int> buildingOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
 
-                foreach (Vector3Int cell in buildingOccupiedCells)
-                {
-                    convertedCells.Add(cell);
-                }
-                    }
+            // Aktualisiere die GridManager-Liste mit den neuen belegten Zellen
+            gridManager.OccupyCells(buildingOccupiedCells);
 
-                gridManager.OccupyCells(convertedCells);
-            }
-
+            // Snappen an die Zellenposition
             Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
-            transform.position = cellCenter; // Snappen an die Zellenposition
+            transform.position = cellCenter;
 
             return;
         }
@@ -106,6 +104,8 @@ public void OnEndDrag(PointerEventData eventData)
 
     transform.position = startPosition; // Setze zurück zur ursprünglichen Position
 }
+
+
 
 
 
