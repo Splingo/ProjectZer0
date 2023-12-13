@@ -32,17 +32,20 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public bool AreCellsOccupied(List<Vector3Int> positions)
+ public bool AreCellsOccupied(List<Vector3Int> buildingOccupiedCells)
+{
+    foreach (Vector3Int position in buildingOccupiedCells)
     {
-        foreach (Vector3Int position in positions)
+        if (occupiedPositions.Contains(position))
         {
-            if (occupiedPositions.Contains(position))
-            {
-                return true;
-            }
+            return true; // Wenn eine Position bereits besetzt ist, dann ist die gesamte Zelle besetzt
         }
-        return false;
     }
+    return false; // Keine der Positionen des Elements ist besetzt
+}
+
+
+
 
     public void OccupyCells(List<Vector3Int> positions)
 {

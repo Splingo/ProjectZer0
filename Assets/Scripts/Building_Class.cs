@@ -22,12 +22,21 @@ public class Building_Class : MonoBehaviour
     public int resourcesRequiredForUpgrade;
     public bool canUpgrade;
     public int buildingCount;
-    private List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    public List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    public List<Vector3Int> previousOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    public List<Vector3Int> hoverungOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+
     public List<Vector3Int> GetOccupiedCells(Vector3Int center)
     {
         OccupyCellsBasedOnShape(center, shape);
         return occupiedCells;
     }
+    public List<Vector3Int> ReturnOccupiedCells()
+    {
+        return occupiedCells;
+    }
+    
+   
 
     public BuildingShape shape;
 
@@ -137,9 +146,8 @@ public class Building_Class : MonoBehaviour
             break;
     }
 
-    // Übergebe die Liste der belegten Zellen dem GridManager, um diese Zellen zu besetzen
-    gridManager.OccupyCells(occupiedCells);
 }
+
 
 
 }
