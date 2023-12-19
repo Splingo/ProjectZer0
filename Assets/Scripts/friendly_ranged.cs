@@ -1,33 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaseUnit_Script : MonoBehaviour
+public class friendly_ranged : BaseUnit_Script
 {
-    protected float maxHP = 10f;
-    protected float currentHP;
-    protected int defense;
-    protected float attackDamage = 1f;
+    public float attackRange = 5f;
+    public GameObject bullet;
 
-    protected float attackSpeed = 1f;
-    protected float attackRange = 1.05f;
-
-    protected GameObject targetEnemyUnit;
-
-    protected GameObject hpBarPrefab;
-
-    protected GameObject hpBarInstance;
-
-    protected bool waiting = false;
-
-    private void Start()
-    {
-        currentHP = maxHP;
-        gameObject.tag = "FriendlyUnit";
-        CreateHPBar(); // Move CreateHPBar to Start
-    }
-
+    // Update is called once per frame
     private void Update()
     {
         if (targetEnemyUnit == null)
@@ -38,28 +20,32 @@ public class BaseUnit_Script : MonoBehaviour
         {
             if (IsTargetInRange())
             {
-                if(waiting == false)
+                if (waiting == false)
                 {
                     StartCoroutine(AttackWithDelay());
                     waiting = true;
                 }
-                
+
             }
         }
     }
-IEnumerator AttackWithDelay()
-{
-    
-    Enemy enemyTargetScript = targetEnemyUnit.GetComponent<Enemy>();
 
-    // If the script is found, deal damage
-    if (enemyTargetScript != null)
+    IEnumerator AttackWithDelay()
     {
-        enemyTargetScript.TakeDamage(attackDamage);
+
+        Enemy enemyTargetScript = targetEnemyUnit.GetComponent<Enemy>();
+
+        GameObject newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
+        //TODO: bullet collision
+
+        // If the script is found, deal damage
+        if (enemyTargetScript != null)
+        {
+            enemyTargetScript.TakeDamage(attackDamage);
+        }
+        yield return new WaitForSeconds(attackSpeed);
+        waiting = false;
     }
-    yield return new WaitForSeconds(attackSpeed);
-    waiting = false;
-}
     protected bool IsTargetInRange()
     {
         if (targetEnemyUnit == null)
@@ -132,3 +118,6 @@ IEnumerator AttackWithDelay()
         }
     }
 }
+
+
+
