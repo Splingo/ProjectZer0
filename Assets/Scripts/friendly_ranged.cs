@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class friendly_ranged : BaseUnit_Script
 {
-    public float attackRange = 5f;
+    private float attackRange = 10f;
+    private float attackDamage = 2f;
     public GameObject bullet;
 
     // Update is called once per frame
@@ -35,14 +36,17 @@ public class friendly_ranged : BaseUnit_Script
 
         Enemy enemyTargetScript = targetEnemyUnit.GetComponent<Enemy>();
 
+        // telling the bullet how much damage it can cause and spawn it
         GameObject newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
-        //TODO: bullet collision
+        Bullet newBulletScript = newBullet.GetComponent<Bullet>();
+        newBulletScript.damage = attackDamage;
+        newBulletScript.rayDistance = attackRange;
 
         // If the script is found, deal damage
-        if (enemyTargetScript != null)
-        {
-            enemyTargetScript.TakeDamage(attackDamage);
-        }
+        //if (enemyTargetScript != null)
+        //{
+        //    enemyTargetScript.TakeDamage(attackDamage);
+        //}
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
     }

@@ -6,7 +6,9 @@ public class Bullet : MonoBehaviour
 {
     [Range(1,10)]
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float lifetime = 5f;
+    private float lifetime = 5f;
+    public float rayDistance;
+    [SerializeField] public float damage;
 
     private Rigidbody2D rb;
     
@@ -16,6 +18,22 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         transform.Rotate(0, 0, -90);
         Destroy(gameObject, lifetime);
+    }
+
+    private void Update()
+    {
+        // if collision with Enemy is detected, deal damage and despawn bullet
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.up, rayDistance);
+        if (hitInfo.collider != null)
+        {
+            if (hitInfo.collider.CompareTag("EnemyUnit"))
+            {
+                GameObject targetEnemy = hitInfo.collider.gameObject;
+                Enemy targetEnemyScript = targetEnemy.GetComponent<Enemy>();
+                targetEnemyScript.TakeDamage(damage);
+                Destroy(gameObject);
+            }
+        }
     }
 
     private void FixedUpdate()
