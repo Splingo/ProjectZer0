@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class friendly_ranged : BaseUnit_Script
 {
-    private float attackRange = 10f;
-    private float attackDamage = 2f;
+    new private float attackRange = 10f;
+    new private float attackDamage = 2f;
     public GameObject bullet;
 
     // Update is called once per frame
@@ -50,7 +50,7 @@ public class friendly_ranged : BaseUnit_Script
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
     }
-    protected bool IsTargetInRange()
+    new protected bool IsTargetInRange()
     {
         if (targetEnemyUnit == null)
             return false;
@@ -83,7 +83,7 @@ public class friendly_ranged : BaseUnit_Script
         }
     }
 
-    public void TakeDamage(float damage)
+    new public void TakeDamage(float damage)
     {
         currentHP -= damage;
 
@@ -97,7 +97,7 @@ public class friendly_ranged : BaseUnit_Script
         }
     }
 
-    protected void DetectEnemyUnit()
+    new protected void DetectEnemyUnit()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(
             transform.position,
