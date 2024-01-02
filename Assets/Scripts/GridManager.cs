@@ -27,7 +27,7 @@ public class GridManager : MonoBehaviour
             for (int col = 0; col < columns; col++)
             {
                 Vector3Int cellPosition = new Vector3Int(row, col, 0);
-                gridTilemap.SetTile(cellPosition, defaultTile);
+               // gridTilemap.SetTile(cellPosition, defaultTile);
             }
         }
     }

@@ -14,12 +14,13 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public Vector2Int gridRange; // Bereich des Rasters, in dem das Objekt platziert werden kann
     private Vector3Int initialCellPosition;
     private Building_Class draggedBuilding;
-
+private BaseUnit_Script baseUnit;
     private void Awake()
     {
         initialPosition = transform.position; // Speichere die ursprüngliche Position bei Start/Awake
         startPosition = initialPosition;
-        draggedBuilding = GetComponent<Building_Class>();
+        draggedBuilding = GetComponent<Building_Class>(); 
+        baseUnit = GetComponent<BaseUnit_Script>();
     }
 
     void Start()
@@ -43,15 +44,24 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 {
     // Speichere die Zellenposition, in der sich das Objekt zu Beginn befindet
     initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
-
     // Erhalte die belegten Zellen für das aktuelle Element
-    List<Vector3Int> occupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition );
-    draggedBuilding.previousOccupiedCells = occupiedCells;
-    // Entferne die Zellen, die durch das Element besetzt sind
-    if (occupiedCells != null && occupiedCells.Count > 0)
-    {
-        gridManager.ReleaseCells(occupiedCells);
+    if(draggedBuilding != null){
+        List<Vector3Int> occupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition );
+        draggedBuilding.previousOccupiedCells = occupiedCells;
+        if (occupiedCells != null && occupiedCells.Count > 0)
+        {
+            gridManager.ReleaseCells(occupiedCells);
+        }
     }
+    if( baseUnit!= null){
+        List<Vector3Int> occupiedBattleCells = baseUnit.GetOccupiedCells(initialCellPosition);
+        baseUnit.previousOccupiedCells = occupiedBattleCells;
+        if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
+        {
+            gridManager.ReleaseCells(occupiedBattleCells);
+        }
+    }
+    // Entferne die Zellen, die durch das Element besetzt sind
 
     previousPosition = transform.position;
 }
@@ -69,10 +79,16 @@ public void OnDrag(PointerEventData eventData)
         if (IsWithinAllowedRange(dropPosition))
         {
             Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
-            List<Vector3Int> buildingOccupiedCells = draggedBuilding.ReturnOccupiedCells();    
                 Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
                 transform.position = cellCenter; // Snappen an die Zellenposition
+            if(draggedBuilding != null){
+            List<Vector3Int> buildingOccupiedCells = draggedBuilding.ReturnOccupiedCells();    
                 draggedBuilding.hoverungOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
+            }
+            if( baseUnit!= null){
+            List<Vector3Int> UnitOccupiedCells = baseUnit.ReturnOccupiedCells();    
+                baseUnit.hoveringOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
+            }
         }
     }
 
@@ -83,26 +99,59 @@ public void OnEndDrag(PointerEventData eventData)
     if (IsWithinAllowedRange(dropPosition))
     {
         Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
-        
-        if (!gridManager.AreCellsOccupied(draggedBuilding.hoverungOccupiedCells))
-        {
-            // Erhalte die neuen belegten Zellen für das gezogene Gebäude
-            List<Vector3Int> buildingOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
+        if(draggedBuilding != null){
 
-            // Aktualisiere die GridManager-Liste mit den neuen belegten Zellen
-            gridManager.OccupyCells(buildingOccupiedCells);
+            if (!gridManager.AreCellsOccupied(draggedBuilding.hoverungOccupiedCells))
+            {
+                // Erhalte die neuen belegten Zellen für das gezogene Gebäude
+                List<Vector3Int> buildingOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
 
-            // Snappen an die Zellenposition
-            Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
-            transform.position = cellCenter;
+                // Aktualisiere die GridManager-Liste mit den neuen belegten Zellen
+                gridManager.OccupyCells(buildingOccupiedCells);
 
-            return;
+                // Snappen an die Zellenposition
+                Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
+                transform.position = cellCenter;
+
+                return;
+            }
+        } 
+        if(baseUnit != null){
+
+        if (!gridManager.AreCellsOccupied(baseUnit.hoveringOccupiedCells))
+            {
+                // Erhalte die neuen belegten Zellen für das gezogene Gebäude
+                List<Vector3Int> UnitOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
+
+                // Aktualisiere die GridManager-Liste mit den neuen belegten Zellen
+                gridManager.OccupyCells(UnitOccupiedCells);
+
+                // Snappen an die Zellenposition
+                Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
+                transform.position = cellCenter;
+
+                return;
+            }
         }
     }
+
+    if(draggedBuilding != null){
     gridManager.OccupyCells(draggedBuilding.previousOccupiedCells);
-    transform.position = previousPosition; // Setze zurück zur ursprünglichen Position
+    }
+
+    if(baseUnit != null){
+    gridManager.OccupyCells(baseUnit.previousOccupiedCells);
+    }
+        
+   // transform.position = previousPosition; // Setze zurück zur ursprünglichen Position
     if(!IsWithinAllowedRange(dropPosition)){
-    gridManager.ReleaseCells(draggedBuilding.previousOccupiedCells);
+        if(draggedBuilding != null){
+            gridManager.ReleaseCells(draggedBuilding.previousOccupiedCells);
+        }
+        if(baseUnit != null){
+            gridManager.ReleaseCells(baseUnit.previousOccupiedCells);
+        }
+
     transform.position = initialPosition;
     }
 }
