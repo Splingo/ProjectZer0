@@ -13,20 +13,13 @@ public class friendly_ranged : BaseUnit_Script
     // Update is called once per frame
     private void Update()
     {
-        if (targetEnemyUnit == null)
+        DetectEnemyUnit();
+        if (IsTargetInRange())
         {
-            DetectEnemyUnit();
-        }
-        else
-        {
-            if (IsTargetInRange())
+            if (waiting == false)
             {
-                if (waiting == false)
-                {
-                    StartCoroutine(AttackWithDelay());
-                    waiting = true;
-                }
-
+                StartCoroutine(AttackWithDelay());
+                waiting = true;
             }
         }
     }
@@ -41,12 +34,8 @@ public class friendly_ranged : BaseUnit_Script
         Bullet newBulletScript = newBullet.GetComponent<Bullet>();
         newBulletScript.damage = attackDamage;
         newBulletScript.rayDistance = attackRange;
+        newBulletScript.sourceUnit = gameObject;
 
-        // If the script is found, deal damage
-        //if (enemyTargetScript != null)
-        //{
-        //    enemyTargetScript.TakeDamage(attackDamage);
-        //}
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
     }
@@ -108,16 +97,20 @@ public class friendly_ranged : BaseUnit_Script
         // Reset the target enemy
         targetEnemyUnit = null;
 
+        float closestDistance = float.MaxValue;
+
         foreach (Collider2D collider in colliders)
         {
-            float distance = Vector2.Distance(transform.position, collider.transform.position);
-
             // Check if the collider is an enemy unit with the correct tag and layer
             if (collider.CompareTag("EnemyUnit") && gameObject.layer == collider.gameObject.layer)
             {
-                // Set the detected enemy unit as the target
-                targetEnemyUnit = collider.gameObject;
-                break; // Exit the loop after finding the first enemy unit
+                float distance = Vector2.Distance(transform.position, collider.transform.position);
+                // Set closest enemy as targetEnemy
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    // Set the detected enemy unit as the target
+                    targetEnemyUnit = collider.gameObject;
+                }
             }
         }
     }

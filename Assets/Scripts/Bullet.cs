@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -8,6 +9,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float speed = 10f;
     private float lifetime = 5f;
     public float rayDistance;
+    public GameObject sourceUnit;
     [SerializeField] public float damage;
 
     private Rigidbody2D rb;
@@ -18,21 +20,17 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         transform.Rotate(0, 0, -90);
         Destroy(gameObject, lifetime);
+        gameObject.layer = sourceUnit.layer;
     }
 
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        // if collision with Enemy is detected, deal damage and despawn bullet
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.up, rayDistance);
-        if (hitInfo.collider != null)
+        print("coll");
+        if (collision.gameObject.CompareTag("EnemyUnit"))
         {
-            if (hitInfo.collider.CompareTag("EnemyUnit"))
-            {
-                GameObject targetEnemy = hitInfo.collider.gameObject;
-                Enemy targetEnemyScript = targetEnemy.GetComponent<Enemy>();
-                targetEnemyScript.TakeDamage(damage);
-                Destroy(gameObject);
-            }
+            Enemy targetEnemyScript = collision.gameObject.GetComponent<Enemy>();
+            targetEnemyScript.TakeDamage(damage);
+            Destroy(gameObject);
         }
     }
 
