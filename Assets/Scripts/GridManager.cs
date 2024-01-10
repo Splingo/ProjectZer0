@@ -27,7 +27,7 @@ public class GridManager : MonoBehaviour
             for (int col = 0; col < columns; col++)
             {
                 Vector3Int cellPosition = new Vector3Int(row, col, 0);
-               // gridTilemap.SetTile(cellPosition, defaultTile);
+               // gridTilemap.SetTile(cellPosition, defaultTile); Macht das extra gitter
             }
         }
     }
@@ -65,9 +65,12 @@ public class GridManager : MonoBehaviour
 
    public void ReleaseCells(List<Vector3Int> positions)
 {
+        Debug.LogWarning("1!");
+
     foreach (Vector3Int position in positions)
     {
         Vector3Int cellPosition = new Vector3Int(position.x, position.y, 0);
+        Debug.LogWarning("2!");
 
         // Entferne alle Vorkommen der Zelle aus occupiedPositions
         while (occupiedPositions.Contains(cellPosition))
