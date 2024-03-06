@@ -143,7 +143,7 @@ public void OnEndDrag(PointerEventData eventData)
     gridManager.OccupyCells(baseUnit.previousOccupiedCells);
     }
         
-   // transform.position = previousPosition; // Setze zurück zur ursprünglichen Position
+   transform.position = previousPosition; // Setze zurück zur ursprünglichen Position
     if(!IsWithinAllowedRange(dropPosition)){
         if(draggedBuilding != null){
             gridManager.ReleaseCells(draggedBuilding.previousOccupiedCells);

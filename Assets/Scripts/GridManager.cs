@@ -32,9 +32,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
- public bool AreCellsOccupied(List<Vector3Int> buildingOccupiedCells)
+ public bool AreCellsOccupied(List<Vector3Int> OccupiedCells)
 {
-    foreach (Vector3Int position in buildingOccupiedCells)
+      
+    foreach (Vector3Int position in OccupiedCells)
     {
         if (occupiedPositions.Contains(position))
         {

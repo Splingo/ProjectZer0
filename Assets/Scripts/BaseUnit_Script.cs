@@ -156,13 +156,13 @@ IEnumerator AttackWithDelay()
     // Überprüfe, ob der GridManager verfügbar ist
      if (gridManager != null)
     {
+        
         Vector3Int gridPosition = gridManager.gridTilemap.WorldToCell(transform.position);
         List<Vector3Int> occupiedCells = new List<Vector3Int>();
         occupiedCells.Add(gridPosition);
-        gridManager.OccupyCells(occupiedCells);
+        //gridManager.OccupyCells(occupiedCells);
 
         int yPosition = gridPosition.y;
-
         int layerNumber;
 
         // Bestimme den Layer basierend auf der Y-Position
