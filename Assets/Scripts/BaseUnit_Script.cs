@@ -19,17 +19,37 @@ public class BaseUnit_Script : MonoBehaviour
 
     protected GameObject hpBarInstance;
 
-    protected bool waiting = false;
+    private bool waiting = false;
+    public GridManager gridManager;  
+    public List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    public List<Vector3Int> previousOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    public List<Vector3Int> hoveringOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
+    
+   public List<Vector3Int> GetOccupiedCells(Vector3Int center)
+    {
+        OccupyCells(center);
+        return occupiedCells;
+    }
+    public List<Vector3Int> ReturnOccupiedCells()
+    {
+        return occupiedCells;
+    }
 
     private void Start()
     {
         currentHP = maxHP;
         gameObject.tag = "FriendlyUnit";
+        SetOccupiedCells();
         CreateHPBar(); // Move CreateHPBar to Start
     }
 
     private void Update()
     {
+         if (transform.hasChanged)
+        {
+            SetOccupiedCells(); // Wenn sich die Position geändert hat, rufe die Funktion auf, um den Layer zu aktualisieren
+            transform.hasChanged = false; // Setze transform.hasChanged zurück, um weitere Änderungen zu erkennen
+        }
         if (targetEnemyUnit == null)
         {
             DetectEnemyUnit();
@@ -131,4 +151,62 @@ IEnumerator AttackWithDelay()
             }
         }
     }
+     private void SetOccupiedCells()
+{
+    // Überprüfe, ob der GridManager verfügbar ist
+     if (gridManager != null)
+    {
+        
+        Vector3Int gridPosition = gridManager.gridTilemap.WorldToCell(transform.position);
+        List<Vector3Int> occupiedCells = new List<Vector3Int>();
+        occupiedCells.Add(gridPosition);
+        //gridManager.OccupyCells(occupiedCells);
+
+        int yPosition = gridPosition.y;
+        int layerNumber;
+
+        // Bestimme den Layer basierend auf der Y-Position
+        if (yPosition >= 2)
+        {
+            layerNumber = 0;
+        }
+        else if (yPosition == 1)
+        {
+            layerNumber = 1;
+        }
+        else if (yPosition == 0)
+        {
+            layerNumber = 2;
+        }
+        else if (yPosition == -1)
+        {
+            layerNumber = 3;
+        }
+        else if (yPosition == -2)
+        {
+            layerNumber = 4;
+        }
+        else if (yPosition == -3)
+        {
+            layerNumber = 5;
+        }
+        else
+        {
+            // Wenn die Y-Position nicht in den genannten Bereichen liegt, setze auf default Layer
+            layerNumber = 0; // Ändere dies entsprechend deiner Anforderungen
+        }
+
+        // Setze den Layer des Spielobjekts entsprechend der Y-Position
+        gameObject.layer = LayerMask.NameToLayer("ROW " + layerNumber);
+    }
+    else
+    {
+        Debug.LogWarning("GridManager-Referenz in BaseUnit_Script ist nicht zugewiesen!");
+    }
+    }
+    public void OccupyCells(Vector3Int beginCell)
+        {
+            this.occupiedCells = new List<Vector3Int>();
+            occupiedCells.Add(beginCell);
+        }
 }
