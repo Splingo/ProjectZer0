@@ -10,9 +10,13 @@ public class friendly_ranged : BaseUnit_Script
     new private float attackDamage = 2f;
     public GameObject bullet;
 
-    // Update is called once per frame
     private void Update()
     {
+        if (transform.hasChanged)
+        {
+            SetOccupiedCells(); // Wenn sich die Position geändert hat, rufe die Funktion auf, um den Layer zu aktualisieren
+            transform.hasChanged = false; // Setze transform.hasChanged zurück, um weitere Änderungen zu erkennen
+        }
         DetectEnemyUnit();
         if (IsTargetInRange())
         {
@@ -106,7 +110,8 @@ public class friendly_ranged : BaseUnit_Script
             {
                 float distance = Vector2.Distance(transform.position, collider.transform.position);
                 // Set closest enemy as targetEnemy
-                if (distance < closestDistance) {
+                if (distance < closestDistance)
+                {
                     closestDistance = distance;
                     // Set the detected enemy unit as the target
                     targetEnemyUnit = collider.gameObject;

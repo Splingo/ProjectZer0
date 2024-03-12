@@ -25,7 +25,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print("coll");
         if (collision.gameObject.CompareTag("EnemyUnit"))
         {
             Enemy targetEnemyScript = collision.gameObject.GetComponent<Enemy>();

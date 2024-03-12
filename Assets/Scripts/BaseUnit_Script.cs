@@ -19,13 +19,13 @@ public class BaseUnit_Script : MonoBehaviour
 
     protected GameObject hpBarInstance;
 
-    private bool waiting = false;
-    public GridManager gridManager;  
+    public bool waiting = false;
+    public GridManager gridManager;
     public List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public List<Vector3Int> previousOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public List<Vector3Int> hoveringOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
-    
-   public List<Vector3Int> GetOccupiedCells(Vector3Int center)
+
+    public List<Vector3Int> GetOccupiedCells(Vector3Int center)
     {
         OccupyCells(center);
         return occupiedCells;
@@ -35,7 +35,7 @@ public class BaseUnit_Script : MonoBehaviour
         return occupiedCells;
     }
 
-    private void Start()
+    protected void Start()
     {
         currentHP = maxHP;
         gameObject.tag = "FriendlyUnit";
@@ -45,7 +45,7 @@ public class BaseUnit_Script : MonoBehaviour
 
     private void Update()
     {
-         if (transform.hasChanged)
+        if (transform.hasChanged)
         {
             SetOccupiedCells(); // Wenn sich die Position geändert hat, rufe die Funktion auf, um den Layer zu aktualisieren
             transform.hasChanged = false; // Setze transform.hasChanged zurück, um weitere Änderungen zu erkennen
@@ -58,28 +58,28 @@ public class BaseUnit_Script : MonoBehaviour
         {
             if (IsTargetInRange())
             {
-                if(waiting == false)
+                if (waiting == false)
                 {
                     StartCoroutine(AttackWithDelay());
                     waiting = true;
                 }
-                
+
             }
         }
     }
-IEnumerator AttackWithDelay()
-{
-    
-    Enemy enemyTargetScript = targetEnemyUnit.GetComponent<Enemy>();
-
-    // If the script is found, deal damage
-    if (enemyTargetScript != null)
+    IEnumerator AttackWithDelay()
     {
-        enemyTargetScript.TakeDamage(attackDamage);
+
+        Enemy enemyTargetScript = targetEnemyUnit.GetComponent<Enemy>();
+
+        // If the script is found, deal damage
+        if (enemyTargetScript != null)
+        {
+            enemyTargetScript.TakeDamage(attackDamage);
+        }
+        yield return new WaitForSeconds(attackSpeed);
+        waiting = false;
     }
-    yield return new WaitForSeconds(attackSpeed);
-    waiting = false;
-}
     protected bool IsTargetInRange()
     {
         if (targetEnemyUnit == null)
@@ -151,62 +151,62 @@ IEnumerator AttackWithDelay()
             }
         }
     }
-     private void SetOccupiedCells()
-{
-    // Überprüfe, ob der GridManager verfügbar ist
-     if (gridManager != null)
+    protected void SetOccupiedCells()
     {
-        
-        Vector3Int gridPosition = gridManager.gridTilemap.WorldToCell(transform.position);
-        List<Vector3Int> occupiedCells = new List<Vector3Int>();
-        occupiedCells.Add(gridPosition);
-        //gridManager.OccupyCells(occupiedCells);
+        // Überprüfe, ob der GridManager verfügbar ist
+        if (gridManager != null)
+        {
 
-        int yPosition = gridPosition.y;
-        int layerNumber;
+            Vector3Int gridPosition = gridManager.gridTilemap.WorldToCell(transform.position);
+            List<Vector3Int> occupiedCells = new List<Vector3Int>();
+            occupiedCells.Add(gridPosition);
+            //gridManager.OccupyCells(occupiedCells);
 
-        // Bestimme den Layer basierend auf der Y-Position
-        if (yPosition >= 2)
-        {
-            layerNumber = 0;
-        }
-        else if (yPosition == 1)
-        {
-            layerNumber = 1;
-        }
-        else if (yPosition == 0)
-        {
-            layerNumber = 2;
-        }
-        else if (yPosition == -1)
-        {
-            layerNumber = 3;
-        }
-        else if (yPosition == -2)
-        {
-            layerNumber = 4;
-        }
-        else if (yPosition == -3)
-        {
-            layerNumber = 5;
+            int yPosition = gridPosition.y;
+            int layerNumber;
+
+            // Bestimme den Layer basierend auf der Y-Position
+            if (yPosition >= 2)
+            {
+                layerNumber = 0;
+            }
+            else if (yPosition == 1)
+            {
+                layerNumber = 1;
+            }
+            else if (yPosition == 0)
+            {
+                layerNumber = 2;
+            }
+            else if (yPosition == -1)
+            {
+                layerNumber = 3;
+            }
+            else if (yPosition == -2)
+            {
+                layerNumber = 4;
+            }
+            else if (yPosition == -3)
+            {
+                layerNumber = 5;
+            }
+            else
+            {
+                // Wenn die Y-Position nicht in den genannten Bereichen liegt, setze auf default Layer
+                layerNumber = 0; // Ändere dies entsprechend deiner Anforderungen
+            }
+
+            // Setze den Layer des Spielobjekts entsprechend der Y-Position
+            gameObject.layer = LayerMask.NameToLayer("ROW " + layerNumber);
         }
         else
         {
-            // Wenn die Y-Position nicht in den genannten Bereichen liegt, setze auf default Layer
-            layerNumber = 0; // Ändere dies entsprechend deiner Anforderungen
+            Debug.LogWarning("GridManager-Referenz in BaseUnit_Script ist nicht zugewiesen!");
         }
-
-        // Setze den Layer des Spielobjekts entsprechend der Y-Position
-        gameObject.layer = LayerMask.NameToLayer("ROW " + layerNumber);
-    }
-    else
-    {
-        Debug.LogWarning("GridManager-Referenz in BaseUnit_Script ist nicht zugewiesen!");
-    }
     }
     public void OccupyCells(Vector3Int beginCell)
-        {
-            this.occupiedCells = new List<Vector3Int>();
-            occupiedCells.Add(beginCell);
-        }
+    {
+        this.occupiedCells = new List<Vector3Int>();
+        occupiedCells.Add(beginCell);
+    }
 }
