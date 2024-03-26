@@ -14,7 +14,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public Vector2Int gridRange; // Bereich des Rasters, in dem das Objekt platziert werden kann
     private Vector3Int initialCellPosition;
     private Building_Class draggedBuilding;
-private BaseUnit_Script baseUnit;
+    private BaseUnit_Script baseUnit;
     private void Awake()
     {
         initialPosition = transform.position; // Speichere die ursprüngliche Position bei Start/Awake
@@ -113,6 +113,10 @@ public void OnEndDrag(PointerEventData eventData)
                 Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
                 transform.position = cellCenter;
 
+                if(draggedBuilding.activatedEffect == false){
+                ApplyBuildingBonus(draggedBuilding.GetBuildingType(draggedBuilding.shape));
+                }
+
                 return;
             }
         } 
@@ -157,8 +161,55 @@ public void OnEndDrag(PointerEventData eventData)
 }
 
 
-
-
+private void ApplyBuildingBonus(string buildingType)
+{
+    BaseUnit_Script[] units = FindObjectsOfType<BaseUnit_Script>();
+        foreach (BaseUnit_Script unit in units)
+        {    
+    // Füge hier die Logik hinzu, um den entsprechenden Bonus für den Gebäudetyp anzuwenden
+    switch (buildingType)
+    {
+        case "Schmiede":
+            Debug.Log("Einheiten erhalten Angriffsbonus durch die Schmiede.");
+            draggedBuilding.activatedEffect = true;
+            unit.UpdateAttackDamage(unit.attackDamage + 0.5f);
+            break;
+        case "Kirche":
+            Debug.Log("Einheiten erhalten HP durch die Kirche.");
+            draggedBuilding.activatedEffect = true;
+            unit.UpdateMaxHP(unit.maxHP + 10f);
+            break;
+        case "Turm":
+            Debug.Log("Einheiten erhalten Range durch den Turm.");
+            draggedBuilding.activatedEffect = true;
+            unit.UpdateAttackRange(unit.attackRange + 0.15f);
+            break;
+        case "Rathaus":
+            Debug.Log("Stadt erhält mehr Einheiten durch das Rathaus.");
+            draggedBuilding.activatedEffect = true;
+            break;
+        case "Bank":
+            Debug.Log("Stadt erhält mehr Gold durch die Bank.");
+            draggedBuilding.activatedEffect = true;
+            break;
+        case "Taverne":
+            Debug.Log("Einheiten erhalten AttakSpeed durch die Taverne.");
+            draggedBuilding.activatedEffect = true;
+            unit.UpdateAttackSpeed(unit.attackSpeed + 0.2f);
+            break;
+        case "Shop":
+            Debug.Log("Man kann einkaufen.");
+            draggedBuilding.activatedEffect = true;
+            break;
+        case "Bewohner":
+           Debug.Log("Prduktivität steigt um Prozente");
+            draggedBuilding.activatedEffect = true;
+            break;
+        default:
+            break;
+        }
+    }
+}
 
     private bool IsWithinAllowedRange(Vector3 position)
     {

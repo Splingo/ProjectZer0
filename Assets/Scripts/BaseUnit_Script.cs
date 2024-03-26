@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class BaseUnit_Script : MonoBehaviour
 {
-    private float maxHP = 10f;
+    public float maxHP = 10f;
     private float currentHP;
     private int defense;
-    private float attackDamage = 1f;
+    public float attackDamage = 1f;
 
-    private float attackSpeed = 1f;
-    private float attackRange = 1.05f;
+    public float attackSpeed = 1f;
+    public float attackRange = 1.05f;
 
     public GameObject targetEnemyUnit;
 
@@ -50,6 +50,7 @@ public class BaseUnit_Script : MonoBehaviour
             SetOccupiedCells(); // Wenn sich die Position geändert hat, rufe die Funktion auf, um den Layer zu aktualisieren
             transform.hasChanged = false; // Setze transform.hasChanged zurück, um weitere Änderungen zu erkennen
         }
+       
         if (targetEnemyUnit == null)
         {
             DetectEnemyUnit();
@@ -205,8 +206,30 @@ IEnumerator AttackWithDelay()
     }
     }
     public void OccupyCells(Vector3Int beginCell)
-        {
-            this.occupiedCells = new List<Vector3Int>();
-            occupiedCells.Add(beginCell);
-        }
+    {
+        this.occupiedCells = new List<Vector3Int>();
+        occupiedCells.Add(beginCell);
+    }
+
+    public void UpdateAttackDamage(float newValue)
+    {
+        attackDamage = newValue;
+    }
+
+    public void UpdateMaxHP(float newValue)
+    {
+        maxHP = newValue;
+        currentHP = maxHP; // Setze auch currentHP auf den neuen Maximalwert
+        UpdateHPBar(); // Aktualisiere die HP-Leiste, um die Änderung anzuzeigen
+    }
+
+    public void UpdateAttackRange(float newValue)
+    {
+        attackRange = newValue;
+    }
+
+    public void UpdateAttackSpeed(float newValue)
+    {
+        attackSpeed = newValue;
+    }
 }
