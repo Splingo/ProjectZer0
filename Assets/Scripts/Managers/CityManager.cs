@@ -16,7 +16,7 @@ public class CityManager : MonoBehaviour
 
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
 
-        initializeEventListeners();
+        InitializeEventListeners();
     }
 
     // Update is called once per frame
@@ -38,9 +38,10 @@ public class CityManager : MonoBehaviour
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
     }
 
-
-
-    private void initializeEventListeners()
+    /// <summary>
+    /// This function 
+    /// </summary>
+    private void InitializeEventListeners()
     {
         EventManager.EnemeyKilledEvent.AddListener(HandleEnemyKilled);
         EventManager.EnemyDiedEvent.AddListener(HandleEnemyDied);
