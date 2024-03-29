@@ -1,114 +1,174 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+using UnityEngine.Tilemaps;
+using System.Collections.Generic;
+
+public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Transform zone1; // Die Zone, in der sich das Objekt nicht befinden soll, um einen Klon zu erstellen
-    public Transform zone2; // Die Zielzone, in die das Objekt platziert werden kann
-
-    private bool isDragging = false;
-    private Vector3 offset;
-    private GameObject clone;
     private Vector3 initialPosition;
-
-    public void OnPointerDown(PointerEventData eventData)
+    private Vector3 startPosition;
+    private Vector3 previousPosition;
+    private Canvas canvas;
+    public GridManager gridManager;
+    public Vector3 gridOffset; // Offset basierend auf der Grid-Position
+    public Vector2Int gridRange; // Bereich des Rasters, in dem das Objekt platziert werden kann
+    private Vector3Int initialCellPosition;
+    private Building_Class draggedBuilding;
+private BaseUnit_Script baseUnit;
+    private void Awake()
     {
+        initialPosition = transform.position; // Speichere die ursprüngliche Position bei Start/Awake
+        startPosition = initialPosition;
+        draggedBuilding = GetComponent<Building_Class>(); 
+        baseUnit = GetComponent<BaseUnit_Script>();
+    }
 
-        if (!IsInZone(zone1))
+    void Start()
+    {
+        canvas = FindObjectOfType<Canvas>(); // Finde die Canvas im Spiel
+
+        if (gridManager != null)
         {
-        isDragging = true;
-        initialPosition = transform.position;
-        offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            CreateClone();
+            // Nehme die Position des Grids als Offset
+            gridOffset = gridManager.transform.position;
+            // Definiere den Bereich des Rasters, in dem das Objekt platziert werden kann
+            gridRange = new Vector2Int(gridManager.rows, gridManager.columns);
         }
-        if (!IsInZone(zone2))
+        else
         {
-            Destroy(clone);
+            Debug.LogError("GridManager nicht gefunden!");
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        isDragging = false;
-
-        if (clone != null)
+   public void OnBeginDrag(PointerEventData eventData)
+{
+    // Speichere die Zellenposition, in der sich das Objekt zu Beginn befindet
+    initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
+    // Erhalte die belegten Zellen für das aktuelle Element
+    if(draggedBuilding != null){
+        List<Vector3Int> occupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition );
+        draggedBuilding.previousOccupiedCells = occupiedCells;
+        if (occupiedCells != null && occupiedCells.Count > 0)
         {
-            if (IsInZone(zone2))
-            {
-                if (IsAlreadyOccupied(zone2))
-                {
-                    Destroy(clone);
-                }
-                else
-                {
-                    // Snap to the center of zone2
-                    transform.position = initialPosition;
-                    clone.transform.position = GetCenterOfZone(zone2);
-                }
+            gridManager.ReleaseCells(occupiedCells);
+        }
+    }
+    if( baseUnit!= null){
+        List<Vector3Int> occupiedBattleCells = baseUnit.GetOccupiedCells(initialCellPosition);
+        baseUnit.previousOccupiedCells = occupiedBattleCells;
+        if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
+        {
+            gridManager.ReleaseCells(occupiedBattleCells);
+        }
+    }
+    // Entferne die Zellen, die durch das Element besetzt sind
+
+    previousPosition = transform.position;
+}
+
+
+public void OnDrag(PointerEventData eventData)
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10; // Entfernung der Canvas-Ebene
+        Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
+        transform.position = screenPos;
+
+        Vector3 dropPosition = transform.position;
+
+        if (IsWithinAllowedRange(dropPosition))
+        {
+            Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
+                Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
+                transform.position = cellCenter; // Snappen an die Zellenposition
+            if(draggedBuilding != null){
+            List<Vector3Int> buildingOccupiedCells = draggedBuilding.ReturnOccupiedCells();    
+                draggedBuilding.hoverungOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
             }
-            else
-            {
-                Destroy(clone);
-                transform.position = initialPosition;
-            }
-        }
-    }
-
-    void Update()
-    {
-        if (isDragging && clone != null)
-        {
-            Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
-            clone.transform.position = new Vector3(newPosition.x, newPosition.y, transform.position.z);
-        }
-    }
-
-    void CreateClone()
-    {
-        clone = Instantiate(gameObject, transform.parent);
-        clone.GetComponent<CanvasGroup>().blocksRaycasts = false;
-        clone.GetComponent<DragAndDrop>().enabled = false;
-    }
-
-    bool IsInZone(Transform zone)
-    {
-        if (zone != null && clone != null)
-        {
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(zone.position, zone.localScale, 0);
-            foreach (Collider2D collider in colliders)
-            {
-                if (collider.gameObject == gameObject || (clone != null && collider.gameObject == clone))
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    bool IsAlreadyOccupied(Transform zone)
-    {
-        if (zone != null)
-        {
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(zone.position, zone.localScale, 0);
-            foreach (Collider2D collider in colliders)
-            {
-                if (collider.gameObject != null && collider.gameObject != clone)
-                {
-                    return true;
-                }
+            if( baseUnit!= null){
+            List<Vector3Int> UnitOccupiedCells = baseUnit.ReturnOccupiedCells();    
+                baseUnit.hoveringOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
             }
         }
-        return false;
     }
 
-    Vector3 GetCenterOfZone(Transform zone)
+
+public void OnEndDrag(PointerEventData eventData)
+{
+    Vector3 dropPosition = transform.position;
+    if (IsWithinAllowedRange(dropPosition))
     {
-        Renderer renderer = zone.GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            return renderer.bounds.center;
+        Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
+        if(draggedBuilding != null){
+
+            if (!gridManager.AreCellsOccupied(draggedBuilding.hoverungOccupiedCells))
+            {
+                // Erhalte die neuen belegten Zellen für das gezogene Gebäude
+                List<Vector3Int> buildingOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
+
+                // Aktualisiere die GridManager-Liste mit den neuen belegten Zellen
+                gridManager.OccupyCells(buildingOccupiedCells);
+
+                // Snappen an die Zellenposition
+                Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
+                transform.position = cellCenter;
+
+                return;
+            }
+        } 
+        if(baseUnit != null){
+
+        if (!gridManager.AreCellsOccupied(baseUnit.hoveringOccupiedCells))
+            {
+                // Erhalte die neuen belegten Zellen für das gezogene Gebäude
+                List<Vector3Int> UnitOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
+
+                // Aktualisiere die GridManager-Liste mit den neuen belegten Zellen
+                gridManager.OccupyCells(UnitOccupiedCells);
+
+                // Snappen an die Zellenposition
+                Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
+                transform.position = cellCenter;
+
+                return;
+            }
         }
-        return zone.position;
     }
 
+    if(draggedBuilding != null){
+    gridManager.OccupyCells(draggedBuilding.previousOccupiedCells);
+    }
+
+    if(baseUnit != null){
+    gridManager.OccupyCells(baseUnit.previousOccupiedCells);
+    }
+        
+   transform.position = previousPosition; // Setze zurück zur ursprünglichen Position
+    if(!IsWithinAllowedRange(dropPosition)){
+        if(draggedBuilding != null){
+            gridManager.ReleaseCells(draggedBuilding.previousOccupiedCells);
+        }
+        if(baseUnit != null){
+            gridManager.ReleaseCells(baseUnit.previousOccupiedCells);
+        }
+
+    transform.position = initialPosition;
+    }
+}
+
+
+
+
+
+    private bool IsWithinAllowedRange(Vector3 position)
+    {
+        Vector3 cellPosition = gridManager.gridTilemap.WorldToCell(position);
+
+        // Stelle sicher, dass die Position relativ zum Grid-Offset ist
+        cellPosition -= gridOffset;
+
+        // Überprüfe, ob die Zellenposition innerhalb des erlaubten Bereichs liegt
+        return cellPosition.x >= 0 && cellPosition.x < gridRange.x &&
+               cellPosition.y >= 0 && cellPosition.y < gridRange.y;
+    }
 }
