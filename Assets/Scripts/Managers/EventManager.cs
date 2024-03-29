@@ -14,5 +14,5 @@ public class EventManager : MonoBehaviour
     /// <summary>
     /// This event can be used when an enemy has reached the city
     /// </summary>
-    public static UnityEvent EnemyDiedEvent = new UnityEvent();
+    public static UnityEvent EnemyDespawnedEvent = new UnityEvent();
 }

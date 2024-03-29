@@ -33,26 +33,32 @@ public class CityManager : MonoBehaviour
     /// This function is used to modify a specific cityStat value and refresh the UI afterwards
     /// </summary>
     public void UpdateCityStat(CityStats.StatType type, int changeValue)
-    {
+    {        
         cityStats.UpdateStatValue(type, changeValue);
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
     }
 
     /// <summary>
-    /// This function 
+    /// This function initializes event listeners
     /// </summary>
     private void InitializeEventListeners()
     {
         EventManager.EnemeyKilledEvent.AddListener(HandleEnemyKilled);
-        EventManager.EnemyDiedEvent.AddListener(HandleEnemyDied);
+        EventManager.EnemyDespawnedEvent.AddListener(HandleEnemyDespawned);
     }
 
+    /// <summary>
+    /// Here we do stuff when an enemy was killed by our units
+    /// </summary>
     private void HandleEnemyKilled()
     {
         UpdateCityStat(CityStats.StatType.MetaTrophies, 1);
     }
 
-    private void HandleEnemyDied()
+    /// <summary>
+    /// Here we do stuff when an enemy could not be killed and despawned
+    /// </summary>
+    private void HandleEnemyDespawned()
     {
         UpdateCityStat(CityStats.StatType.HealthPoints, -1);
     }
