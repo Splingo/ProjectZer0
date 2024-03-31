@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     private Collider2D enemyCollider;
     private bool shouldMove = true;
 
-     private bool waiting = false;
+    private bool waiting = false;
 
     private void Start()
     {
@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        
+
         if (targetFriendlyUnit == null)
         {
             DetectFriendlyUnit();
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
         {
             if (IsTargetInRange())
             {
-                if(waiting == false)
+                if (waiting == false)
                 {
                     StartCoroutine(AttackWithDelay());
                     waiting = true;
@@ -80,23 +80,18 @@ public class Enemy : MonoBehaviour
     }
     private void UpdateHPBar()
     {
-        Debug.Log("TEST 1");
         if (hpBarInstance != null)
         {
             Image hpBarImage = hpBarInstance.GetComponent<Image>();
-            Debug.Log("TEST 2");
             if (hpBarImage != null)
             {
-                Debug.Log("TEST 3");
                 float fillAmount = currentHP / maxHP;
-                Debug.Log("Fill Amount: " + fillAmount);
                 hpBarImage.fillAmount = fillAmount;
             }
         }
     }
     public void TakeDamage(float damage)
     {
-
         currentHP -= damage;
 
         // Update the HP bar
@@ -104,9 +99,17 @@ public class Enemy : MonoBehaviour
 
         if (currentHP <= 0f)
         {
-            // Implement logic for enemy death
-            Destroy(gameObject);
+            EnemyKilled();
         }
+    }
+
+    /// <summary>
+    /// This function destroys the gameObject and triggers on killed stuff
+    /// </summary>
+    private void EnemyKilled()
+    {
+        EventManager.EnemeyKilledEvent.Invoke();
+        Destroy(gameObject);
     }
 
     void MoveLeft()
@@ -118,19 +121,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     IEnumerator AttackWithDelay()
-{
-    BaseUnit_Script friendlyTargetScript = targetFriendlyUnit.GetComponent<BaseUnit_Script>();
-
-    // If the script is found, deal damage
-    if (friendlyTargetScript != null)
     {
-        friendlyTargetScript.TakeDamage(attackDamage);
+        BaseUnit_Script friendlyTargetScript = targetFriendlyUnit.GetComponent<BaseUnit_Script>();
+
+        // If the script is found, deal damage
+        if (friendlyTargetScript != null)
+        {
+            friendlyTargetScript.TakeDamage(attackDamage);
+        }
+        yield return new WaitForSeconds(attackSpeed);
+        waiting = false;
     }
-    yield return new WaitForSeconds(attackSpeed);
-    waiting = false;
-}
     void DetectFriendlyUnit()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(

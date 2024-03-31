@@ -15,6 +15,8 @@ public class CityManager : MonoBehaviour
         this.cityStats = cityStats;
 
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
+
+        InitializeEventListeners();
     }
 
     // Update is called once per frame
@@ -27,10 +29,38 @@ public class CityManager : MonoBehaviour
         }
     }
 
-    // We can call this function to update a specific CityStat value and refresh the UI
+    /// <summary>
+    /// This function is used to modify a specific cityStat value and refresh the UI afterwards
+    /// </summary>
     public void UpdateCityStat(CityStats.StatType type, int changeValue)
-    {
+    {        
         cityStats.UpdateStatValue(type, changeValue);
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
     }
+
+    /// <summary>
+    /// This function initializes event listeners
+    /// </summary>
+    private void InitializeEventListeners()
+    {
+        EventManager.EnemeyKilledEvent.AddListener(HandleEnemyKilled);
+        EventManager.EnemyDespawnedEvent.AddListener(HandleEnemyDespawned);
+    }
+
+    /// <summary>
+    /// Here we do stuff when an enemy was killed by our units
+    /// </summary>
+    private void HandleEnemyKilled()
+    {
+        UpdateCityStat(CityStats.StatType.MetaTrophies, 1);
+    }
+
+    /// <summary>
+    /// Here we do stuff when an enemy could not be killed and despawned
+    /// </summary>
+    private void HandleEnemyDespawned()
+    {
+        UpdateCityStat(CityStats.StatType.HealthPoints, -1);
+    }
+
 }

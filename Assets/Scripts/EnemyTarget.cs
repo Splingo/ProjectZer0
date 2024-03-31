@@ -9,7 +9,13 @@ public class EnemyTarget : MonoBehaviour
         // remove enemy from canvas on collision
         if (other.CompareTag("EnemyUnit"))
         {
-            Destroy(other.gameObject);
+            EnemyDied(other.gameObject);
         }
+    }
+
+private void EnemyDied(GameObject other)
+    {
+            EventManager.EnemyDespawnedEvent.Invoke();
+            Destroy(other);
     }
 }
