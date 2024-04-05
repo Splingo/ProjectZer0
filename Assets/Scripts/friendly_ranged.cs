@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class friendly_ranged : BaseUnit_Script
 {
-    new private float attackRange = 10f;
-    new private float attackDamage = 2f;
+        private new float attackRange = 10f;
+        private new float attackDamage = 2f;
     public GameObject bullet;
 
     private void Update()
