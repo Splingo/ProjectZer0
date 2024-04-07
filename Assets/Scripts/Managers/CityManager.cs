@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CityManager : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class CityManager : MonoBehaviour
     /// This function is used to modify a specific cityStat value and refresh the UI afterwards
     /// </summary>
     public void UpdateCityStat(CityStats.StatType type, int changeValue)
-    {        
+    {
         cityStats.UpdateStatValue(type, changeValue);
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
     }
@@ -61,6 +62,11 @@ public class CityManager : MonoBehaviour
     private void HandleEnemyDespawned()
     {
         UpdateCityStat(CityStats.StatType.HealthPoints, -1);
+
+        if (cityStats.GetStat(CityStats.StatType.HealthPoints) <= 0)
+        {
+            SceneManager.LoadScene("Scenes/GameOverScene");
+        }
     }
 
 }
