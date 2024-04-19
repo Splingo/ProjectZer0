@@ -108,7 +108,7 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void EnemyKilled()
     {
-        EventManager.EnemeyKilledEvent.Invoke();
+        EventManager.EnemyKilledEvent.Invoke();
         Destroy(gameObject);
     }
 

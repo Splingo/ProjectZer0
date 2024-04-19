@@ -9,7 +9,7 @@ public class EventManager : MonoBehaviour
     /// <summary>
     /// This event can be used when an enemy has been killed by the player
     /// </summary>
-    public static UnityEvent EnemeyKilledEvent = new UnityEvent();
+    public static UnityEvent EnemyKilledEvent = new UnityEvent();
 
     /// <summary>
     /// This event can be used when an enemy has reached the city

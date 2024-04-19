@@ -12,7 +12,7 @@ public class CityManager : MonoBehaviour
     void Start()
     {
         CityStats cityStats = ScriptableObject.CreateInstance<CityStats>();
-        cityStats.Init(5, 4, 3, 2, 1);
+        cityStats.Init(5, 4, 3, 0, 0);
         this.cityStats = cityStats;
 
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
@@ -44,7 +44,7 @@ public class CityManager : MonoBehaviour
     /// </summary>
     private void InitializeEventListeners()
     {
-        EventManager.EnemeyKilledEvent.AddListener(HandleEnemyKilled);
+        EventManager.EnemyKilledEvent.AddListener(HandleEnemyKilled);
         EventManager.EnemyDespawnedEvent.AddListener(HandleEnemyDespawned);
     }
 
@@ -53,6 +53,7 @@ public class CityManager : MonoBehaviour
     /// </summary>
     private void HandleEnemyKilled()
     {
+        UpdateCityStat(CityStats.StatType.EnemiesKilled, 1);
         UpdateCityStat(CityStats.StatType.MetaTrophies, 1);
     }
 
@@ -64,9 +65,6 @@ public class CityManager : MonoBehaviour
         UpdateCityStat(CityStats.StatType.HealthPoints, -1);
 
         if (cityStats.GetStat(CityStats.StatType.HealthPoints) <= 0)
-        {
-            SceneManager.LoadScene("Scenes/GameOverScene");
-        }
+            SceneManager.LoadScene(2);
     }
-
 }

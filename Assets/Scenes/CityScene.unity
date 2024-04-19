@@ -27233,7 +27233,7 @@ GameObject:
   - component: {fileID: 437212293}
   - component: {fileID: 437212292}
   m_Layer: 5
-  m_Name: StoneIcon
+  m_Name: EnemyKillsIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27278,7 +27278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7f09fa7a050cd194ba7be0f15b84303a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e541c08b3c6c8284387221263aa45f1e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -29598,7 +29598,7 @@ GameObject:
   - component: {fileID: 821096536}
   - component: {fileID: 821096535}
   m_Layer: 5
-  m_Name: Stone
+  m_Name: EnemyKills
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30071,7 +30071,7 @@ MonoBehaviour:
   Health: {fileID: 673618877}
   Gold: {fileID: 1308226377}
   Wood: {fileID: 654590651}
-  Stone: {fileID: 821096535}
+  EnemyKills: {fileID: 821096535}
   MetaTrophies: {fileID: 1592556363}
 --- !u!114 &920097305
 MonoBehaviour:
