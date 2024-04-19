@@ -30071,7 +30071,7 @@ MonoBehaviour:
   Health: {fileID: 673618877}
   Gold: {fileID: 1308226377}
   Wood: {fileID: 654590651}
-  EnemyKills: {fileID: 821096535}
+  EnemiesKilled: {fileID: 821096535}
   MetaTrophies: {fileID: 1592556363}
 --- !u!114 &920097305
 MonoBehaviour:
