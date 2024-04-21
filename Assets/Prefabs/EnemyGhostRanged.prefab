@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5324409921693639655}
   - component: {fileID: 2594307098705429664}
   m_Layer: 0
-  m_Name: Enemy 1
+  m_Name: EnemyGhostRanged
   m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +146,7 @@ Animator:
   m_GameObject: {fileID: 3427824242499557077}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b19d943936df83942b64f0e935cbfea1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -173,3 +173,5 @@ MonoBehaviour:
   hpBarPrefab: {fileID: 771562769130956273, guid: d8f8295ea66cccd4c81d419ba97d92c7, type: 3}
   waiting: 0
   bullet: {fileID: 8188667778111511395, guid: 9b7269a2e48f85f4c93fc3600c6f0a54, type: 3}
+  animatedSprite: {fileID: -1963984624, guid: a35a3bfe5d24aa741983ccd91aa47aee, type: 3}
+  animatorController: {fileID: 9100000, guid: 0ff68d74b7f8eb5468979c5b00be15ca, type: 2}

@@ -9,9 +9,17 @@ public class enemy_ghost : Enemy
 
 
     private new float attackRange = 10f;
-    private new float attackDamage = 2f;
+    private new float attackDamage = 4f;
+    private new float attackSpeed = 1.5f;
     public GameObject bullet;
+    public Sprite animatedSprite;
+    Animator animator;
+    public RuntimeAnimatorController animatorController;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
     // Update is called once per frame
     new void Update()
     {
@@ -27,6 +35,7 @@ public class enemy_ghost : Enemy
             {
                 if (waiting == false)
                 {
+                    animator.Play("enemy_ghost_attack");
                     StartCoroutine(AttackWithDelay());
                     waiting = true;
                 }
@@ -36,18 +45,19 @@ public class enemy_ghost : Enemy
 
     new IEnumerator AttackWithDelay()
     {
-        //BaseUnit_Script friendlyTargetScript = targetFriendlyUnit.GetComponent<BaseUnit_Script>();
-        
+        yield return new WaitForSeconds(0.2f);
         // telling the bullet how much damage it can cause and spawn it
         GameObject newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
         Bullet newBulletScript = newBullet.GetComponent<Bullet>();
         newBulletScript.SetTargetTag("FriendlyUnit");
         newBulletScript.damage = attackDamage;
         newBulletScript.rayDistance = attackRange;
+        newBulletScript.speed = 4f;
         newBulletScript.sourceUnit = gameObject;
         newBulletScript.SetDirection(Bullet.bulletDirection.left);
+        newBulletScript.SetAnimatedSprite(animatedSprite, new Vector3(0.4f,0.4f,0.4f), animatorController);
 
-        yield return new WaitForSeconds(attackSpeed);
+        yield return new WaitForSeconds(attackSpeed - 0.2f);
         waiting = false;
     }
 

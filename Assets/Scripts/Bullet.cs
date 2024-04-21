@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
     [Range(1,10)]
-    [SerializeField] private float speed = 10f;
+    [SerializeField] public float speed = 10f;
     private float lifetime = 5f;
     public float rayDistance;
     public GameObject sourceUnit;
@@ -39,9 +40,26 @@ public class Bullet : MonoBehaviour
         targetTag = tag;
     }
 
+    // change bullet sprite after firing
+    public void SetAnimatedSprite(Sprite animatedSprite, Vector3 scale, RuntimeAnimatorController animatorController)
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null && animatedSprite != null)
+        {
+            spriteRenderer.sprite = animatedSprite;
+            transform.localScale = scale;
+        }
+
+        Animator animator = GetComponent<Animator>();
+        if (animator != null && animatorController != null)
+        {
+            animator.runtimeAnimatorController = animatorController;
+        }
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
         // bullet coming from enemy
         if (targetTag == "FriendlyUnit" && collision.gameObject.CompareTag("FriendlyUnit"))
         {
