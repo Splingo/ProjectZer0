@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefabs;
     public string enemyLayerName; // Set this in the Inspector for each spawner
     public TextMeshProUGUI startFightButtonText;
     public float spawnInterval = 12.0f;
@@ -32,6 +34,8 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy()
     {
+        System.Random rnd = new System.Random();
+        GameObject enemyPrefab = enemyPrefabs[rnd.Next(0,enemyPrefabs.Length)];
         // Spawn enemy on spawner
         GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
 

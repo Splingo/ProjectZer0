@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 3
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -1508,7 +1508,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs:
+  - {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  - {fileID: 3427824242499557077, guid: 8e829f77cc385254b8b8e2ed5c9f7bd8, type: 3}
   enemyLayerName: ROW 1
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -29844,7 +29846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 2
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -29950,7 +29952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 4
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -34163,7 +34165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 0
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -39836,7 +39838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 5
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
