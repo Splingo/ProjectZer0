@@ -65,6 +65,9 @@ public class CityManager : MonoBehaviour
         UpdateCityStat(CityStats.StatType.HealthPoints, -1);
 
         if (cityStats.GetStat(CityStats.StatType.HealthPoints) <= 0)
+        {
+            PlayerPrefs.SetInt("EnemiesKilled",cityStats.GetStat(CityStats.StatType.EnemiesKilled));
             SceneManager.LoadScene(2);
+        }
     }
 }
