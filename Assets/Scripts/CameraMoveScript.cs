@@ -24,7 +24,7 @@ public class CameraMoveScript : MonoBehaviour
 
         if (toRight) // move camera to right
         {
-            newCameraPosition = new Vector3(9f, -0.1f, -10f);
+            newCameraPosition = new Vector3(8.5f, -0.1f, -10f);
             arrowRectTransform.localRotation = Quaternion.Euler(0f, 0f, 180f);
             toRight = false;
             audioSourceRightClick.Play();
