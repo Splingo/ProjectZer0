@@ -6,16 +6,16 @@ using UnityEngine.UI;
 
 public class friendly_ranged : BaseUnit_Script
 {
-        private new float attackRange = 10f;
-        private new float attackDamage = 2f;
+    private new float attackRange = 10f;
+    private new float attackDamage = 2f;
     public GameObject bullet;
 
     private void Update()
     {
         if (transform.hasChanged)
         {
-            SetOccupiedCells(); // Wenn sich die Position geändert hat, rufe die Funktion auf, um den Layer zu aktualisieren
-            transform.hasChanged = false; // Setze transform.hasChanged zurück, um weitere Änderungen zu erkennen
+            SetOccupiedCells(); // Wenn sich die Position geï¿½ndert hat, rufe die Funktion auf, um den Layer zu aktualisieren
+            transform.hasChanged = false; // Setze transform.hasChanged zurï¿½ck, um weitere ï¿½nderungen zu erkennen
         }
         DetectEnemyUnit();
         if (IsTargetInRange())
