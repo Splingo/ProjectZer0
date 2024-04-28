@@ -21,6 +21,21 @@ public class SceneManagerScript : MonoBehaviour
         }
         SceneManager.LoadScene(sceneName);
     }
+    public void LoadScene(int sceneIndex)
+    {
+        switch (sceneIndex)
+        {
+            case 0:
+                Time.timeScale = 0.0f; break;
+            case 1:
+                Time.timeScale = 1.0f; break;
+            case 2:
+                Time.timeScale = 0.0f; break;
+            default:
+                break;
+        }
+        SceneManager.LoadScene(sceneIndex);
+    }
 
     public void QuitGame()
     {
