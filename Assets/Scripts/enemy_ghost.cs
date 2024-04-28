@@ -8,8 +8,8 @@ public class enemy_ghost : Enemy
     // Start is called before the first frame update
 
 
-    private new float attackRange = 10f;
-    private new float attackDamage = 4f;
+    private float attackRange = 10f;
+    private float attackDamage = 4f;
     private new float attackSpeed = 1.5f;
     public GameObject bullet;
     public Sprite animatedSprite;
@@ -19,7 +19,7 @@ public class enemy_ghost : Enemy
     private void Awake()
     {
         animator = GetComponent<Animator>();
-    }
+    } 
     // Update is called once per frame
     new void Update()
     {

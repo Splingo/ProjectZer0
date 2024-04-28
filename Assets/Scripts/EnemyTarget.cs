@@ -13,9 +13,9 @@ public class EnemyTarget : MonoBehaviour
         }
     }
 
-private void EnemyDied(GameObject other)
+    private void EnemyDied(GameObject other)
     {
-            EventManager.EnemyDespawnedEvent.Invoke();
-            Destroy(other);
+        EventManager.EnemyDespawnedEvent.Invoke();
+        Destroy(other);
     }
 }
