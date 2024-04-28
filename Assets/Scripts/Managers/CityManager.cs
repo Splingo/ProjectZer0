@@ -17,6 +17,9 @@ public class CityManager : MonoBehaviour
 
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
 
+        // This resets the EnemiesKilled counter
+        PlayerPrefs.SetInt("EnemiesKilled", cityStats.GetStat(CityStats.StatType.EnemiesKilled));
+
         InitializeEventListeners();
     }
 
