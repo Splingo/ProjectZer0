@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CityManager : MonoBehaviour
 {
@@ -11,10 +12,13 @@ public class CityManager : MonoBehaviour
     void Start()
     {
         CityStats cityStats = ScriptableObject.CreateInstance<CityStats>();
-        cityStats.Init(5, 4, 3, 2, 1);
+        cityStats.Init(5, 4, 3, 0, 0);
         this.cityStats = cityStats;
 
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
+
+        // This resets the EnemiesKilled counter
+        PlayerPrefs.SetInt("EnemiesKilled", cityStats.GetStat(CityStats.StatType.EnemiesKilled));
 
         InitializeEventListeners();
     }
@@ -33,7 +37,7 @@ public class CityManager : MonoBehaviour
     /// This function is used to modify a specific cityStat value and refresh the UI afterwards
     /// </summary>
     public void UpdateCityStat(CityStats.StatType type, int changeValue)
-    {        
+    {
         cityStats.UpdateStatValue(type, changeValue);
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
     }
@@ -43,7 +47,7 @@ public class CityManager : MonoBehaviour
     /// </summary>
     private void InitializeEventListeners()
     {
-        EventManager.EnemeyKilledEvent.AddListener(HandleEnemyKilled);
+        EventManager.EnemyKilledEvent.AddListener(HandleEnemyKilled);
         EventManager.EnemyDespawnedEvent.AddListener(HandleEnemyDespawned);
     }
 
@@ -52,6 +56,7 @@ public class CityManager : MonoBehaviour
     /// </summary>
     private void HandleEnemyKilled()
     {
+        UpdateCityStat(CityStats.StatType.EnemiesKilled, 1);
         UpdateCityStat(CityStats.StatType.MetaTrophies, 1);
     }
 
@@ -61,6 +66,11 @@ public class CityManager : MonoBehaviour
     private void HandleEnemyDespawned()
     {
         UpdateCityStat(CityStats.StatType.HealthPoints, -1);
-    }
 
+        if (cityStats.GetStat(CityStats.StatType.HealthPoints) <= 0)
+        {
+            PlayerPrefs.SetInt("EnemiesKilled",cityStats.GetStat(CityStats.StatType.EnemiesKilled));
+            SceneManager.LoadScene(2);
+        }
+    }
 }
