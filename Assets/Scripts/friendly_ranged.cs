@@ -31,14 +31,18 @@ public class friendly_ranged : BaseUnit_Script
     IEnumerator AttackWithDelay()
     {
 
-        Enemy enemyTargetScript = targetEnemyUnit.GetComponent<Enemy>();
+        //Enemy enemyTargetScript = targetEnemyUnit.GetComponent<Enemy>();
 
         // telling the bullet how much damage it can cause and spawn it
         GameObject newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
         Bullet newBulletScript = newBullet.GetComponent<Bullet>();
+        newBulletScript.SetTargetTag("EnemyUnit");
         newBulletScript.damage = attackDamage;
         newBulletScript.rayDistance = attackRange;
         newBulletScript.sourceUnit = gameObject;
+        newBulletScript.SetDirection(Bullet.bulletDirection.right);
+        
+
 
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;

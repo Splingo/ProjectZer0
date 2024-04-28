@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     private float currentHP;
     private int defense;
     private float attackDamage = 1f;
-    private float attackSpeed = 1f;
+    protected float attackSpeed = 1f;
     private float attackRange = 1.05f;
 
     public GameObject targetFriendlyUnit;
@@ -23,9 +23,9 @@ public class Enemy : MonoBehaviour
     private Collider2D enemyCollider;
     private bool shouldMove = true;
 
-    private bool waiting = false;
+    public bool waiting = false;
 
-    private void Start()
+    protected void Start()
     {
         currentHP = maxHP;
         CreateHPBar();
@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
 
         if (targetFriendlyUnit == null)
@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    private bool IsTargetInRange()
+    protected bool IsTargetInRange()
     {
         if (targetFriendlyUnit == null)
         {
@@ -73,12 +73,12 @@ public class Enemy : MonoBehaviour
         return distance <= attackRange;
     }
 
-    private void CreateHPBar()
+    protected void CreateHPBar()
     {
         hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
         hpBarInstance.transform.SetParent(transform);
     }
-    private void UpdateHPBar()
+    protected void UpdateHPBar()
     {
         if (hpBarInstance != null)
         {
@@ -106,13 +106,13 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// This function destroys the gameObject and triggers on killed stuff
     /// </summary>
-    private void EnemyKilled()
+    protected void EnemyKilled()
     {
         EventManager.EnemyKilledEvent.Invoke();
         Destroy(gameObject);
     }
 
-    void MoveLeft()
+    protected void MoveLeft()
     {
         if (shouldMove)
         {
@@ -121,7 +121,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    IEnumerator AttackWithDelay()
+    protected IEnumerator AttackWithDelay()
     {
         BaseUnit_Script friendlyTargetScript = targetFriendlyUnit.GetComponent<BaseUnit_Script>();
 
@@ -133,7 +133,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
     }
-    void DetectFriendlyUnit()
+    protected void DetectFriendlyUnit()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(
             transform.position,

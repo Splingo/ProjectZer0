@@ -315,7 +315,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -687,7 +687,7 @@ GameObject:
   - component: {fileID: 170246989}
   - component: {fileID: 170246988}
   m_Layer: 0
-  m_Name: schmied
+  m_Name: rathaus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -753,7 +753,7 @@ SpriteRenderer:
   m_SortingLayerID: -66088481
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a9c257144aff78e43a27422b94545d22, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f7ebe6fbc8943c4409fb7dc44d8d3105, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 3
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -1508,7 +1508,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs:
+  - {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  - {fileID: 3427824242499557077, guid: 8e829f77cc385254b8b8e2ed5c9f7bd8, type: 3}
   enemyLayerName: ROW 1
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -29871,7 +29873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 2
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -29977,7 +29979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 4
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -31019,7 +31021,7 @@ GameObject:
   - component: {fileID: 1331922752}
   - component: {fileID: 1331922751}
   m_Layer: 0
-  m_Name: rathaus
+  m_Name: schmiede
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31085,7 +31087,7 @@ SpriteRenderer:
   m_SortingLayerID: -66088481
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3d96993a8f732e8418f52093c980a636, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 509dc9bf5a0c98d4aa59d558e10916d5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -31208,7 +31210,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.75}
+    pivot: {x: 0.5, y: 0.25}
     oldSize: {x: 3, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -31300,7 +31302,7 @@ SpriteRenderer:
   m_SortingLayerID: -66088481
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 199e99c2652ef2949923432914054dd9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a2ac062495bed624187aa86269450aeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -33942,7 +33944,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1783212436}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -34055,7 +34057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 0
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
@@ -39728,7 +39730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374e35fd47a76044b42751ddb57f556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3427824242499557077, guid: 0bd8763dbc31f0b47ba5ba366d9a152c, type: 3}
+  enemyPrefabs: []
   enemyLayerName: ROW 5
   startFightButtonText: {fileID: 346868662}
   spawnInterval: 12
