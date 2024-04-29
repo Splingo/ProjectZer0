@@ -119,12 +119,7 @@ public class Building_Class : MonoBehaviour
             occupiedCells.Add(beginCell);
             occupiedCells.Add(new Vector3Int(beginCell.x - 1, beginCell.y, 0));
             occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y, 0));
-<<<<<<< HEAD
-            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y - 1, 0));
-
-=======
             occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y + 1, 0));
->>>>>>> main
             break;
         case BuildingShape.L_Shape:
             // Korrigierte Implementierung für L_Shape
