@@ -10,6 +10,7 @@ public class Building_Class : MonoBehaviour
         Tower_1x3,
         Block_2x1,
         flipped_T_Shape,
+        T_Shape,
         L_Shape,
         Cross,
         U_Shape
@@ -115,6 +116,13 @@ public class Building_Class : MonoBehaviour
 
             break;
         case BuildingShape.flipped_T_Shape:
+            // beginCell ist die mittlere Zelle, hat links und rechts eine Zelle und von der Mitte runter 2 Zellen
+            occupiedCells.Add(beginCell);
+            occupiedCells.Add(new Vector3Int(beginCell.x - 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x + 1, beginCell.y, 0));
+            occupiedCells.Add(new Vector3Int(beginCell.x, beginCell.y + 1, 0));
+            break;
+        case BuildingShape.T_Shape:
             // beginCell ist die mittlere Zelle, hat links und rechts eine Zelle und von der Mitte runter 2 Zellen
             occupiedCells.Add(beginCell);
             occupiedCells.Add(new Vector3Int(beginCell.x - 1, beginCell.y, 0));
