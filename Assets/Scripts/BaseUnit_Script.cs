@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class BaseUnit_Script : MonoBehaviour
 {
-    protected float maxHP = 10f;
-    protected float currentHP;
-    protected int defense;
-    protected float attackDamage = 1f;
+    public  float maxHP = 10f;
+    public float currentHP;
+    public int defense;
+    public float attackDamage = 1f;
 
-    protected float attackSpeed = 1f;
-    protected float attackRange = 1.05f;
+    public float attackSpeed = 1f;
+    public float attackRange = 1.05f;
 
-    protected GameObject targetEnemyUnit;
+    public GameObject targetEnemyUnit;
 
     protected GameObject hpBarPrefab;
 
