@@ -24,7 +24,6 @@ public class BaseUnit_Script : MonoBehaviour
     public List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public List<Vector3Int> previousOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public List<Vector3Int> hoveringOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
-
     public List<Vector3Int> GetOccupiedCells(Vector3Int center)
     {
         OccupyCells(center);

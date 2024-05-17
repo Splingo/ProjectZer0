@@ -15,8 +15,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Vector3Int initialCellPosition;
     private Building_Class draggedBuilding;
     private BaseUnit_Script baseUnit;
-    private bool canPlace = true; 
-    public bool onSpawn = true;
+    private bool onSpawn = true;
 
      private GameObject copyObject;
 
@@ -27,6 +26,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         startPosition = initialPosition;
         draggedBuilding = GetComponent<Building_Class>(); 
         baseUnit = GetComponent<BaseUnit_Script>();
+       
     }
 
     void Start()
@@ -48,12 +48,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
    public void OnBeginDrag(PointerEventData eventData)
     {
-        // Speichern Sie die Zellenposition, in der sich das Objekt zu Beginn befindet
-        DragAndDropObject dragAndDropObject = GetComponent<DragAndDropObject>();
-        if (dragAndDropObject != null && !dragAndDropObject.canPlace)
-        {
-            return; // Wenn canPlace auf false gesetzt ist, wird das Drag-and-Drop-Skript abgebrochen
-        }
 
         initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
         // Erhalten Sie die belegten Zellen für das aktuelle Element
@@ -75,12 +69,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 gridManager.ReleaseCells(occupiedBattleCells);
             }
         }
-        // Entfernen Sie die Zellen, die durch das Element besetzt sind
 
         previousPosition = transform.position;
 
-        // Erstellen Sie eine Kopie des aktuellen GameObjects, wenn es beim Spawnen ist
-        if (onSpawn)
+        if (onSpawn == true && transform.position.y <= -3.5)
         {
             CreateCopy();
         }
@@ -92,11 +84,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 public void OnDrag(PointerEventData eventData)
 {
-    DragAndDropObject dragAndDropObject = GetComponent<DragAndDropObject>();
-    if (dragAndDropObject != null && !dragAndDropObject.canPlace)
-    {
-        return; // Wenn canPlace auf false gesetzt ist, wird das Drag-and-Drop-Skript abgebrochen
-    }
 
     Vector3 mousePos = Input.mousePosition;
     mousePos.z = 10; // Entfernung der Canvas-Ebene
@@ -145,11 +132,6 @@ public void OnDrag(PointerEventData eventData)
 
 public void OnEndDrag(PointerEventData eventData)
 {
-     DragAndDropObject dragAndDropObject = GetComponent<DragAndDropObject>();
-        if (dragAndDropObject != null && !dragAndDropObject.canPlace)
-        {
-            return; // Wenn canPlace auf false gesetzt ist, wird das Drag-and-Drop-Skript abgebrochen
-        }
     Vector3 dropPosition = transform.position;
     if (IsWithinAllowedRange(dropPosition))
     {
@@ -279,12 +261,16 @@ private void ApplyBuildingBonus(string buildingType)
     }
    private GameObject CreateCopy()
     {
+        if(onSpawn == true){
+
         GameObject copy = Instantiate(gameObject); // Erzeuge eine Kopie des aktuellen GameObjects
         // Füge die Kopie zum Battle_Setup_Canvas hinzu oder einem anderen geeigneten Elternobjekt hinzu
         copy.transform.SetParent(canvas.transform, false);
         // Setze die Position der Kopie auf die aktuelle Position des Originals
         copy.transform.position = transform.position;
         return copy; // Gib die kopierte Instanz zurück
+        }
+        return gameObject;
     }
 
 }
@@ -293,7 +279,6 @@ private void ApplyBuildingBonus(string buildingType)
 
 public class DragAndDropObject : MonoBehaviour
 {
-    public bool canPlace = true;
-      public bool onSpawn = true;
+      public bool onSpawn = false;
 }
 
