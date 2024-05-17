@@ -15,7 +15,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Vector3Int initialCellPosition;
     private Building_Class draggedBuilding;
     private BaseUnit_Script baseUnit;
-    private bool onSpawn = true;
 
      private GameObject copyObject;
 
@@ -68,14 +67,14 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 gridManager.ReleaseCells(occupiedBattleCells);
             }
+        if (transform.position.y <= -3.5)
+        {
+            CreateCopy();
+        }
         }
 
         previousPosition = transform.position;
 
-        if (onSpawn == true && transform.position.y <= -3.5)
-        {
-            CreateCopy();
-        }
     }
 
 
@@ -83,8 +82,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 
 public void OnDrag(PointerEventData eventData)
-{
-
+{  
     Vector3 mousePos = Input.mousePosition;
     mousePos.z = 10; // Entfernung der Canvas-Ebene
     Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -188,9 +186,13 @@ public void OnEndDrag(PointerEventData eventData)
     if(!IsWithinAllowedRange(dropPosition)){
         if(draggedBuilding != null){
             gridManager.ReleaseCells(draggedBuilding.previousOccupiedCells);
+            Destroy(gameObject);
+
         }
         if(baseUnit != null){
             gridManager.ReleaseCells(baseUnit.previousOccupiedCells);
+            Destroy(gameObject);
+
         }
 
     transform.position = initialPosition;
@@ -261,7 +263,8 @@ private void ApplyBuildingBonus(string buildingType)
     }
    private GameObject CreateCopy()
     {
-        if(onSpawn == true){
+            Debug.Log("+++");
+        
 
         GameObject copy = Instantiate(gameObject); // Erzeuge eine Kopie des aktuellen GameObjects
         // Füge die Kopie zum Battle_Setup_Canvas hinzu oder einem anderen geeigneten Elternobjekt hinzu
@@ -269,16 +272,10 @@ private void ApplyBuildingBonus(string buildingType)
         // Setze die Position der Kopie auf die aktuelle Position des Originals
         copy.transform.position = transform.position;
         return copy; // Gib die kopierte Instanz zurück
-        }
-        return gameObject;
+       
     }
 
 }
 
 
-
-public class DragAndDropObject : MonoBehaviour
-{
-      public bool onSpawn = false;
-}
 
