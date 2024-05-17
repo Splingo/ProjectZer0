@@ -15,6 +15,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Vector3Int initialCellPosition;
     private Building_Class draggedBuilding;
     private BaseUnit_Script baseUnit;
+    private bool canPlace = true; 
+    public bool onSpawn = true;
+
+     private GameObject copyObject;
+
+
     private void Awake()
     {
         initialPosition = transform.position; // Speichere die ursprüngliche Position bei Start/Awake
@@ -41,60 +47,109 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     }
 
    public void OnBeginDrag(PointerEventData eventData)
-{
-    // Speichere die Zellenposition, in der sich das Objekt zu Beginn befindet
-    initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
-    // Erhalte die belegten Zellen für das aktuelle Element
-    if(draggedBuilding != null){
-        List<Vector3Int> occupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition );
-        draggedBuilding.previousOccupiedCells = occupiedCells;
-        if (occupiedCells != null && occupiedCells.Count > 0)
+    {
+        // Speichern Sie die Zellenposition, in der sich das Objekt zu Beginn befindet
+        DragAndDropObject dragAndDropObject = GetComponent<DragAndDropObject>();
+        if (dragAndDropObject != null && !dragAndDropObject.canPlace)
         {
-            gridManager.ReleaseCells(occupiedCells);
+            return; // Wenn canPlace auf false gesetzt ist, wird das Drag-and-Drop-Skript abgebrochen
         }
-    }
-    if( baseUnit!= null){
-        List<Vector3Int> occupiedBattleCells = baseUnit.GetOccupiedCells(initialCellPosition);
-        baseUnit.previousOccupiedCells = occupiedBattleCells;
-        if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
-        {
-            gridManager.ReleaseCells(occupiedBattleCells);
-        }
-    }
-    // Entferne die Zellen, die durch das Element besetzt sind
 
-    previousPosition = transform.position;
-}
+        initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
+        // Erhalten Sie die belegten Zellen für das aktuelle Element
+        if (draggedBuilding != null)
+        {
+            List<Vector3Int> occupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition);
+            draggedBuilding.previousOccupiedCells = occupiedCells;
+            if (occupiedCells != null && occupiedCells.Count > 0)
+            {
+                gridManager.ReleaseCells(occupiedCells);
+            }
+        }
+        if (baseUnit != null)
+        {
+            List<Vector3Int> occupiedBattleCells = baseUnit.GetOccupiedCells(initialCellPosition);
+            baseUnit.previousOccupiedCells = occupiedBattleCells;
+            if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
+            {
+                gridManager.ReleaseCells(occupiedBattleCells);
+            }
+        }
+        // Entfernen Sie die Zellen, die durch das Element besetzt sind
+
+        previousPosition = transform.position;
+
+        // Erstellen Sie eine Kopie des aktuellen GameObjects, wenn es beim Spawnen ist
+        if (onSpawn)
+        {
+            CreateCopy();
+        }
+    }
+
+
+
 
 
 public void OnDrag(PointerEventData eventData)
+{
+    DragAndDropObject dragAndDropObject = GetComponent<DragAndDropObject>();
+    if (dragAndDropObject != null && !dragAndDropObject.canPlace)
     {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 10; // Entfernung der Canvas-Ebene
-        Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
-        transform.position = screenPos;
+        return; // Wenn canPlace auf false gesetzt ist, wird das Drag-and-Drop-Skript abgebrochen
+    }
 
-        Vector3 dropPosition = transform.position;
+    Vector3 mousePos = Input.mousePosition;
+    mousePos.z = 10; // Entfernung der Canvas-Ebene
+    Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        if (IsWithinAllowedRange(dropPosition))
+    // Bewege das kopierte Objekt, wenn es vorhanden ist
+    if (copyObject != null)
+    {
+        copyObject.transform.position = screenPos;
+    }
+    else
+    {
+        transform.position = screenPos; // Bewege das Originalobjekt
+    }
+
+    Vector3 dropPosition = transform.position;
+
+    if (IsWithinAllowedRange(dropPosition))
+    {
+        Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
+        Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
+        // Snappen an die Zellenposition
+        if (copyObject != null)
         {
-            Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
-                Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
-                transform.position = cellCenter; // Snappen an die Zellenposition
-            if(draggedBuilding != null){
-            List<Vector3Int> buildingOccupiedCells = draggedBuilding.ReturnOccupiedCells();    
-                draggedBuilding.hoverungOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
-            }
-            if( baseUnit!= null){
-            List<Vector3Int> UnitOccupiedCells = baseUnit.ReturnOccupiedCells();    
-                baseUnit.hoveringOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
-            }
+            copyObject.transform.position = cellCenter;
+        }
+        else
+        {
+            transform.position = cellCenter; // Snappen an die Zellenposition für das Originalobjekt
+        }
+
+        if (draggedBuilding != null)
+        {
+            List<Vector3Int> buildingOccupiedCells = draggedBuilding.ReturnOccupiedCells();
+            draggedBuilding.hoverungOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
+        }
+        if (baseUnit != null)
+        {
+            List<Vector3Int> UnitOccupiedCells = baseUnit.ReturnOccupiedCells();
+            baseUnit.hoveringOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
         }
     }
+}
+
 
 
 public void OnEndDrag(PointerEventData eventData)
 {
+     DragAndDropObject dragAndDropObject = GetComponent<DragAndDropObject>();
+        if (dragAndDropObject != null && !dragAndDropObject.canPlace)
+        {
+            return; // Wenn canPlace auf false gesetzt ist, wird das Drag-and-Drop-Skript abgebrochen
+        }
     Vector3 dropPosition = transform.position;
     if (IsWithinAllowedRange(dropPosition))
     {
@@ -222,4 +277,23 @@ private void ApplyBuildingBonus(string buildingType)
         return cellPosition.x >= 0 && cellPosition.x < gridRange.x &&
                cellPosition.y >= 0 && cellPosition.y < gridRange.y;
     }
+   private GameObject CreateCopy()
+    {
+        GameObject copy = Instantiate(gameObject); // Erzeuge eine Kopie des aktuellen GameObjects
+        // Füge die Kopie zum Battle_Setup_Canvas hinzu oder einem anderen geeigneten Elternobjekt hinzu
+        copy.transform.SetParent(canvas.transform, false);
+        // Setze die Position der Kopie auf die aktuelle Position des Originals
+        copy.transform.position = transform.position;
+        return copy; // Gib die kopierte Instanz zurück
+    }
+
 }
+
+
+
+public class DragAndDropObject : MonoBehaviour
+{
+    public bool canPlace = true;
+      public bool onSpawn = true;
+}
+
