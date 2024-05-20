@@ -294,6 +294,7 @@ MonoBehaviour:
   gridManager: {fileID: 1198298923}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
   isDraggable: 0
 --- !u!61 &145475852
 BoxCollider2D:
@@ -636,6 +637,7 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
   isDraggable: 0
 --- !u!61 &170246993
 BoxCollider2D:
@@ -1156,7 +1158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &321741820
 GameObject:
   m_ObjectHideFlags: 0
@@ -27802,7 +27805,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &583228930
 GameObject:
   m_ObjectHideFlags: 0
@@ -29246,7 +29250,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 09cc703fa69dce145a6c43d333ce5246, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ba078b7b60ae78f4e95c2648f126131a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -29276,7 +29280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 8668050608696178708, guid: d506b308d2e75c44dbda4e414be8be18, type: 3}
+  battleGrid: {fileID: 1672334481}
 --- !u!114 &617731808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29609,7 +29614,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -41.1, y: 13.4}
+  m_AnchoredPosition: {x: -49.5, y: 12.4}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &751307812
@@ -29662,7 +29667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &766645566
 GameObject:
   m_ObjectHideFlags: 0
@@ -29906,9 +29912,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71062ab37bd452479e656f62f78a8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridManager: {fileID: 0}
+  gridManager: {fileID: 1198298923}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
   isDraggable: 0
 --- !u!61 &770664465
 BoxCollider2D:
@@ -30504,7 +30511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &920097302
 GameObject:
   m_ObjectHideFlags: 0
@@ -30955,6 +30963,7 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
   isDraggable: 0
 --- !u!61 &1055443730
 BoxCollider2D:
@@ -31166,7 +31175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &1173407192
 GameObject:
   m_ObjectHideFlags: 0
@@ -31338,6 +31348,7 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
   isDraggable: 0
 --- !u!61 &1173407199
 BoxCollider2D:
@@ -31521,7 +31532,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &1308226375
 GameObject:
   m_ObjectHideFlags: 0
@@ -31827,6 +31839,7 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
   isDraggable: 0
 --- !u!61 &1331922756
 BoxCollider2D:
@@ -31961,7 +31974,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &1400708120
 GameObject:
   m_ObjectHideFlags: 0
@@ -31973,8 +31987,7 @@ GameObject:
   - component: {fileID: 1400708121}
   - component: {fileID: 1400708123}
   - component: {fileID: 1400708122}
-  - component: {fileID: 1400708124}
-  - component: {fileID: 1400708125}
+  - component: {fileID: 1400708126}
   m_Layer: 0
   m_Name: Unit_0
   m_TagString: Untagged
@@ -31998,7 +32011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -358.79974, y: 13.400019}
+  m_AnchoredPosition: {x: -361.2, y: 12.4}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1400708122
@@ -32039,36 +32052,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400708120}
   m_CullTransparentMesh: 1
---- !u!114 &1400708124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400708120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 13
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: CreateUnitOnDrag_Script, Assembly-CSharp
-          m_MethodName: createUnit
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &1400708125
+--- !u!114 &1400708126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32080,7 +32064,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
+  battleGrid: {fileID: 1672334481}
 --- !u!1 &1477045653
 GameObject:
   m_ObjectHideFlags: 0
@@ -32117,7 +32102,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -237.8, y: 196.2}
+  m_AnchoredPosition: {x: -247.8, y: 173.3}
   m_SizeDelta: {x: 79.58, y: 60.66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1477045655
@@ -32164,14 +32149,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnitManager, Assembly-CSharp
+      - m_Target: {fileID: 2048366713}
+        m_TargetAssemblyTypeName: Unit_Inventory, Assembly-CSharp
         m_MethodName: AddUnit
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -32385,6 +32370,7 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
   isDraggable: 0
 --- !u!61 &1504509236
 BoxCollider2D:
@@ -32647,7 +32633,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &1535402856
 GameObject:
   m_ObjectHideFlags: 0
@@ -33337,7 +33324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &1672334479
 GameObject:
   m_ObjectHideFlags: 0
@@ -35034,6 +35022,7 @@ MonoBehaviour:
   gridManager: {fileID: 1198298923}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
   isDraggable: 0
 --- !u!61 &1779062549
 BoxCollider2D:
@@ -35452,7 +35441,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: 0
+  unitPrefab: {fileID: 0}
+  battleGrid: {fileID: 0}
 --- !u!1 &2048366708
 GameObject:
   m_ObjectHideFlags: 0
@@ -35465,7 +35455,6 @@ GameObject:
   - component: {fileID: 2048366711}
   - component: {fileID: 2048366710}
   - component: {fileID: 2048366713}
-  - component: {fileID: 2048366712}
   m_Layer: 0
   m_Name: UnitInventory
   m_TagString: Untagged
@@ -35530,7 +35519,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048366708}
   m_CullTransparentMesh: 1
---- !u!114 &2048366712
+--- !u!114 &2048366713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -35544,34 +35533,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitOnFieldCount: 
   unitInInventoryCount: 
---- !u!114 &2048366713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2048366708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c440cef6e1df4d4ab3423e6f1e98180, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitPrefabs:
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  - {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
-  spacing: 0.5
-  battleSetupGridObject: {fileID: 1672334479}
-  battleSetupCanvas: {fileID: 231162722}
 --- !u!1 &2050803213
 GameObject:
   m_ObjectHideFlags: 0

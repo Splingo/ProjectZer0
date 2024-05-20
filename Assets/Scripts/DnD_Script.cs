@@ -16,6 +16,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Building_Class draggedBuilding;
     private BaseUnit_Script baseUnit;
 
+    public Unit_Inventory unit_Inventory;
+
      private GameObject copyObject;
 
      public bool isDraggable = false;
@@ -28,7 +30,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         startPosition = initialPosition;
         draggedBuilding = GetComponent<Building_Class>(); 
         baseUnit = GetComponent<BaseUnit_Script>();
-       
+
     }
 
     void Start()
@@ -50,7 +52,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
    public void OnBeginDrag(PointerEventData eventData)
     {
-       
         initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
         // Erhalten Sie die belegten Zellen für das aktuelle Element
         if (draggedBuilding != null)
@@ -70,10 +71,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 gridManager.ReleaseCells(occupiedBattleCells);
             }
-       /* if (transform.position.y <= -3.5)
+        if (transform.position.y <= -3.5)
         {
             CreateCopy();
-        }*/
+        }
         }
 
         previousPosition = transform.position;
@@ -173,7 +174,7 @@ public void OnEndDrag(PointerEventData eventData)
                 // Snappen an die Zellenposition
                 Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
                 transform.position = cellCenter;
-
+                
                 return;
             }
         }
@@ -187,22 +188,10 @@ public void OnEndDrag(PointerEventData eventData)
     gridManager.OccupyCells(baseUnit.previousOccupiedCells);
     }
         
-   transform.position = previousPosition; // Setze zurück zur ursprünglichen Position
-    if(!IsWithinAllowedRange(dropPosition)){
-        if(draggedBuilding != null){
-            gridManager.ReleaseCells(draggedBuilding.previousOccupiedCells);
+  // transform.position = previousPosition; // Setze zurück zur ursprünglichen Position
             Destroy(gameObject);
-
-        }
-        if(baseUnit != null){
-            gridManager.ReleaseCells(baseUnit.previousOccupiedCells);
-            Destroy(gameObject);
-
-        }
-
-    transform.position = initialPosition;
-    }
 }
+  
 
 
 private void ApplyBuildingBonus(string buildingType)

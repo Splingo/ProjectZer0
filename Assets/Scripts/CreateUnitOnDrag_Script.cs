@@ -8,7 +8,7 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
     public GameObject unitPrefab;
     private Canvas canvas;
     public GridManager battleGrid;
-     private Vector3 gridOffset = new Vector3(2.1244f, -3.1312f, 0f);
+    private Vector3 gridOffset = new Vector3(2.1244f, -3.1312f, 0f);
     private Vector2Int gridRange = new Vector2Int(4, 6);
     private Vector3 spawnBasePosition = Vector3.zero;
 
@@ -23,19 +23,20 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
             Debug.LogError("Canvas 'Battle_Setup_Canvas' not found!");
             return;
         }
+
     }
 
-    public void OnDrag(PointerEventData eventData){
+    public void OnDrag(PointerEventData eventData)
+    {
         var test = newUnit.GetComponent<DragAndDrop>();
-         test.OnDrag(eventData);
+        test.OnDrag(eventData);
     }
 
-    public void OnEndDrag(PointerEventData eventData){
-
+    public void OnEndDrag(PointerEventData eventData)
+    {
         var test = newUnit.GetComponent<DragAndDrop>();
-         test.OnEndDrag(eventData);
+        test.OnEndDrag(eventData);
     }
-
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -43,20 +44,11 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
         // Create a new unit GameObject
         Vector3 position = new Vector3(currentXPosition, 2f, spawnBasePosition.z);
 
-        newUnit = Instantiate(unitPrefab,position, Quaternion.identity);
+        newUnit = Instantiate(unitPrefab, position, Quaternion.identity);
 
         // Set the parent of the new unit to the Canvas
         newUnit.transform.SetParent(canvas.transform, false);
 
-        // Set the position of the new unit
-       // newUnit.transform.position = transform.position;
-        //3,2,0 - 6,2,0
-        //3,-3,0 - 6,-3,0
-  
-
-        // Return the new position with z set to 0
-
-        // Get the BaseUnit_Script component from the new unit
         BaseUnit_Script unitScript = newUnit.GetComponent<BaseUnit_Script>();
 
         // Find the GridManager and set it to the Battle_Setup grid
@@ -69,18 +61,17 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
         // Set the gridManager variable of the BaseUnit_Script to the Battle_Setup grid
         unitScript.gridManager = battleGrid;
 
-
         var dragAndDropScript = newUnit.GetComponent<DragAndDrop>();
-                if (dragAndDropScript == null)
-                {
-                    dragAndDropScript = newUnit.AddComponent<DragAndDrop>();
-                }
-                dragAndDropScript.gridManager = battleGrid;
-                dragAndDropScript.gridOffset = gridOffset;
-                dragAndDropScript.gridRange = gridRange;
+        if (dragAndDropScript == null)
+        {
+            dragAndDropScript = newUnit.AddComponent<DragAndDrop>();
+        }
+        dragAndDropScript.gridManager = battleGrid;
+        dragAndDropScript.gridOffset = gridOffset;
+        dragAndDropScript.gridRange = gridRange;
 
-         var test = newUnit.GetComponent<DragAndDrop>();
-         test.OnDrag(eventData);
-
+     
+        var test = newUnit.GetComponent<DragAndDrop>();
+        test.OnDrag(eventData);
     }
 }
