@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     private System.Random rand = new System.Random();
     protected float movementSpeed;
-    private float maxHP = 5f;
+    protected float maxHP = 5f;
     private float currentHP;
     private int defense;
     protected float attackDamage = 1f;
