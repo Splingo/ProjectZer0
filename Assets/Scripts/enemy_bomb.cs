@@ -50,6 +50,7 @@ public class enemy_bomb : Enemy
         {
             friendlyTargetScript.TakeDamage(attackDamage);
         }
+        yield return new WaitForSeconds(0.01f);
         TakeDamage(maxHP);
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
