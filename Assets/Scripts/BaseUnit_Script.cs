@@ -19,6 +19,8 @@ public class BaseUnit_Script : MonoBehaviour
 
     protected GameObject hpBarInstance;
 
+    public string unitID;
+
     public bool waiting = false;
     public GridManager gridManager;
     public List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)

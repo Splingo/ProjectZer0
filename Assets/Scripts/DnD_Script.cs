@@ -18,6 +18,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
      private GameObject copyObject;
 
+     public bool isDraggable = false;
+     
+
 
     private void Awake()
     {
@@ -47,7 +50,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
    public void OnBeginDrag(PointerEventData eventData)
     {
-
+       
         initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
         // Erhalten Sie die belegten Zellen für das aktuelle Element
         if (draggedBuilding != null)
@@ -67,10 +70,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 gridManager.ReleaseCells(occupiedBattleCells);
             }
-        if (transform.position.y <= -3.5)
+       /* if (transform.position.y <= -3.5)
         {
             CreateCopy();
-        }
+        }*/
         }
 
         previousPosition = transform.position;
@@ -83,6 +86,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 public void OnDrag(PointerEventData eventData)
 {  
+    
     Vector3 mousePos = Input.mousePosition;
     mousePos.z = 10; // Entfernung der Canvas-Ebene
     Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -130,6 +134,7 @@ public void OnDrag(PointerEventData eventData)
 
 public void OnEndDrag(PointerEventData eventData)
 {
+    
     Vector3 dropPosition = transform.position;
     if (IsWithinAllowedRange(dropPosition))
     {
@@ -261,19 +266,54 @@ private void ApplyBuildingBonus(string buildingType)
         return cellPosition.x >= 0 && cellPosition.x < gridRange.x &&
                cellPosition.y >= 0 && cellPosition.y < gridRange.y;
     }
-   private GameObject CreateCopy()
-    {
-            Debug.Log("+++");
-        
+ private GameObject CreateCopy()
+{
+   // GameObject copy = Instantiate(gameObject); 
+    //copy.transform.SetParent(canvas.transform, false);
+   // copy.transform.position = transform.position;
 
-        GameObject copy = Instantiate(gameObject); // Erzeuge eine Kopie des aktuellen GameObjects
-        // Füge die Kopie zum Battle_Setup_Canvas hinzu oder einem anderen geeigneten Elternobjekt hinzu
-        copy.transform.SetParent(canvas.transform, false);
-        // Setze die Position der Kopie auf die aktuelle Position des Originals
-        copy.transform.position = transform.position;
-        return copy; // Gib die kopierte Instanz zurück
-       
+    GameObject newUnit = Instantiate(gameObject);
+
+
+    // Hier weise die benutzerdefinierte Einheit-ID zu
+    BaseUnit_Script unitScript = newUnit.GetComponent<BaseUnit_Script>(); // Ändere "UnitScript" zu dem Skript, das deine Einheiten-ID verwaltet
+if (unitScript != null)
+{
+        string[] parts = unitScript.unitID.Split(' ');
+    if (unitScript.unitID.Contains("Kopie"))
+    {
+
+        if (parts.Length >= 2 && int.TryParse(parts[1], out int number))
+        {
+            number++; // Erhöhe die Zahl um eins
+             unitScript.unitID = "Kopie " + parts[1] + "." + number;
+        }
+        else
+        {
+            Debug.LogError("Ungültiges Format für die Einheiten-ID.");
+        }
     }
+    else if (unitScript.unitID.Contains("Original"))
+    {
+        // Definiere 'number' und initialisiere sie mit einem Wert
+        int number = 1; // Hier kannst du einen Startwert wählen, z.B. 1
+
+        // Wenn die Einheiten-ID "Original" enthält, ändere sie in "Kopie"
+        unitScript.unitID = "Kopie " + parts[1] + "." + number;
+
+    }
+}
+
+
+
+    else
+    {
+        Debug.LogError("UnitScript nicht gefunden!");
+    }
+
+    return newUnit; // Gib die kopierte Instanz zurück
+}
+
 
 }
 
