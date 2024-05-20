@@ -5,6 +5,14 @@ using UnityEngine;
 public class enemy_bomb : Enemy
 {
     new protected float attackDamage = 10;
+    new protected float maxHP = 5f;
+    Animator animator;
+    public RuntimeAnimatorController animatorController;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     // Update is called once per frame
     new void Update()
@@ -20,8 +28,7 @@ public class enemy_bomb : Enemy
             {
                 if (waiting == false)
                 {
-                    // TODO: doesn't wait 2 seconds for "explosion" yet
-                    StartCoroutine(Wait(2));
+                    animator.Play("Enemy_bomb_explosion");
                     StartCoroutine(AttackWithDelay());
                     waiting = true;
                 }
@@ -33,6 +40,9 @@ public class enemy_bomb : Enemy
     // TODO: bomb should damage more than one target unit. Maybe multiple lanes too?
     new protected IEnumerator AttackWithDelay()
     {
+        // wait 2s before explosion
+        yield return new WaitForSeconds(0.85f);
+
         BaseUnit_Script friendlyTargetScript = targetFriendlyUnit.GetComponent<BaseUnit_Script>();
 
         // If the script is found, deal damage
@@ -40,12 +50,8 @@ public class enemy_bomb : Enemy
         {
             friendlyTargetScript.TakeDamage(attackDamage);
         }
+        TakeDamage(maxHP);
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
-    }
-
-    protected IEnumerator Wait(float delay)
-    {
-        yield return new WaitForSeconds(delay);
     }
 }
