@@ -54,7 +54,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-
+ if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
+        {
         initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
         // Erhalten Sie die belegten Zellen für das aktuelle Element
         if (draggedBuilding != null)
@@ -78,7 +79,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 
         previousPosition = transform.position;
-
+        }
 
     }
 
@@ -88,6 +89,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
+         if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
+        {
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10; // Entfernung der Canvas-Ebene
         Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -126,13 +129,15 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 List<Vector3Int> UnitOccupiedCells = rangedUnit.ReturnOccupiedCells();
                 rangedUnit.hoveringOccupiedCells = rangedUnit.GetOccupiedCells(cellPosition);
             }
-        }
+        }}
     }
 
 
 
     public void OnEndDrag(PointerEventData eventData)
     {
+         if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
+        {
         Vector3 dropPosition = transform.position;
         Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
 
@@ -242,13 +247,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
 
 
-
-
-
-
-
-
-
+        }
     }
 
 
