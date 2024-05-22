@@ -1,26 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit_Inventory : MonoBehaviour
 {
     public int[] unitOnFieldCount;
     public int[] unitInInventoryCount;
+    private GameObject[] unitGameObjects;
 
-    // Start is called before the first frame update
     void Start()
     {
         // Initialize the arrays with 12 elements, each set to 0
         unitOnFieldCount = new int[12];
         unitInInventoryCount = new int[12];
+        unitGameObjects = new GameObject[12]; // Array to store game objects
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    // Method to add a unit to the inventory
     public void AddUnit(int index)
     {
         // Increment unit count in inventory
@@ -30,26 +24,26 @@ public class Unit_Inventory : MonoBehaviour
         unitOnFieldCount[index]++;
     }
 
-    public void RemoveUnit(int index)
+    // Method to remove a unit from the inventory
+    public void RemoveUnit(GameObject unitGameObject)
     {
-        // Decrement unit count in inventory if it's greater than 0
-        if (unitInInventoryCount[index] > 0)
+        int index = FindUnitIndex(unitGameObject);
+        if (index != -1 && unitInInventoryCount[index] > 0)
         {
-            unitInInventoryCount[index]--;
+            unitInInventoryCount[index]--; // Decrement count in inventory
         }
-        else
+    }
+
+    // Method to find the index of a unit in the inventory
+    private int FindUnitIndex(GameObject unitGameObject)
+    {
+        for (int i = 0; i < unitGameObjects.Length; i++)
         {
-            return;
+            if (unitGameObjects[i] == unitGameObject)
+            {
+                return i; // Return the index if found
+            }
         }
-        
-        // Decrement unit count on field if it's greater than 0
-        if (unitOnFieldCount[index] > 0)
-        {
-            unitOnFieldCount[index]--;
-        }
-        else
-        {
-            return;
-        }
+        return -1; // Return -1 if not found
     }
 }

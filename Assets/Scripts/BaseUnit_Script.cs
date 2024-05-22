@@ -19,7 +19,7 @@ public class BaseUnit_Script : MonoBehaviour
 
     protected GameObject hpBarInstance;
 
-    public string unitID;
+    public int unitID;
 
     public bool waiting = false;
     public GridManager gridManager;
