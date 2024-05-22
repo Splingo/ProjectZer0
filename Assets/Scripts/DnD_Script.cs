@@ -54,8 +54,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
    public void OnBeginDrag(PointerEventData eventData)
     {
-         if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
-        {
+
         initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
         // Erhalten Sie die belegten Zellen für das aktuelle Element
         if (draggedBuilding != null)
@@ -67,32 +66,18 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 gridManager.ReleaseCells(occupiedCells);
             }
         }
-        if (baseUnit != null)
-        {
-            List<Vector3Int> occupiedBattleCells = baseUnit.GetOccupiedCells(initialCellPosition);
-            baseUnit.previousOccupiedCells = occupiedBattleCells;
-            if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
-            {
-                gridManager.ReleaseCells(occupiedBattleCells);
-            }
-      /*  if (transform.position.y <= -3.5)
-        {
-            //CreateCopy();
-        }*/
+        if(baseUnit!=null){
+            baseUnit.previousOccupiedCells = baseUnit.GetOccupiedCells(initialCellPosition);
         }
-        if(rangedUnit != null){
-             List<Vector3Int> occupiedBattleCells = rangedUnit.GetOccupiedCells(initialCellPosition);
-            rangedUnit.previousOccupiedCells = occupiedBattleCells;
-            if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
-            {
-                gridManager.ReleaseCells(occupiedBattleCells);
-            }
-        }
+      if (rangedUnit != null)
+{
+            rangedUnit.previousOccupiedCells = baseUnit.GetOccupiedCells(initialCellPosition);
+   
+}
+
+       
         previousPosition = transform.position;
-        }
-        else{
-            return;
-        }
+       
 
     }
 
@@ -130,14 +115,12 @@ public void OnDrag(PointerEventData eventData)
         }
         if (baseUnit != null)
         {
-                Debug.Log("base");
 
             List<Vector3Int> UnitOccupiedCells = baseUnit.ReturnOccupiedCells();
             baseUnit.hoveringOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
         }
           if (rangedUnit != null)
         {
-                Debug.Log("ranged");
 
             List<Vector3Int> UnitOccupiedCells = rangedUnit.ReturnOccupiedCells();
             rangedUnit.hoveringOccupiedCells = rangedUnit.GetOccupiedCells(cellPosition);
@@ -178,14 +161,14 @@ public void OnEndDrag(PointerEventData eventData)
                     return; // Exit early if placement is successful
                 }
             }
-            else if (baseUnit != null)
+             else if (rangedUnit != null)
             {
-                List<Vector3Int> newOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
+                List<Vector3Int> newOccupiedCells = rangedUnit.GetOccupiedCells(cellPosition);
 
                 if (!gridManager.AreCellsOccupied(newOccupiedCells))
                 {
                     // Release the previous occupied cells
-                    gridManager.ReleaseCells(baseUnit.previousOccupiedCells);
+                    gridManager.ReleaseCells(rangedUnit.previousOccupiedCells);
 
                     // Occupy the new cells
                     gridManager.OccupyCells(newOccupiedCells);
@@ -197,14 +180,14 @@ public void OnEndDrag(PointerEventData eventData)
                     return; // Exit early if placement is successful
                 }
             }
-             else if (rangedUnit != null)
+            else if (baseUnit != null)
             {
-                List<Vector3Int> newOccupiedCells = rangedUnit.GetOccupiedCells(cellPosition);
+                List<Vector3Int> newOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
 
                 if (!gridManager.AreCellsOccupied(newOccupiedCells))
                 {
                     // Release the previous occupied cells
-                    gridManager.ReleaseCells(rangedUnit.previousOccupiedCells);
+                    gridManager.ReleaseCells(baseUnit.previousOccupiedCells);
 
                     // Occupy the new cells
                     gridManager.OccupyCells(newOccupiedCells);
@@ -231,16 +214,42 @@ public void OnEndDrag(PointerEventData eventData)
         gridManager.OccupyCells(draggedBuilding.previousOccupiedCells);
     }
 
-    if (baseUnit != null)
+   
+if(baseUnit!=null){
+
+List<Vector3Int> occupiedBattleCells = baseUnit.GetOccupiedCells(initialCellPosition);
+            baseUnit.previousOccupiedCells = occupiedBattleCells;
+            if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
+            {
+                gridManager.ReleaseCells(occupiedBattleCells);
+            }
+    
+    Destroy(gameObject);
+}
+
+if (rangedUnit != null)
+{
+    List<Vector3Int> occupiedBattleCells = rangedUnit.GetOccupiedCells(initialCellPosition);
+    rangedUnit.previousOccupiedCells = occupiedBattleCells;
+
+    // Log the state of gridManager before releasing cells
+
+    if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
     {
-        gridManager.OccupyCells(baseUnit.previousOccupiedCells);
-    }
-     if (rangedUnit != null)
-    {
-        gridManager.OccupyCells(rangedUnit.previousOccupiedCells);
+        gridManager.ReleaseCells(occupiedBattleCells);
     }
 
+    // Log the state of gridManager after releasing cells
+
     Destroy(gameObject);
+}
+
+
+    
+        
+
+    
+
 }
 
 
@@ -311,55 +320,5 @@ private void ApplyBuildingBonus(string buildingType)
     }
 
 }
-/*
 
- private GameObject CreateCopy()
-{
-   // GameObject copy = Instantiate(gameObject); 
-    //copy.transform.SetParent(canvas.transform, false);
-   // copy.transform.position = transform.position;
-
-    GameObject newUnit = Instantiate(gameObject);
-
-
-    // Hier weise die benutzerdefinierte Einheit-ID zu
-    BaseUnit_Script unitScript = newUnit.GetComponent<BaseUnit_Script>(); // Ändere "UnitScript" zu dem Skript, das deine Einheiten-ID verwaltet
-if (unitScript != null)
-{
-        string[] parts = unitScript.unitID.Split(' ');
-    if (unitScript.unitID.Contains("Kopie"))
-    {
-
-        if (parts.Length >= 2 && int.TryParse(parts[1], out int number))
-        {
-            number++; // Erhöhe die Zahl um eins
-             unitScript.unitID = "Kopie " + parts[1] + "." + number;
-        }
-        else
-        {
-            Debug.LogError("Ungültiges Format für die Einheiten-ID.");
-        }
-    }
-    else if (unitScript.unitID.Contains("Original"))
-    {
-        // Definiere 'number' und initialisiere sie mit einem Wert
-        int number = 1; // Hier kannst du einen Startwert wählen, z.B. 1
-
-        // Wenn die Einheiten-ID "Original" enthält, ändere sie in "Kopie"
-        unitScript.unitID = "Kopie " + parts[1] + "." + number;
-
-    }
-}
-
-
-
-    else
-    {
-        Debug.LogError("UnitScript nicht gefunden!");
-    }
-
-    return newUnit; // Gib die kopierte Instanz zurück
-}
-
-*/
 

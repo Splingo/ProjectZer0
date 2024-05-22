@@ -93,7 +93,7 @@ public void OnDrag(PointerEventData eventData)
 
      
         var test = newUnit.GetComponent<DragAndDrop>();
-        test.OnDrag(eventData);
+        test.OnBeginDrag(eventData);
         }
         else{
             return;
