@@ -19,19 +19,19 @@ public class Unit_Inventory : MonoBehaviour
     {
         // Increment unit count in inventory
         unitInInventoryCount[index]++;
-        
+
         // Increment unit count on field
         unitOnFieldCount[index]++;
     }
 
     // Method to remove a unit from the inventory
-    public void RemoveUnit(GameObject unitGameObject)
+    public void RemoveUnit(int index)
     {
-        int index = FindUnitIndex(unitGameObject);
-        if (index != -1 && unitInInventoryCount[index] > 0)
-        {
-            unitInInventoryCount[index]--; // Decrement count in inventory
-        }
+        // Increment unit count in inventory
+        unitInInventoryCount[index]--;
+
+        // Increment unit count on field
+        unitOnFieldCount[index]--;
     }
 
     // Method to find the index of a unit in the inventory
