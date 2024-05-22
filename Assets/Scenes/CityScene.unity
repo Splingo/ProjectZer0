@@ -1158,10 +1158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPrefab: {fileID: 0}
-  battleGrid: {fileID: 0}
-  unit_Inventory: {fileID: 0}
-  unitTypeIndex: 0
+  unitPrefab: {fileID: 4113960784863268462, guid: 03dd1730595614642b99e48689e6d8ef, type: 3}
+  battleGrid: {fileID: 1672334481}
+  unit_Inventory: {fileID: 2048366713}
+  unitTypeIndex: 2
 --- !u!1 &321741820
 GameObject:
   m_ObjectHideFlags: 0
@@ -32167,6 +32167,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2048366713}
+        m_TargetAssemblyTypeName: Unit_Inventory, Assembly-CSharp
+        m_MethodName: AddUnit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2048366713}
         m_TargetAssemblyTypeName: Unit_Inventory, Assembly-CSharp
         m_MethodName: AddUnit
