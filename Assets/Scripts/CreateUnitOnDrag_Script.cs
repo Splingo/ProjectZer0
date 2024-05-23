@@ -14,14 +14,14 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
 
     private GameObject newUnit;
     public Unit_Inventory unit_Inventory;
-     public int unitTypeIndex;
+    public int unitTypeIndex;
 
 
     void Start()
     {
         // Find the Canvas named "Battle_Setup_Canvas"
         canvas = GameObject.Find("Battle_Setup_Canvas").GetComponent<Canvas>();
-          unit_Inventory = FindObjectOfType<Unit_Inventory>();
+        unit_Inventory = FindObjectOfType<Unit_Inventory>();
 
         if (canvas == null)
         {
@@ -31,60 +31,54 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
 
     }
 
-public void OnEndDrag(PointerEventData eventData)
-{
-      if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
-        {
-    if (newUnit != null)
+    public void OnEndDrag(PointerEventData eventData)
     {
-        var test = newUnit.GetComponent<DragAndDrop>();
-        if (test != null)
+        if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
         {
-            test.OnEndDrag(eventData);
+            if (newUnit != null)
+            {
+                var test = newUnit.GetComponent<DragAndDrop>();
+                if (test != null)
+                {
+                    test.OnEndDrag(eventData);
+                }
+            }
         }
-    }}
-}
+    }
 
-public void OnDrag(PointerEventData eventData)
-{
-      if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
-        {
-    if (newUnit != null)
+    public void OnDrag(PointerEventData eventData)
     {
-        var test = newUnit.GetComponent<DragAndDrop>();
-        if (test != null)
+        if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
         {
-            test.OnDrag(eventData);
+            if (newUnit != null)
+            {
+                var test = newUnit.GetComponent<DragAndDrop>();
+                if (test != null)
+                {
+                    test.OnDrag(eventData);
+                }
+            }
         }
-    }}
-}
-
-
+    }
+    
     public void OnBeginDrag(PointerEventData eventData)
+{
+    if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
     {
-           if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
-        {
-        float currentXPosition = -11;
-        // Create a new unit GameObject
-        Vector3 position = new Vector3(currentXPosition, 2f, spawnBasePosition.z);
+        // Konvertiere die Mausposition in Weltkoordinaten
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(canvas.transform as RectTransform, eventData.position, canvas.worldCamera, out Vector3 worldPos);
 
-        newUnit = Instantiate(unitPrefab, position, Quaternion.identity);
+        // Erstellen Sie die newUnit an der konvertierten Mausposition
+        newUnit = Instantiate(unitPrefab, worldPos, Quaternion.identity);
 
-        // Set the parent of the new unit to the Canvas
+        // Setzen Sie den Eltern des neuen Einheitsobjekts auf die Canvas
         newUnit.transform.SetParent(canvas.transform, false);
 
         BaseUnit_Script unitScript = newUnit.GetComponent<BaseUnit_Script>();
 
-        // Find the GridManager and set it to the Battle_Setup grid
-        GridManager gridManager = GameObject.FindObjectOfType<GridManager>();
-        if (gridManager == null)
-        {
-            Debug.LogError("GridManager not found!");
-            return;
-        }
         // Set the gridManager variable of the BaseUnit_Script to the Battle_Setup grid
         unitScript.gridManager = battleGrid;
-       
+
         var dragAndDropScript = newUnit.GetComponent<DragAndDrop>();
         if (dragAndDropScript == null)
         {
@@ -94,12 +88,12 @@ public void OnDrag(PointerEventData eventData)
         dragAndDropScript.gridOffset = gridOffset;
         dragAndDropScript.gridRange = gridRange;
         dragAndDropScript.unitTypeIndex = unitScript.unitID;
-        
+
+        // Weiterleiten des BeginDrag-Ereignisses an das DragAndDrop-Komponente der neuen Einheit
         var test = newUnit.GetComponent<DragAndDrop>();
         test.OnBeginDrag(eventData);
-        }
-        else{
-            return;
-        }
     }
+}
+
+
 }
