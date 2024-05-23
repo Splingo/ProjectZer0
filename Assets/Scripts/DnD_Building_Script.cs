@@ -157,14 +157,18 @@ Vector3 centerCell = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
 
 
 
-
+/// <summary>
+/// 
+/// 
+/// boost soll erst drauf wenn kampf gestartet 
+/// 
+/// 
+/// 
+/// </summary>
+/// <param name="buildingType"></param>
     private void ApplyBuildingBonus(string buildingType)
     {
         BaseUnit_Script[] units = FindObjectsOfType<BaseUnit_Script>();
-    if (units.Length == 0)
-    {
-        Debug.Log("Keine Einheiten gefunden!");
-    }
         foreach (BaseUnit_Script unit in units)
         {
             // Füge hier die Logik hinzu, um den entsprechenden Bonus für den Gebäudetyp anzuwenden

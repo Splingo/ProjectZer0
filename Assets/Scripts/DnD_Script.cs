@@ -13,7 +13,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public Vector3 gridOffset; // Offset basierend auf der Grid-Position
     public Vector2Int gridRange; // Bereich des Rasters, in dem das Objekt platziert werden kann
     private Vector3Int initialCellPosition;
-    private Building_Class draggedBuilding;
     private BaseUnit_Script baseUnit;
     private friendly_ranged rangedUnit;
 
@@ -29,7 +28,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         initialPosition = transform.position; // Speichere die ursprüngliche Position bei Start/Awake
         startPosition = initialPosition;
-        draggedBuilding = GetComponent<Building_Class>();
         baseUnit = GetComponent<BaseUnit_Script>();
         rangedUnit = GetComponent<friendly_ranged>();
 
@@ -61,15 +59,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
                 // Erhalten Sie die belegten Zellen für das aktuelle Element
-                if (draggedBuilding != null)
-                {
-                    List<Vector3Int> occupiedCells = draggedBuilding.GetOccupiedCells(initialCellPosition);
-                    draggedBuilding.previousOccupiedCells = occupiedCells;
-                    if (occupiedCells != null && occupiedCells.Count > 0)
-                    {
-                        gridManager.ReleaseCells(occupiedCells);
-                    }
-                }
+
                 if (baseUnit != null)
                 {
                     baseUnit.previousOccupiedCells = baseUnit.GetOccupiedCells(initialCellPosition);
@@ -119,11 +109,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                         transform.position = cellCenter; // Snappen an die Zellenposition für das Originalobjekt
                     }
 
-                    if (draggedBuilding != null)
-                    {
-                        List<Vector3Int> buildingOccupiedCells = draggedBuilding.ReturnOccupiedCells();
-                        draggedBuilding.hoverungOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
-                    }
+
                     if (baseUnit != null)
                     {
 
@@ -152,34 +138,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 Vector3 dropPosition = transform.position;
                 Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
-
                 if (IsWithinAllowedRange(dropPosition))
                 {
-                    if (draggedBuilding != null)
-                    {
-                        List<Vector3Int> newOccupiedCells = draggedBuilding.GetOccupiedCells(cellPosition);
 
-                        if (!gridManager.AreCellsOccupied(newOccupiedCells))
-                        {
-                            // Release the previous occupied cells
-                            gridManager.ReleaseCells(draggedBuilding.previousOccupiedCells);
-
-                            // Occupy the new cells
-                            gridManager.OccupyCells(newOccupiedCells);
-
-                            // Snap to cell center
-                            Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
-                            transform.position = cellCenter;
-
-                            if (!draggedBuilding.activatedEffect)
-                            {
-                                ApplyBuildingBonus(draggedBuilding.GetBuildingType(draggedBuilding.shape));
-                            }
-
-                            return; // Exit early if placement is successful
-                        }
-                    }
-                    else if (rangedUnit != null)
+                    if (rangedUnit != null)
                     {
                         List<Vector3Int> newOccupiedCells = rangedUnit.GetOccupiedCells(cellPosition);
 
@@ -195,10 +157,13 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                             // Snap to cell center
                             Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
                             transform.position = cellCenter;
-                            unit_Inventory.RemoveUnitFromInventory(1);
+                            
 
-                            if (rangedUnit.onField == false)
+                            if (rangedUnit.onField == false){
+
+                            unit_Inventory.RemoveUnitFromInventory(1);
                                 unit_Inventory.AddUnitToField(1);
+                            }
 
                             rangedUnit.onField = true;
 
@@ -222,10 +187,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                             // Snap to cell center
                             Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
                             transform.position = cellCenter;
-                            unit_Inventory.RemoveUnitFromInventory(0);
 
-                            if (baseUnit.onField == false)
+                            if (baseUnit.onField == false){
+                            unit_Inventory.RemoveUnitFromInventory(0);
                                 unit_Inventory.AddUnitToField(0);
+
+                            }
 
                             baseUnit.onField = true;
                             return; // Exit early if placement is successful
@@ -234,14 +201,11 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                 }
 
-                // Re-occupy previous cells if placement was not successful
-                if (draggedBuilding != null)
-                {
-                    gridManager.OccupyCells(draggedBuilding.previousOccupiedCells);
-                }
+
 
                 if (rangedUnit != null)
                 {
+
                     List<Vector3Int> occupiedBattleCells = rangedUnit.GetOccupiedCells(initialCellPosition);
                     rangedUnit.previousOccupiedCells = occupiedBattleCells;
 
@@ -249,11 +213,13 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                     if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
                     {
+
                         gridManager.ReleaseCells(occupiedBattleCells);
                     }
 
                     // Log the state of gridManager after releasing cells
                     unit_Inventory.AddUnitToInventory(1);
+                    unit_Inventory.RemoveUnitFromField(1);
 
                     Destroy(gameObject);
                 }
@@ -267,6 +233,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                         gridManager.ReleaseCells(occupiedBattleCells);
                     }
                     unit_Inventory.AddUnitToInventory(0);
+                    unit_Inventory.RemoveUnitFromField(0);
 
                     Destroy(gameObject);
                 }
@@ -276,59 +243,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     }
 
 
-
-
-
-
-    private void ApplyBuildingBonus(string buildingType)
-    {
-        BaseUnit_Script[] units = FindObjectsOfType<BaseUnit_Script>();
-        foreach (BaseUnit_Script unit in units)
-        {
-            // Füge hier die Logik hinzu, um den entsprechenden Bonus für den Gebäudetyp anzuwenden
-            switch (buildingType)
-            {
-                case "Schmiede":
-                    Debug.Log("Einheiten erhalten Angriffsbonus durch die Schmiede.");
-                    draggedBuilding.activatedEffect = true;
-                    unit.UpdateAttackDamage(unit.attackDamage + 0.5f);
-                    break;
-                case "Kirche":
-                    Debug.Log("Einheiten erhalten HP durch die Kirche.");
-                    draggedBuilding.activatedEffect = true;
-                    unit.UpdateMaxHP(unit.maxHP + 10f);
-                    break;
-                case "Turm":
-                    Debug.Log("Einheiten erhalten Range durch den Turm.");
-                    draggedBuilding.activatedEffect = true;
-                    unit.UpdateAttackRange(unit.attackRange + 0.15f);
-                    break;
-                case "Rathaus":
-                    Debug.Log("Stadt erhält mehr Einheiten durch das Rathaus.");
-                    draggedBuilding.activatedEffect = true;
-                    break;
-                case "Bank":
-                    Debug.Log("Stadt erhält mehr Gold durch die Bank.");
-                    draggedBuilding.activatedEffect = true;
-                    break;
-                case "Taverne":
-                    Debug.Log("Einheiten erhalten AttakSpeed durch die Taverne.");
-                    draggedBuilding.activatedEffect = true;
-                    unit.UpdateAttackSpeed(unit.attackSpeed + 0.2f);
-                    break;
-                case "Shop":
-                    Debug.Log("Man kann einkaufen.");
-                    draggedBuilding.activatedEffect = true;
-                    break;
-                case "Bewohner":
-                    Debug.Log("Prduktivität steigt um Prozente");
-                    draggedBuilding.activatedEffect = true;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 
     private bool IsWithinAllowedRange(Vector3 position)
     {
