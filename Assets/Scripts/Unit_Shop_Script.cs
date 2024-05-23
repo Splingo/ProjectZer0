@@ -16,7 +16,7 @@ public class Unit_Shop_Script : MonoBehaviour
         randomNumber = Random.Range(0, 12);
         Sprite newSprite = sprites[randomNumber]; 
             targetObject.GetComponent<Image>().sprite = newSprite;
-            
+
        
     }
 
@@ -29,10 +29,6 @@ public class Unit_Shop_Script : MonoBehaviour
     {
 
         unit_Inventory = FindObjectOfType<Unit_Inventory>();
-        //unit 0- 11(einfach zahl rollen)
-        // rnd = 10
-        //schauen das nicht 2 mal das selbe 
-        // setzte bei add unit unittypeindex = 10
        setRandomUnit();
     }
 

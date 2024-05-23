@@ -102,6 +102,8 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
+  unitTypeIndex: 1
 --- !u!222 &1959087753290337482
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -211,11 +213,13 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 1.05
   targetEnemyUnit: {fileID: 0}
+  unitID: 1
   waiting: 0
   gridManager: {fileID: 0}
   occupiedCells: []
   previousOccupiedCells: []
   hoveringOccupiedCells: []
+  onField: 0
   bullet: {fileID: 8188667778111511395, guid: 9b7269a2e48f85f4c93fc3600c6f0a54, type: 3}
 --- !u!114 &224916893161348612
 MonoBehaviour:
@@ -236,8 +240,10 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 1.05
   targetEnemyUnit: {fileID: 0}
+  unitID: 0
   waiting: 0
   gridManager: {fileID: 0}
   occupiedCells: []
   previousOccupiedCells: []
   hoveringOccupiedCells: []
+  onField: 0
