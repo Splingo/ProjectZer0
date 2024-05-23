@@ -101,6 +101,8 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  unit_Inventory: {fileID: 0}
+  unitTypeIndex: 0
 --- !u!222 &6610312314687366500
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -203,6 +205,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece63b7e126d4e84d9e93167fcacab34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHP: 10
+  currentHP: 0
+  defense: 0
+  attackDamage: 1
+  attackSpeed: 1
+  attackRange: 1.05
+  targetEnemyUnit: {fileID: 0}
+  unitID: 0
   waiting: 0
   gridManager: {fileID: 0}
   occupiedCells: []

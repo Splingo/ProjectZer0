@@ -15,22 +15,24 @@ public class Unit_Inventory : MonoBehaviour
     }
 
     // Method to add a unit to the inventory
-    public void AddUnit(int index)
+    public void AddUnitToInventory(int index)
     {
-        // Increment unit count in inventory
         unitInInventoryCount[index]++;
-
-        // Increment unit count on field
+    }
+    public void AddUnitToField(int index){
         unitOnFieldCount[index]++;
     }
 
     // Method to remove a unit from the inventory
-    public void RemoveUnit(int index)
+    public void RemoveUnitFromInventory(int index)
     {
-        // Increment unit count in inventory
+        if(unitInInventoryCount[index] >0){
         unitInInventoryCount[index]--;
-
-        // Increment unit count on field
+        }
+    }
+    
+    public void RemoveUnitFromField(int index)
+    {
         unitOnFieldCount[index]--;
     }
 

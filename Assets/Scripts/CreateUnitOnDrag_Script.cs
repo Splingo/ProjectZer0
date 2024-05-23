@@ -94,8 +94,7 @@ public void OnDrag(PointerEventData eventData)
         dragAndDropScript.gridOffset = gridOffset;
         dragAndDropScript.gridRange = gridRange;
         dragAndDropScript.unitTypeIndex = unitScript.unitID;
-
-     
+        
         var test = newUnit.GetComponent<DragAndDrop>();
         test.OnBeginDrag(eventData);
         }
