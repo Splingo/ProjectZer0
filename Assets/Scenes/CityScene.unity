@@ -433,11 +433,11 @@ GameObject:
   m_Component:
   - component: {fileID: 145475846}
   - component: {fileID: 145475852}
-  - component: {fileID: 145475851}
   - component: {fileID: 145475850}
   - component: {fileID: 145475849}
   - component: {fileID: 145475848}
   - component: {fileID: 145475847}
+  - component: {fileID: 145475853}
   m_Layer: 0
   m_Name: Church
   m_TagString: Untagged
@@ -579,23 +579,6 @@ MonoBehaviour:
   hoverungOccupiedCells: []
   activatedEffect: 0
   shape: 6
---- !u!114 &145475851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145475845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b71062ab37bd452479e656f62f78a8f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridManager: {fileID: 1198298923}
-  gridOffset: {x: 0, y: 0, z: 0}
-  gridRange: {x: 0, y: 0}
-  unit_Inventory: {fileID: 0}
-  unitTypeIndex: 0
 --- !u!61 &145475852
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -631,7 +614,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.6333333}
     oldSize: {x: 3, y: 4}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -641,6 +624,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &145475853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145475845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b443d0e45a3c646a7c24124cfb59d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 1198298923}
+  gridOffset: {x: 0, y: 0, z: 0}
+  gridRange: {x: 0, y: 0}
 --- !u!1 &149716302
 GameObject:
   m_ObjectHideFlags: 0
@@ -34184,11 +34182,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1504509230}
   - component: {fileID: 1504509236}
-  - component: {fileID: 1504509235}
   - component: {fileID: 1504509234}
   - component: {fileID: 1504509233}
   - component: {fileID: 1504509232}
   - component: {fileID: 1504509231}
+  - component: {fileID: 1504509237}
   m_Layer: 0
   m_Name: shop2x1
   m_TagString: Untagged
@@ -34212,8 +34210,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.13, y: -1.4}
-  m_SizeDelta: {x: 2, y: 2}
+  m_AnchoredPosition: {x: -5.61, y: -0.69}
+  m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1504509231
 SpriteRenderer:
@@ -34330,23 +34328,6 @@ MonoBehaviour:
   hoverungOccupiedCells: []
   activatedEffect: 0
   shape: 3
---- !u!114 &1504509235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1504509229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b71062ab37bd452479e656f62f78a8f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridManager: {fileID: 0}
-  gridOffset: {x: 0, y: 0, z: 0}
-  gridRange: {x: 0, y: 0}
-  unit_Inventory: {fileID: 0}
-  unitTypeIndex: 0
 --- !u!61 &1504509236
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -34382,7 +34363,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.25, y: 0.5}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 2, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -34390,8 +34371,23 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1504509237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504509229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b443d0e45a3c646a7c24124cfb59d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 1198298923}
+  gridOffset: {x: 0, y: 0, z: 0}
+  gridRange: {x: 0, y: 0}
 --- !u!1 &1522696716
 GameObject:
   m_ObjectHideFlags: 0
@@ -37033,11 +37029,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1779062544}
   - component: {fileID: 1779062549}
-  - component: {fileID: 1779062548}
   - component: {fileID: 1779062550}
   - component: {fileID: 1779062547}
   - component: {fileID: 1779062546}
   - component: {fileID: 1779062545}
+  - component: {fileID: 1779062551}
   m_Layer: 0
   m_Name: Bewohner
   m_TagString: Untagged
@@ -37154,23 +37150,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779062543}
   m_CullTransparentMesh: 1
---- !u!114 &1779062548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779062543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b71062ab37bd452479e656f62f78a8f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridManager: {fileID: 1198298923}
-  gridOffset: {x: 0, y: 0, z: 0}
-  gridRange: {x: 0, y: 0}
-  unit_Inventory: {fileID: 0}
-  unitTypeIndex: 0
 --- !u!61 &1779062549
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -37241,6 +37220,21 @@ MonoBehaviour:
   hoverungOccupiedCells: []
   activatedEffect: 0
   shape: 1
+--- !u!114 &1779062551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779062543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b443d0e45a3c646a7c24124cfb59d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 1198298923}
+  gridOffset: {x: 0, y: 0, z: 0}
+  gridRange: {x: 0, y: 0}
 --- !u!1 &1783212436
 GameObject:
   m_ObjectHideFlags: 0
@@ -38058,6 +38052,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitOnFieldCount: 
   unitInInventoryCount: 
+  unitGameObjects:
+  - {fileID: 1400708120}
+  - {fileID: 617731803}
+  - {fileID: 320721784}
+  - {fileID: 577617826}
+  - {fileID: 2029118812}
+  - {fileID: 1671072812}
+  - {fileID: 1393314222}
+  - {fileID: 907909987}
+  - {fileID: 1524118790}
+  - {fileID: 1173272842}
+  - {fileID: 1274396734}
+  - {fileID: 751307810}
 --- !u!1 &2050803213
 GameObject:
   m_ObjectHideFlags: 0
