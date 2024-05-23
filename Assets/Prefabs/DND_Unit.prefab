@@ -131,7 +131,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 19b801956ae434a4a987bbfac4d62c81, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -218,3 +218,4 @@ MonoBehaviour:
   occupiedCells: []
   previousOccupiedCells: []
   hoveringOccupiedCells: []
+  onField: 0
