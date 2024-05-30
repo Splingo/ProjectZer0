@@ -70,7 +70,7 @@ public class enemy_ghost : Enemy
         return distance <= attackRange;
     }
 
-    protected void DetectFriendlyUnit()
+    new protected void DetectFriendlyUnit()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(
             transform.position,
