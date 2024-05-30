@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     private System.Random rand = new System.Random();
-    protected float movementSpeed;
-    protected float maxHP = 5f;
-    private float currentHP;
+    public float movementSpeed;
+    public float maxHP = 5f;
+    public float currentHP;
     private int defense;
     protected float attackDamage = 1f;
     protected float attackSpeed = 1f;

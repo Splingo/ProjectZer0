@@ -68,21 +68,6 @@ public class friendly_angel : BaseUnit_Script
     }
 
 
-    private void UpdateHPBar()
-    {
-        if (hpBarInstance != null)
-        {
-            Image hpBarImage = hpBarInstance.GetComponent<Image>();
-
-            if (hpBarImage != null)
-            {
-                float fillAmount = currentHP / maxHP;
-                hpBarImage.fillAmount = fillAmount;
-            }
-        }
-    }
-
-
     new public void TakeDamage(float damage)
     {
         currentHP -= damage;
