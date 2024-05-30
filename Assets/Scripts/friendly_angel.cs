@@ -10,8 +10,9 @@ public class friendly_angel : BaseUnit_Script
     private float healAmount = 2f;
     private new bool waiting = false;
 
-    private GameObject rangeCircle;
+    private GameObject rangeCircle;   
     private LineRenderer lineRenderer;
+    bool waitForCircle = false;
 
     private new void Start()
     {
@@ -34,7 +35,7 @@ public class friendly_angel : BaseUnit_Script
         lineRenderer.endColor = new Color(0, 1, 0, 0.7f); // Semi-transparent green
         lineRenderer.sortingLayerName = "New Layer 3";
         lineRenderer.useWorldSpace = false;
-        DrawHealingRadius(lineRenderer);
+        DrawHealingRadius(lineRenderer, 0.7f);
         StartCoroutine(FadeOutLineRenderer(rangeCircle.GetComponent<LineRenderer>(), 4.0f));
     }
     private void Update()
@@ -56,8 +57,11 @@ public class friendly_angel : BaseUnit_Script
 
     IEnumerator HealWithDelay()
     {
-        DrawHealingRadius(lineRenderer);
-        StartCoroutine(FadeOutLineRenderer(lineRenderer, 0.5f));
+        if (!waitForCircle)
+        {
+            DrawHealingRadius(lineRenderer, 0.1f);
+            StartCoroutine(FadeOutLineRenderer(lineRenderer, 0.5f));
+        }
         HealNearbyUnits();
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
@@ -110,7 +114,7 @@ public class friendly_angel : BaseUnit_Script
         }
     }
 
-    private void DrawHealingRadius(LineRenderer lineRenderer)
+    private void DrawHealingRadius(LineRenderer lineRenderer, float startOpacity)
     {
         float deltaTheta = (2f * Mathf.PI) / lineRenderer.positionCount;
         float theta = 0f;
@@ -125,8 +129,8 @@ public class friendly_angel : BaseUnit_Script
         }
 
         // Reset opacity
-        lineRenderer.startColor = new Color(0, 1, 0, 0.1f);
-        lineRenderer.endColor = new Color(0, 1, 0, 0.1f);
+        lineRenderer.startColor = new Color(0, 1, 0, startOpacity);
+        lineRenderer.endColor = new Color(0, 1, 0, startOpacity);
     }
 
 
@@ -138,15 +142,14 @@ public class friendly_angel : BaseUnit_Script
 
         while (elapsedTime < fadeDuration)
         {
+            waitForCircle = true;
             elapsedTime += Time.deltaTime;
             Color currentColor = Color.Lerp(startColor, endColor, elapsedTime / fadeDuration);
             lineRenderer.startColor = currentColor;
             lineRenderer.endColor = currentColor;
             yield return null;
+            waitForCircle = false;
         }
-
-        lineRenderer.startColor = endColor;
-        lineRenderer.endColor = endColor;
     }
 
 }
