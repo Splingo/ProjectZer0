@@ -15,7 +15,7 @@ public class BaseUnit_Script : MonoBehaviour
 
     public GameObject targetEnemyUnit;
 
-    protected GameObject hpBarPrefab;
+    public GameObject hpBarPrefab;
 
     protected GameObject hpBarInstance;
 
@@ -95,12 +95,14 @@ public class BaseUnit_Script : MonoBehaviour
 
     private void CreateHPBar()
     {
-        if (hpBarPrefab != null)
-        {
-            hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
-            hpBarInstance.transform.SetParent(transform);
-            UpdateHPBar(); // Call UpdateHPBar immediately after creating hpBarInstance
-        }
+        hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
+        hpBarInstance.transform.SetParent(transform);
+        //if (hpBarPrefab != null)
+        //{
+        //    hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
+        //    hpBarInstance.transform.SetParent(transform);
+        //    UpdateHPBar(); // Call UpdateHPBar immediately after creating hpBarInstance
+        //}
     }
 
     private void UpdateHPBar()
@@ -235,4 +237,11 @@ public class BaseUnit_Script : MonoBehaviour
     {
         attackSpeed = newValue;
     }
+
+    public void Heal(float healAmount)
+    {
+        currentHP = Mathf.Min(maxHP, currentHP + healAmount);
+        UpdateHPBar();
+    }
+
 }
