@@ -35345,10 +35345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPrefab: {fileID: 0}
-  battleGrid: {fileID: 0}
-  unit_Inventory: {fileID: 0}
-  unitTypeIndex: 0
+  unitPrefab: {fileID: 1485195381396477570, guid: 3bfdbd1058a39ab40b727f3ddab99579, type: 3}
+  battleGrid: {fileID: 1672334481}
+  unit_Inventory: {fileID: 2048366713}
+  unitTypeIndex: 5
 --- !u!1 &1672334479
 GameObject:
   m_ObjectHideFlags: 0
@@ -37694,10 +37694,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPrefab: {fileID: 0}
-  battleGrid: {fileID: 0}
-  unit_Inventory: {fileID: 0}
-  unitTypeIndex: 0
+  unitPrefab: {fileID: 1485195381396477570, guid: 5c003d09b26caf744836ed929cfcce76, type: 3}
+  battleGrid: {fileID: 1672334481}
+  unit_Inventory: {fileID: 2048366713}
+  unitTypeIndex: 4
 --- !u!1 &2048366708
 GameObject:
   m_ObjectHideFlags: 0

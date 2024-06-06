@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1824416237052120472}
   - component: {fileID: 9130911073883519041}
   m_Layer: 0
-  m_Name: dnd_angel 1
+  m_Name: angel_dnd_lvl2
   m_TagString: FriendlyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,6 +191,8 @@ MonoBehaviour:
   previousOccupiedCells: []
   hoveringOccupiedCells: []
   onField: 0
+  level: 2
+  healRange: 1.2
 --- !u!95 &1824416237052120472
 Animator:
   serializedVersion: 5

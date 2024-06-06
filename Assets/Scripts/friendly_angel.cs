@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class friendly_angel : BaseUnit_Script
 {
-    private float healRange = 1.2f;
+    public int level;
+    public float healRange = 1.2f; // covers 9 fields
     private float healAmount = 2f;
     private new bool waiting = false;
 
@@ -18,6 +19,9 @@ public class friendly_angel : BaseUnit_Script
     {
         // call Start in BaseUnit class
         base.Start();
+
+        // set stats based on level
+        SetStats(level);
 
         // Create a new GameObject for the healing circle and configure it
         rangeCircle = new GameObject("RangeCircle");
@@ -35,9 +39,24 @@ public class friendly_angel : BaseUnit_Script
         lineRenderer.endColor = new Color(0, 1, 0, 0.7f); // Semi-transparent green
         lineRenderer.sortingLayerName = "New Layer 3";
         lineRenderer.useWorldSpace = false;
-        DrawHealingRadius(lineRenderer, 0.7f);
+
+        if (level == 1)
+        {
+            DrawHealingRectangle(lineRenderer, 0.7f); // Draw rectangular healing area for level 1
+        }
+        else if(level == 2)
+        {
+            DrawHealingRadius(lineRenderer, 0.7f);
+        }
+        else if (level == 3)
+        {
+            DrawHealingRadius(lineRenderer, 0.7f);
+        }
+
         StartCoroutine(FadeOutLineRenderer(rangeCircle.GetComponent<LineRenderer>(), 4.0f));
     }
+
+
     private void Update()
     {
         if (transform.hasChanged)
@@ -55,11 +74,40 @@ public class friendly_angel : BaseUnit_Script
         }
     }
 
+    protected void SetStats(int level)
+    {
+        if (level == 1)
+        {
+            this.healRange = 0.5f; // not really needed
+        }
+        else if (level == 2)
+        {
+            this.healRange = 0.6f; // circle covers 5 fields (cross)
+        }
+        else if (level == 3)
+        {
+            this.healRange = 1.4f; // circle covers 9 fields
+        }
+    }
+
+
     IEnumerator HealWithDelay()
     {
         if (!waitForCircle)
         {
-            DrawHealingRadius(lineRenderer, 0.1f);
+            if (level == 1)
+            {
+                DrawHealingRectangle(lineRenderer, 0.2f);
+            }
+            else if (level == 2)
+            {
+                DrawHealingRadius(lineRenderer, 0.2f);
+            }
+            else if (level == 3)
+            {
+                DrawHealingRadius(lineRenderer, 0.2f);
+            }
+
             StartCoroutine(FadeOutLineRenderer(lineRenderer, 0.5f));
         }
         HealNearbyUnits();
@@ -69,7 +117,16 @@ public class friendly_angel : BaseUnit_Script
 
     private void HealNearbyUnits()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, healRange);
+        Collider2D[] colliders;
+
+        if (level == 1)
+        {
+            colliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(2.8f, 0.9f), 0);
+        }
+        else
+        {
+            colliders = Physics2D.OverlapCircleAll(transform.position, healRange);
+        }
 
         foreach (Collider2D collider in colliders)
         {
@@ -87,7 +144,16 @@ public class friendly_angel : BaseUnit_Script
 
     protected bool IsAnyFriendlyInRange()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, healRange);
+        Collider2D[] colliders;
+
+        if (level == 1)
+        {
+            colliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(2.8f, 0.9f), 0);
+        }
+        else
+        {
+            colliders = Physics2D.OverlapCircleAll(transform.position, healRange);
+        }
 
         foreach (Collider2D collider in colliders)
         {
@@ -133,6 +199,26 @@ public class friendly_angel : BaseUnit_Script
         lineRenderer.endColor = new Color(0, 1, 0, startOpacity);
     }
 
+    private void DrawHealingRectangle(LineRenderer lineRenderer, float startOpacity)
+    {
+        float width = 2.8f;
+        float height = 0.9f;
+        Vector3[] rectangleCorners = new Vector3[]
+        {
+            new Vector3(-width / 2, -height / 2, 0),
+            new Vector3(-width / 2, height / 2, 0),
+            new Vector3(width / 2, height / 2, 0),
+            new Vector3(width / 2, -height / 2, 0),
+            new Vector3(-width / 2, -height / 2, 0) // close the rectangle
+        };
+
+        lineRenderer.positionCount = rectangleCorners.Length;
+        lineRenderer.SetPositions(rectangleCorners);
+
+        // Reset opacity
+        lineRenderer.startColor = new Color(0, 1, 0, startOpacity);
+        lineRenderer.endColor = new Color(0, 1, 0, startOpacity);
+    }
 
     IEnumerator FadeOutLineRenderer(LineRenderer lineRenderer, float fadeDuration)
     {
