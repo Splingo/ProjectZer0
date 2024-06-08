@@ -55,7 +55,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (unit_Inventory != null)
         {
 
-            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
+            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
             {
                 
                 initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
@@ -85,7 +85,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         if (unit_Inventory != null)
         {
-                Debug.Log("lol");
 
             if (unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
             {
@@ -113,14 +112,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                     if (baseUnit != null)
                     {
-
-                        List<Vector3Int> UnitOccupiedCells = baseUnit.ReturnOccupiedCells();
+                        Debug.Log("innne");
                         baseUnit.hoveringOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
                     }
                     if (rangedUnit != null)
                     {
 
-                        List<Vector3Int> UnitOccupiedCells = rangedUnit.ReturnOccupiedCells();
                         rangedUnit.hoveringOccupiedCells = rangedUnit.GetOccupiedCells(cellPosition);
                     }
                 }
@@ -135,7 +132,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (unit_Inventory != null)
         {
 
-            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
+            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
             {
                 Vector3 dropPosition = transform.position;
                 Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
@@ -231,7 +228,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     baseUnit.previousOccupiedCells = occupiedBattleCells;
                     if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
                     {
-                        gridManager.ReleaseCells(occupiedBattleCells);
+                        gridManager.ReleaseCells(baseUnit.previousOccupiedCells);
                     }
                     unit_Inventory.AddUnitToInventory(0);
                     unit_Inventory.RemoveUnitFromField(0);

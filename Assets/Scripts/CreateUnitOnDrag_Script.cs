@@ -33,7 +33,7 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
+        if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0)
         {
             if (newUnit != null)
             {
@@ -48,11 +48,9 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
 
     public void OnDrag(PointerEventData eventData)
     {
-Debug.Log("test 1");
 
         if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0)
         {
-Debug.Log("test 2");
             if (newUnit != null)
             {
                 var test = newUnit.GetComponent<DragAndDrop>();
