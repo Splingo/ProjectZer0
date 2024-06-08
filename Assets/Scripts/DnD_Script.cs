@@ -159,7 +159,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                             if (rangedUnit.onField == false){
 
-                            unit_Inventory.RemoveUnitFromInventory(1);
                                 unit_Inventory.AddUnitToField(1);
                             }
 
@@ -196,7 +195,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                             return; // Exit early if placement is successful
                         }
                     }
-
+                    if(unit_Inventory.unitInInventoryCount[unitTypeIndex] == 0){
+                            
+                    }
                 }
 
 
@@ -212,12 +213,16 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
                     {
 
-                        gridManager.ReleaseCells(occupiedBattleCells);
+                        gridManager.ReleaseCells(rangedUnit.previousOccupiedCells);
                     }
 
                     // Log the state of gridManager after releasing cells
                     unit_Inventory.AddUnitToInventory(1);
                     unit_Inventory.RemoveUnitFromField(1);
+                     GameObject unit1 = GameObject.Find("Unit_1");
+                   CreateUnitOnDrag_Script createUnitOnDragScript = unit1.GetComponent<CreateUnitOnDrag_Script>();
+                    createUnitOnDragScript.enabled = true;
+
 
                     Destroy(gameObject);
                 }
@@ -232,6 +237,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     }
                     unit_Inventory.AddUnitToInventory(0);
                     unit_Inventory.RemoveUnitFromField(0);
+                     GameObject unit1 = GameObject.Find("Unit_0");
+                   CreateUnitOnDrag_Script createUnitOnDragScript = unit1.GetComponent<CreateUnitOnDrag_Script>();
+                    createUnitOnDragScript.enabled = true;
 
                     Destroy(gameObject);
                 }

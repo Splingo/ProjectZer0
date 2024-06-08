@@ -42,6 +42,9 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
                 {
                     test.OnEndDrag(eventData);
                 }
+                if(unit_Inventory.unitInInventoryCount[unitTypeIndex] == 0){
+                    this.enabled = false;
+                }
             }
         }
     }
@@ -65,7 +68,7 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
     public void OnBeginDrag(PointerEventData eventData)
 {
 
-    if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
+    if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 1)
     {
         // Konvertiere die Mausposition in Weltkoordinaten
         RectTransformUtility.ScreenPointToWorldPointInRectangle(canvas.transform as RectTransform, eventData.position, canvas.worldCamera, out Vector3 worldPos);
