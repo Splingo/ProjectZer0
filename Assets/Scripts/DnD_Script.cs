@@ -57,6 +57,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
             if (unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
             {
+                
                 initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
                 // Erhalten Sie die belegten Zellen für das aktuelle Element
 
@@ -69,7 +70,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     rangedUnit.previousOccupiedCells = baseUnit.GetOccupiedCells(initialCellPosition);
 
                 }
-
 
                 previousPosition = transform.position;
             }
@@ -85,8 +85,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         if (unit_Inventory != null)
         {
+                Debug.Log("lol");
 
-            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
+            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
             {
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.z = 10; // Entfernung der Canvas-Ebene
@@ -189,7 +190,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                             transform.position = cellCenter;
 
                             if (baseUnit.onField == false){
-                            unit_Inventory.RemoveUnitFromInventory(0);
+                            //unit_Inventory.RemoveUnitFromInventory(0);
                                 unit_Inventory.AddUnitToField(0);
 
                             }
