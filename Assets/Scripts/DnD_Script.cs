@@ -55,8 +55,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (unit_Inventory != null)
         {
 
-            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
+            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
             {
+                
                 initialCellPosition = gridManager.gridTilemap.WorldToCell(transform.position);
                 // Erhalten Sie die belegten Zellen für das aktuelle Element
 
@@ -69,7 +70,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     rangedUnit.previousOccupiedCells = baseUnit.GetOccupiedCells(initialCellPosition);
 
                 }
-
 
                 previousPosition = transform.position;
             }
@@ -86,7 +86,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (unit_Inventory != null)
         {
 
-            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
+            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
             {
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.z = 10; // Entfernung der Canvas-Ebene
@@ -112,14 +112,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                     if (baseUnit != null)
                     {
-
-                        List<Vector3Int> UnitOccupiedCells = baseUnit.ReturnOccupiedCells();
+                        Debug.Log("innne");
                         baseUnit.hoveringOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
                     }
                     if (rangedUnit != null)
                     {
 
-                        List<Vector3Int> UnitOccupiedCells = rangedUnit.ReturnOccupiedCells();
                         rangedUnit.hoveringOccupiedCells = rangedUnit.GetOccupiedCells(cellPosition);
                     }
                 }
@@ -134,7 +132,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (unit_Inventory != null)
         {
 
-            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
+            if (unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0 || unit_Inventory.unitOnFieldCount[unitTypeIndex] > 0)
             {
                 Vector3 dropPosition = transform.position;
                 Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
@@ -161,7 +159,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                             if (rangedUnit.onField == false){
 
-                            unit_Inventory.RemoveUnitFromInventory(1);
                                 unit_Inventory.AddUnitToField(1);
                             }
 
@@ -189,7 +186,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                             transform.position = cellCenter;
 
                             if (baseUnit.onField == false){
-                            unit_Inventory.RemoveUnitFromInventory(0);
+                            //unit_Inventory.RemoveUnitFromInventory(0);
                                 unit_Inventory.AddUnitToField(0);
 
                             }
@@ -198,7 +195,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                             return; // Exit early if placement is successful
                         }
                     }
-
+                    if(unit_Inventory.unitInInventoryCount[unitTypeIndex] == 0){
+                            
+                    }
                 }
 
 
@@ -214,12 +213,16 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
                     {
 
-                        gridManager.ReleaseCells(occupiedBattleCells);
+                        gridManager.ReleaseCells(rangedUnit.previousOccupiedCells);
                     }
 
                     // Log the state of gridManager after releasing cells
                     unit_Inventory.AddUnitToInventory(1);
                     unit_Inventory.RemoveUnitFromField(1);
+                     GameObject unit1 = GameObject.Find("Unit_1");
+                   CreateUnitOnDrag_Script createUnitOnDragScript = unit1.GetComponent<CreateUnitOnDrag_Script>();
+                    createUnitOnDragScript.enabled = true;
+
 
                     Destroy(gameObject);
                 }
@@ -230,10 +233,13 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     baseUnit.previousOccupiedCells = occupiedBattleCells;
                     if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
                     {
-                        gridManager.ReleaseCells(occupiedBattleCells);
+                        gridManager.ReleaseCells(baseUnit.previousOccupiedCells);
                     }
                     unit_Inventory.AddUnitToInventory(0);
                     unit_Inventory.RemoveUnitFromField(0);
+                     GameObject unit1 = GameObject.Find("Unit_0");
+                   CreateUnitOnDrag_Script createUnitOnDragScript = unit1.GetComponent<CreateUnitOnDrag_Script>();
+                    createUnitOnDragScript.enabled = true;
 
                     Destroy(gameObject);
                 }

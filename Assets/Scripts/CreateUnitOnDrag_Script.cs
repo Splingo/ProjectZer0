@@ -33,7 +33,7 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
+        if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0)
         {
             if (newUnit != null)
             {
@@ -42,13 +42,17 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
                 {
                     test.OnEndDrag(eventData);
                 }
+                if(unit_Inventory.unitInInventoryCount[unitTypeIndex] == 0){
+                    this.enabled = false;
+                }
             }
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
+
+        if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 0)
         {
             if (newUnit != null)
             {
@@ -63,7 +67,8 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
     
     public void OnBeginDrag(PointerEventData eventData)
 {
-    if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] > 0)
+
+    if (unit_Inventory != null && unit_Inventory.unitInInventoryCount[unitTypeIndex] >= 1)
     {
         // Konvertiere die Mausposition in Weltkoordinaten
         RectTransformUtility.ScreenPointToWorldPointInRectangle(canvas.transform as RectTransform, eventData.position, canvas.worldCamera, out Vector3 worldPos);
@@ -88,7 +93,10 @@ public class CreateUnitOnDrag_Script : MonoBehaviour, IBeginDragHandler, IDragHa
         dragAndDropScript.gridOffset = gridOffset;
         dragAndDropScript.gridRange = gridRange;
         dragAndDropScript.unitTypeIndex = unitScript.unitID;
+         int prefabUnitTypeIndex = dragAndDropScript.unitTypeIndex;
 
+        // Entfernen der Einheit aus dem Inventar unter Verwendung des abgerufenen unitTypeIndex
+        unit_Inventory.RemoveUnitFromInventory(prefabUnitTypeIndex);
         // Weiterleiten des BeginDrag-Ereignisses an das DragAndDrop-Komponente der neuen Einheit
         var test = newUnit.GetComponent<DragAndDrop>();
         test.OnBeginDrag(eventData);
