@@ -35286,7 +35286,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c819edfd779609d45ac93143c0e92c02, type: 3}
+  m_Sprite: {fileID: -345104643, guid: c0c0a438348877649a18813d54f70797, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -37636,7 +37636,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9c41dfc5de2144341aa6ffa8488c6c78, type: 3}
+  m_Sprite: {fileID: -1608434390, guid: de013f33fcf704942ae14605b7492537, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -37695,7 +37695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPrefab: {fileID: 1485195381396477570, guid: 5c003d09b26caf744836ed929cfcce76, type: 3}
+  unitPrefab: {fileID: 1485195381396477570, guid: b5a03cd6a295b544094e41342a4a2e1a, type: 3}
   battleGrid: {fileID: 1672334481}
   unit_Inventory: {fileID: 2048366713}
   unitTypeIndex: 4
@@ -43690,7 +43690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604267030043749459c614664c6a2201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPrefab: {fileID: 1485195381396477570, guid: b5a03cd6a295b544094e41342a4a2e1a, type: 3}
+  unitPrefab: {fileID: 1485195381396477570, guid: 5c003d09b26caf744836ed929cfcce76, type: 3}
   battleGrid: {fileID: 1672334481}
   unit_Inventory: {fileID: 2048366713}
   unitTypeIndex: 3
@@ -43742,7 +43742,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1503324233, guid: cfda0845bd7c8a648940bfda082aa5aa, type: 3}
+  m_Sprite: {fileID: 2100632157, guid: 313dc8c3fa889c543b68e6a4135ac036, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
