@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -15,6 +16,7 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
     private Vector3Int initialCellPosition;
     private Building_Class draggedBuilding;
     private GameObject copyObject;
+    private bool freshSpawn = true;
 
     private void Awake()
     {
@@ -110,11 +112,27 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
                     Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
                     transform.position = cellCenter;
 
-                    if (!draggedBuilding.activatedEffect)
+                    if (draggedBuilding.activatedEffect == true)
                     {
                         ApplyBuildingBonus(draggedBuilding.GetBuildingType(draggedBuilding.shape));
                     }
+                    if(freshSpawn == true){
 
+                    GameObject rerollButtonObject = GameObject.Find("Building_Reroll_Button");
+
+                    if (rerollButtonObject != null)
+                    {
+                        Button buttonComponent = rerollButtonObject.GetComponent<Button>();
+
+                        if (buttonComponent != null)
+                        {
+                            // Klicken Sie auf den Button, um das neue Prefab zu erstellen
+                            buttonComponent.onClick.Invoke();
+                        }
+                    }
+                    freshSpawn = false;
+                    }
+                   
                     return; // Exit early if placement is successful
                 }
                 else
@@ -130,7 +148,6 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
             SnapBackToPreviousPosition();
         }
     }
-
     private void SnapBackToPreviousPosition()
     {
         if (draggedBuilding != null && draggedBuilding.previousOccupiedCells.Count > 0)
@@ -145,9 +162,11 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
         }
     }
 
+
     private void ApplyBuildingBonus(string buildingType)
     {
         BaseUnit_Script[] units = FindObjectsOfType<BaseUnit_Script>();
+        Debug.Log(buildingType	);
         foreach (BaseUnit_Script unit in units)
         {
             // Füge hier die Logik hinzu, um den entsprechenden Bonus für den Gebäudetyp anzuwenden

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Building_Shop_Script : MonoBehaviour
 {
-    // Referenz auf das Prefab, das instanziiert werden soll
-    public GameObject prefab;
+    [SerializeField]
+    // Liste der Prefabs, die instanziiert werden können
+    private List<GameObject> prefabs;
 
     // Referenz auf den Canvas, in dem das Prefab erstellt werden soll
     public Canvas cityCanvas;
@@ -13,17 +14,13 @@ public class Building_Shop_Script : MonoBehaviour
     // Referenz auf den Gridmanager
     public GridManager cityGrid;
 
-    // Methode, um ein Prefab zu erzeugen
+    // Methode, um ein zufälliges Prefab zu erzeugen
     public void CreatePrefab(Vector3 worldPosition)
     {
-        if (prefab != null)
+        if (prefabs != null && prefabs.Count > 0)
         {
             if (cityCanvas != null && cityGrid != null)
             {
-                // Prefab instanziieren und als Kind des Canvas setzen
-                GameObject instantiatedPrefab = Instantiate(prefab, worldPosition, Quaternion.identity);
-                instantiatedPrefab.transform.SetParent(cityCanvas.transform, false);
-
                 // Konvertiere die Weltposition in lokale Canvas-Koordinaten
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     cityCanvas.transform as RectTransform, 
@@ -32,7 +29,25 @@ public class Building_Shop_Script : MonoBehaviour
                     out Vector2 localPosition
                 );
 
-                // Setze die lokale Position
+                // Überprüfe, ob ein Objekt an der Position existiert
+                Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
+                foreach (Collider2D collider in colliders)
+                {
+                    if (collider.gameObject != null)
+                    {
+                        // Zerstöre das vorhandene Objekt
+                        Destroy(collider.gameObject);
+                    }
+                }
+
+                // Wähle ein zufälliges Prefab aus der Liste
+                GameObject prefab = prefabs[Random.Range(0, prefabs.Count)];
+
+                // Prefab instanziieren und als Kind des Canvas setzen
+                GameObject instantiatedPrefab = Instantiate(prefab, worldPosition, Quaternion.identity);
+                instantiatedPrefab.transform.SetParent(cityCanvas.transform, false);
+
+                // Setze die lokale Position des instanziierten Prefabs
                 instantiatedPrefab.GetComponent<RectTransform>().localPosition = localPosition;
 
                 // Setze den Gridmanager in Building_Class
@@ -56,7 +71,7 @@ public class Building_Shop_Script : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Prefab ist nicht zugewiesen!");
+            Debug.LogError("Prefabs-Liste ist leer oder nicht zugewiesen!");
         }
     }
 }

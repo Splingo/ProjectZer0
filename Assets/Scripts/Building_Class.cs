@@ -87,7 +87,7 @@ public class Building_Class : MonoBehaviour
 {
     shape = this.shape;
     this.occupiedCells = new List<Vector3Int>();
-
+    activatedEffect =true;
     switch (shape)
     {
         case BuildingShape.Block_2x2:

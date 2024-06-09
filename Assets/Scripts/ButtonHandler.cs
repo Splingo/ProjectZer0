@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ButtonHandler : MonoBehaviour
 {
     public Building_Shop_Script buildingShopScript;
-    public float yOffset = 1.0f; // Der Offset, um den der y-Wert erhöht wird
+    public float xOffset = 1.0f; // Der Offset, um den der y-Wert erhöht wird
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class ButtonHandler : MonoBehaviour
             Vector3 buttonPosition = rectTransform.position;
 
             // y-Wert anpassen
-            Vector3 spawnPosition = new Vector3(buttonPosition.x, buttonPosition.y + yOffset, buttonPosition.z);
+            Vector3 spawnPosition = new Vector3(buttonPosition.x + xOffset, buttonPosition.y , buttonPosition.z);
 
             // Prefab erzeugen
             buildingShopScript.CreatePrefab(spawnPosition);
