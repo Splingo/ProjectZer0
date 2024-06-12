@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridManager: {fileID: 0}
-  buildingName: test
+  buildingName: Schmiede
   resourceProductionRate: 0
   buildingSprite: {fileID: 0}
   collectedResources: 0
@@ -111,6 +111,7 @@ MonoBehaviour:
   previousOccupiedCells: []
   hoverungOccupiedCells: []
   activatedEffect: 0
+  buildingID: 4
   shape: 4
 --- !u!222 &2568587163807856146
 CanvasRenderer:
@@ -217,3 +218,5 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   gridOffset: {x: 0, y: 0, z: 0}
   gridRange: {x: 0, y: 0}
+  buildingIndex: 0
+  building_Inventory: {fileID: 0}

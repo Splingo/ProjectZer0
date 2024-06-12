@@ -28,6 +28,8 @@ public class Building_Class : MonoBehaviour
     public List<Vector3Int> previousOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public List<Vector3Int> hoverungOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public bool activatedEffect = false;
+    public int buildingID;
+
 
     public List<Vector3Int> GetOccupiedCells(Vector3Int center)
     {

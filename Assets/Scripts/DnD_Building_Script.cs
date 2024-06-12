@@ -17,6 +17,8 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
     private Building_Class draggedBuilding;
     private GameObject copyObject;
     private bool freshSpawn = true;
+    public int buildingIndex;
+    public building_Inventory building_Inventory;
 
     private void Awake()
     {
@@ -89,7 +91,7 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+  public void OnEndDrag(PointerEventData eventData)
     {
         Vector3 dropPosition = transform.position;
         Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
@@ -116,23 +118,37 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
                     {
                         ApplyBuildingBonus(draggedBuilding.GetBuildingType(draggedBuilding.shape));
                     }
-                    if(freshSpawn == true){
 
-                    GameObject rerollButtonObject = GameObject.Find("Building_Reroll_Button");
-
-                    if (rerollButtonObject != null)
+                    if (freshSpawn)
                     {
-                        Button buttonComponent = rerollButtonObject.GetComponent<Button>();
-
-                        if (buttonComponent != null)
+                        GameObject rerollButtonObject = GameObject.Find("Building_Reroll_Button");
+                        
+                        building_Inventory buildingInventory = FindObjectOfType<building_Inventory>();
+                        if (buildingInventory != null)
                         {
-                            // Klicken Sie auf den Button, um das neue Prefab zu erstellen
-                            buttonComponent.onClick.Invoke();
+                            buildingInventory.AddbuildingToField(draggedBuilding.buildingID);
+                        }
+                        else
+                        {
+                            Debug.Log("building_Inventory nicht gefunden!");
+                        }
+
+                        if (rerollButtonObject != null)
+                        {
+                            Button buttonComponent = rerollButtonObject.GetComponent<Button>();
+
+                            if (buttonComponent != null)
+                            {
+                                // Klicken Sie auf den Button, um das neue Prefab zu erstellen
+                                buttonComponent.onClick.Invoke();
+                            }
                         }
                     }
+                    
+                        gameObject.name = gameObject.name.Replace("_Shop", "");
+                    
+
                     freshSpawn = false;
-                    }
-                   
                     return; // Exit early if placement is successful
                 }
                 else
@@ -146,6 +162,7 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
         {
             // Re-occupy previous cells if placement was not successful
             SnapBackToPreviousPosition();
+                     
         }
     }
     private void SnapBackToPreviousPosition()

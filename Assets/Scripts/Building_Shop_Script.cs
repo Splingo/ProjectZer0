@@ -14,6 +14,8 @@ public class Building_Shop_Script : MonoBehaviour
     // Referenz auf den Gridmanager
     public GridManager cityGrid;
 
+    
+
     // Methode, um ein zufälliges Prefab zu erzeugen
     public void CreatePrefab(Vector3 worldPosition)
     {
@@ -49,6 +51,7 @@ public class Building_Shop_Script : MonoBehaviour
 
                 // Setze die lokale Position des instanziierten Prefabs
                 instantiatedPrefab.GetComponent<RectTransform>().localPosition = localPosition;
+                instantiatedPrefab.name += "_Shop";
 
                 // Setze den Gridmanager in Building_Class
                 Building_Class buildingClass = instantiatedPrefab.GetComponent<Building_Class>();
