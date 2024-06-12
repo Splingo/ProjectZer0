@@ -21,6 +21,7 @@ public class Building_Class : MonoBehaviour
     public Sprite buildingSprite;
     public int collectedResources;
     public int resourcesRequiredForUpgrade;
+    public int value;
     public bool canUpgrade;
     public int buildingCount;
     public List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
