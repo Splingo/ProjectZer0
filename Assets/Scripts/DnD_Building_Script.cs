@@ -114,11 +114,6 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
                     Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
                     transform.position = cellCenter;
 
-                    if (draggedBuilding.activatedEffect == true)
-                    {
-                        ApplyBuildingBonus(draggedBuilding.GetBuildingType(draggedBuilding.shape));
-                    }
-
                     if (freshSpawn)
                     {
                         GameObject rerollButtonObject = GameObject.Find("Building_Reroll_Button");
@@ -133,16 +128,7 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
                             Debug.Log("building_Inventory nicht gefunden!");
                         }
 
-                        if (rerollButtonObject != null)
-                        {
-                            Button buttonComponent = rerollButtonObject.GetComponent<Button>();
-
-                            if (buttonComponent != null)
-                            {
-                                // Klicken Sie auf den Button, um das neue Prefab zu erstellen
-                                buttonComponent.onClick.Invoke();
-                            }
-                        }
+                        
                     }
                     
                         gameObject.name = gameObject.name.Replace("_Shop", "");
@@ -180,56 +166,7 @@ public class DragAndDropBuilding : MonoBehaviour, IBeginDragHandler, IDragHandle
     }
 
 
-    private void ApplyBuildingBonus(string buildingType)
-    {
-        BaseUnit_Script[] units = FindObjectsOfType<BaseUnit_Script>();
-        Debug.Log(buildingType	);
-        foreach (BaseUnit_Script unit in units)
-        {
-            // Füge hier die Logik hinzu, um den entsprechenden Bonus für den Gebäudetyp anzuwenden
-            switch (buildingType)
-            {
-                case "Schmiede":
-                    Debug.Log("Einheiten erhalten Angriffsbonus durch die Schmiede.");
-                    draggedBuilding.activatedEffect = true;
-                    unit.UpdateAttackDamage(unit.attackDamage + 0.5f);
-                    break;
-                case "Kirche":
-                    Debug.Log("Einheiten erhalten HP durch die Kirche.");
-                    draggedBuilding.activatedEffect = true;
-                    unit.UpdateMaxHP(unit.maxHP + 10f);
-                    break;
-                case "Turm":
-                    Debug.Log("Einheiten erhalten Range durch den Turm.");
-                    draggedBuilding.activatedEffect = true;
-                    unit.UpdateAttackRange(unit.attackRange + 0.15f);
-                    break;
-                case "Rathaus":
-                    Debug.Log("Stadt erhält mehr Einheiten durch das Rathaus.");
-                    draggedBuilding.activatedEffect = true;
-                    break;
-                case "Bank":
-                    Debug.Log("Stadt erhält mehr Gold durch die Bank.");
-                    draggedBuilding.activatedEffect = true;
-                    break;
-                case "Taverne":
-                    Debug.Log("Einheiten erhalten AttakSpeed durch die Taverne.");
-                    draggedBuilding.activatedEffect = true;
-                    unit.UpdateAttackSpeed(unit.attackSpeed + 0.2f);
-                    break;
-                case "Shop":
-                    Debug.Log("Man kann einkaufen.");
-                    draggedBuilding.activatedEffect = true;
-                    break;
-                case "Bewohner":
-                    Debug.Log("Produktivität steigt um Prozente");
-                    draggedBuilding.activatedEffect = true;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+
 
     private bool IsWithinAllowedRange(Vector3 position)
     {

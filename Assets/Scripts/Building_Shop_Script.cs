@@ -74,6 +74,7 @@ public class Building_Shop_Script : MonoBehaviour
 
                 // Set GridManager in DragAndDropBuilding if available
                 DragAndDropBuilding dragAndDrop = instantiatedPrefab.GetComponent<DragAndDropBuilding>();
+                dragAndDrop.enabled = false;
                 if (dragAndDrop != null)
                 {
                     dragAndDrop.gridManager = cityGrid;
