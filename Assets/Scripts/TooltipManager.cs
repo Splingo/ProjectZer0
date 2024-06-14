@@ -28,7 +28,7 @@ public class TooltipManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Input.mousePosition;
+        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     public void SetAndShowTooltip(string message)
