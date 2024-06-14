@@ -43,24 +43,18 @@ public class Unit_Shop_Script : MonoBehaviour
             return;
         }
 
-        // Check if city can afford the reroll cost
         if (cityManager.CanAffordReroll(rerollCost))
         {
             randomNumber = Random.Range(0, sprites.Length);
             Sprite newSprite = sprites[randomNumber];
             targetObject.GetComponent<Image>().sprite = newSprite;
-            raiseCost = setter;
 
-            // Deduct the reroll cost from city resources and increase reroll cost
-            cityManager.DeductRerollCost(rerollCost);
+            if (setter)
+            {
+                cityManager.DeductRerollCost(rerollCost);
+            }
+
             rerollCost++;
-
-            raiseCost = false;
-        }
-        else
-        {
-            Debug.Log("Not enough resources (gold) to buy unit.");
-            // Optionally reset targetObject sprite or perform other actions
         }
     }
 
@@ -72,27 +66,18 @@ public class Unit_Shop_Script : MonoBehaviour
             return;
         }
 
-        // Use the unit's value to deduct from city resources
         int unitValue = GetUnitValue(randomNumber);
 
         if (cityManager.CanAffordReroll(unitValue))
         {
-            // Deduct the unit's value from the city's resources
             cityManager.DeductRerollCost(unitValue);
-
-            // Add the unit to the inventory
             unit_Inventory.AddUnitToInventory(randomNumber);
-        }
-        else
-        {
-            Debug.Log("Not enough resources (gold) to buy unit.");
+            setRandomUnit(false);
         }
     }
 
     private int GetUnitValue(int index)
     {
-        // Here you can define how to get the value of a unit based on its index.
-        // For example, if you have a predefined array or list of unit values:
         int[] unitValues = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
         if (index >= 0 && index < unitValues.Length)
         {
