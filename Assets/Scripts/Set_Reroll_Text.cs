@@ -42,7 +42,7 @@ public class Set_Reroll_Text : MonoBehaviour
         // Check if building_Shop_Script is not null and if rerollCost has changed
         if (building_Shop_Script != null && building_Shop_Script.rerollCost != previousBuildingRerollCost)
         {
-            rerollText.text = $"Reroll-Cost: {building_Shop_Script.rerollCost}";
+            rerollText.text = $"Reroll Cost: {building_Shop_Script.rerollCost}";
             previousBuildingRerollCost = building_Shop_Script.rerollCost;
         }
     }

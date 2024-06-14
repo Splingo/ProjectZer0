@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32fff968bcc2ed49ada759932f22d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  droppedGold: 2
   targetFriendlyUnit: {fileID: 0}
   hpBarPrefab: {fileID: 771562769130956273, guid: d8f8295ea66cccd4c81d419ba97d92c7, type: 3}
   waiting: 0

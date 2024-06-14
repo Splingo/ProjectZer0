@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using TMPro;
-[System.Serializable]
 
+[System.Serializable]
 public class CityStatsDisplay : MonoBehaviour
 {
     public TextMeshProUGUI Health;
@@ -13,7 +12,7 @@ public class CityStatsDisplay : MonoBehaviour
     public TextMeshProUGUI EnemiesKilled;
     public TextMeshProUGUI MetaTrophies;
 
-    public void RefreshCityStatsUI(CityStats cityStats)
+    public void RefreshCityStatsUI(CityStatistics cityStats)
     {
         if (cityStats == null)
         {
@@ -21,10 +20,10 @@ public class CityStatsDisplay : MonoBehaviour
             return;
         }
 
-        Health.text = cityStats.GetStat(CityStats.StatType.HealthPoints).ToString();
-        Gold.text = cityStats.GetStat(CityStats.StatType.Gold).ToString();
-        Wood.text = cityStats.GetStat(CityStats.StatType.Wood).ToString();
-        EnemiesKilled.text = cityStats.GetStat(CityStats.StatType.EnemiesKilled).ToString();
-        MetaTrophies.text = cityStats.GetStat(CityStats.StatType.MetaTrophies).ToString();
+        Health.text = cityStats.GetStat(CityStatistics.StatType.HealthPoints).ToString();
+        Gold.text = cityStats.GetStat(CityStatistics.StatType.Gold).ToString();
+        Wood.text = cityStats.GetStat(CityStatistics.StatType.Wood).ToString();
+        EnemiesKilled.text = cityStats.GetStat(CityStatistics.StatType.EnemiesKilled).ToString();
+        MetaTrophies.text = cityStats.GetStat(CityStatistics.StatType.MetaTrophies).ToString();
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     private System.Random rand = new System.Random();
+    public int droppedGold = 1;
     private float movementSpeed;
     private float maxHP = 5f;
     private float currentHP;

@@ -45,7 +45,7 @@ public class Set_Reroll_Unit : MonoBehaviour
         // Check if unit_Shop_Script is not null and if rerollCost has changed
         if (unit_Shop_Script != null && unit_Shop_Script.rerollCost != previousUnitRerollCost)
         {
-            rerollText.text = $"Reroll-Cost: {unit_Shop_Script.rerollCost}";
+            rerollText.text = $"Reroll Cost: {unit_Shop_Script.rerollCost}";
             previousUnitRerollCost = unit_Shop_Script.rerollCost;
         }
 

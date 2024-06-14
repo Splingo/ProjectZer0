@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01908838c7d9510429d0b18c7c0ca485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitCost: 2
   maxHP: 10
   currentHP: 0
   defense: 0
@@ -233,6 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece63b7e126d4e84d9e93167fcacab34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitCost: 1
   maxHP: 10
   currentHP: 0
   defense: 0

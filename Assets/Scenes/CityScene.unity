@@ -1440,19 +1440,19 @@ MonoBehaviour:
       - m_Target: {fileID: 653233123}
         m_TargetAssemblyTypeName: Unit_Shop_Script, Assembly-CSharp
         m_MethodName: setRandomUnit
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 1601222596}
         m_TargetAssemblyTypeName: Unit_Shop_Script, Assembly-CSharp
         m_MethodName: setRandomUnit
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -31237,6 +31237,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a152ee7c4e635c142bc245fca34a7c15, type: 3}
   - {fileID: 21300000, guid: 0c30a63f67e0cd046b02a71236726922, type: 3}
   rerollCost: 0
+  raiseCost: 0
 --- !u!1 &654590649
 GameObject:
   m_ObjectHideFlags: 0
@@ -32971,7 +32972,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Reroll Cost: '
+  m_text: 'Reroll Cost:  0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -35988,6 +35989,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a152ee7c4e635c142bc245fca34a7c15, type: 3}
   - {fileID: 21300000, guid: 0c30a63f67e0cd046b02a71236726922, type: 3}
   rerollCost: 0
+  raiseCost: 0
 --- !u!114 &1601222597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38800,7 +38802,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Reroll Cost: '
+  m_text: 'Reroll Cost: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
