@@ -48,7 +48,6 @@ public class Unit_Shop_Script : MonoBehaviour
             randomNumber = Random.Range(0, sprites.Length);
             Sprite newSprite = sprites[randomNumber];
             targetObject.GetComponent<Image>().sprite = newSprite;
-
             if (setter)
             {
                 cityManager.DeductRerollCost(rerollCost);

@@ -5,89 +5,30 @@ public class ApplyBuildingBuffs : MonoBehaviour
     public building_Inventory buildingInventory; // Reference to the building_Inventory script
     public Unit_Inventory unitInventory; // Reference to the Unit_Inventory script
 
-    private int[] previousBuildingCounts; // Array to store previous building counts
-
     void Update()
     {
-        CheckAndUpdateBuildingBuffs();
+        ApplyBuildingBonuses();
     }
 
-    private void CheckAndUpdateBuildingBuffs()
+    private void ApplyBuildingBonuses()
     {
-        // Initialize previousBuildingCounts if it's null or has wrong size
-        if (previousBuildingCounts == null || previousBuildingCounts.Length != buildingInventory.buildingOnFieldCount.Length)
-        {
-            previousBuildingCounts = new int[buildingInventory.buildingOnFieldCount.Length];
-        }
-
         for (int i = 0; i < buildingInventory.buildingOnFieldCount.Length; i++)
         {
-            int currentBuildingCount = buildingInventory.buildingOnFieldCount[i];
-            int previousBuildingCount = previousBuildingCounts[i];
+            int currentBuildingCount = buildingInventory.buildingOnFieldCount[i]; // Aktueller Gebäudezähler
 
-            // Check if building count increased from 0 to 1 or from 1 to 2
-            if ((previousBuildingCount == 0 && currentBuildingCount == 1) ||
-                (previousBuildingCount == 1 && currentBuildingCount == 2))
+            // Überprüfe, ob das Gebäude vorhanden ist
+            if (currentBuildingCount > 0)
             {
                 string buildingType = GetBuildingTypeFromIndex(i);
-                ApplyBuildingBonus(buildingType);
-
-                // Debug-Log ausgeben, welcher Gebäudetyp betroffen ist
+                ApplyBuildingBonus(buildingType, currentBuildingCount);
             }
-
-            // Update previousBuildingCounts with current counts for next frame
-            previousBuildingCounts[i] = currentBuildingCount;
         }
     }
 
-    private void ApplyBuildingBonus(string buildingType)
+    private void ApplyBuildingBonus(string buildingType, int buildingCount)
     {
-        BaseUnit_Script[] units = FindObjectsOfType<BaseUnit_Script>();
         Building_Shop_Script buildingShop = FindObjectOfType<Building_Shop_Script>(); // Assuming there's a Building_Shop_Script
         Unit_Shop_Script unitShop = FindObjectOfType<Unit_Shop_Script>(); // Assuming there's a Unit_Shop_Script
-
-        foreach (BaseUnit_Script unit in units)
-        {
-            switch (buildingType)
-            {
-                case "Schmiede":
-                    Debug.Log("Einheiten erhalten Angriffsbonus durch die Schmiede.");
-                    unit.UpdateAttackDamage(unit.attackDamage + 0.5f);
-                    break;
-                case "Kirche":
-                    Debug.Log("Einheiten erhalten HP durch die Kirche.");
-                    unit.UpdateMaxHP(unit.maxHP + 10f);
-                    break;
-                case "Tower":
-                    Debug.Log("Einheiten erhalten Range durch den Turm.");
-                    unit.UpdateAttackRange(unit.attackRange + 0.15f);
-                    break;
-                case "Bewohner":
-                    Debug.Log("Produktivität steigt um Prozente");
-                    // Increase all stats by 0.1 for residents
-                    unit.UpdateAttackDamage(unit.attackDamage * 1.1f);
-                    unit.UpdateMaxHP(unit.maxHP * 1.1f);
-                    unit.UpdateAttackRange(unit.attackRange * 1.1f);
-                    unit.UpdateAttackSpeed(unit.attackSpeed * 1.1f);
-                    // Adjust any other stats as needed
-                    break;
-                case "Bank":
-                    Debug.Log("Stadt erhält mehr Gold durch die Bank.");
-                    // Increase kill cost of enemies by +1
-                    unit.unitCost++;
-                    break;
-                case "Taverne":
-                    Debug.Log("Einheiten erhalten AttakSpeed durch die Taverne.");
-                    // Decrease unit cost in Tavern by -1
-                    unit.unitCost--;
-                    break;
-                case "Shop":
-                    Debug.Log("Man kann einkaufen.");
-                    break;
-                default:
-                    break;
-            }
-        }
 
         // Apply specific bonus for "Rathaus" outside the loop
         if (buildingType == "Rathaus")
@@ -96,14 +37,35 @@ public class ApplyBuildingBuffs : MonoBehaviour
             // Decrease reroll cost in Building Shop by -1
             if (buildingShop != null)
             {
-                buildingShop.rerollCost--;
+                if (buildingShop.rerollCost > 0)
+                    buildingShop.rerollCost--;
             }
             // Decrease reroll cost in Unit Shop by -1
             if (unitShop != null)
             {
-                unitShop.rerollCost--;
+                if (unitShop.rerollCost > 0)
+                    unitShop.rerollCost--;
             }
         }
+        else    if (buildingType == "Taverne")
+    {
+        // Adjust unit cost in Tavern for each unit in unitInventory
+        foreach (var unitPrefab in unitInventory.unitPrefabs)
+        {
+            BaseUnit_Script unitScript = unitPrefab.GetComponent<BaseUnit_Script>();
+            if (unitScript != null)
+            {
+                // Decrease unit cost by 1, but ensure it doesn't go below 1
+                unitScript.unitCost = Mathf.Max(1, unitScript.unitCost - 1);
+            }
+        }
+
+        // Refresh the Unit Shop display after adjusting costs
+        if (unitShop != null)
+        {
+            unitShop.setRandomUnit(false); // Update the display in Unit Shop
+        }
+    }
     }
 
     // Example method to get building type based on index; replace with your actual implementation

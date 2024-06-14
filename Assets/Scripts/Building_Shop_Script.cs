@@ -13,6 +13,7 @@ public class Building_Shop_Script : MonoBehaviour
     private CityManager cityManager; // Reference to CityManager
 
     public int rerollCost = 0;
+    public int randomNumber = 0 ;
 
     void Start()
     {
@@ -59,7 +60,8 @@ public class Building_Shop_Script : MonoBehaviour
             // Instantiate a random prefab from the list
             if (prefabs != null && prefabs.Count > 0)
             {
-                GameObject prefab = prefabs[Random.Range(0, prefabs.Count)];
+                randomNumber =Random.Range(0, prefabs.Count);
+                GameObject prefab = prefabs[randomNumber];
                 GameObject instantiatedPrefab = Instantiate(prefab, worldPosition, Quaternion.identity);
                 instantiatedPrefab.transform.SetParent(cityCanvas.transform, false);
                 instantiatedPrefab.GetComponent<RectTransform>().localPosition = localPosition;

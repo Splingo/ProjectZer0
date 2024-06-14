@@ -6,6 +6,7 @@ public class Unit_Inventory : MonoBehaviour
     public int[] unitOnFieldCount;
     public int[] unitInInventoryCount;
     public GameObject[] unitGameObjects; // Changed to public for easy inspector assignment
+    public GameObject[] unitPrefabs;     // Array of unit prefabs
 
     void Start()
     {
@@ -18,6 +19,11 @@ public class Unit_Inventory : MonoBehaviour
         {
             unitGameObjects = new GameObject[12]; // Array to store game objects
         }
+        // Initialize unit prefabs array
+        unitPrefabs = new GameObject[12];
+
+      
+
         unitInInventoryCount[0] = 3;
         unitInInventoryCount[1] = 3;
 
