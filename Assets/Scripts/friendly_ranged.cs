@@ -56,29 +56,7 @@ public class friendly_ranged : BaseUnit_Script
         return distance <= attackRange;
     }
 
-    private void CreateHPBar()
-    {
-        if (hpBarPrefab != null)
-        {
-            hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
-            hpBarInstance.transform.SetParent(transform);
-            UpdateHPBar(); // Call UpdateHPBar immediately after creating hpBarInstance
-        }
-    }
 
-    private void UpdateHPBar()
-    {
-        if (hpBarInstance != null)
-        {
-            Image hpBarImage = hpBarInstance.GetComponent<Image>();
-
-            if (hpBarImage != null)
-            {
-                float fillAmount = currentHP / maxHP;
-                hpBarImage.fillAmount = fillAmount;
-            }
-        }
-    }
 
     new public void TakeDamage(float damage)
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,9 +17,9 @@ public class BaseUnit_Script : MonoBehaviour
 
     public GameObject targetEnemyUnit;
 
-    protected GameObject hpBarPrefab;
+    public GameObject hpBarPrefab;
 
-    protected GameObject hpBarInstance;
+    private GameObject hpBarInstance;
 
     public int unitID;
 
@@ -43,9 +44,9 @@ public class BaseUnit_Script : MonoBehaviour
     protected void Start()
     {
         currentHP = maxHP;
+        CreateHPBar(); // Move CreateHPBar to Start
         gameObject.tag = "FriendlyUnit";
         SetOccupiedCells();
-        CreateHPBar(); // Move CreateHPBar to Start
     }
 
     private void Update()
@@ -102,10 +103,17 @@ public class BaseUnit_Script : MonoBehaviour
             hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
             hpBarInstance.transform.SetParent(transform);
             UpdateHPBar(); // Call UpdateHPBar immediately after creating hpBarInstance
+
+            // Set sorting override for the HP bar (Bar doesn't show up otherwise)
+            Canvas hpBarCanvas = hpBarInstance.GetComponent<Canvas>();
+            if (hpBarCanvas != null)
+            {
+                hpBarCanvas.overrideSorting = true; //Enemy somehow does this automatically
+            }
         }
     }
 
-    private void UpdateHPBar()
+    protected void UpdateHPBar()
     {
         if (hpBarInstance != null)
         {
@@ -238,4 +246,11 @@ public class BaseUnit_Script : MonoBehaviour
     {
         attackSpeed = newValue;
     }
+
+    public void Heal(float healAmount)
+    {
+        currentHP = Mathf.Min(maxHP, currentHP + healAmount);
+        UpdateHPBar();
+    }
+
 }

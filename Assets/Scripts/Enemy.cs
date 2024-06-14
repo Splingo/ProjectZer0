@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     private float maxHP = 5f;
     private float currentHP;
     private int defense;
-    private float attackDamage = 1f;
+    protected float attackDamage = 1f;
     protected float attackSpeed = 1f;
     private float attackRange = 1.05f;
 
