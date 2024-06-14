@@ -11,7 +11,7 @@ public class CityManager : MonoBehaviour
     void Start()
     {
         CityStatistics cityStats = ScriptableObject.CreateInstance<CityStatistics>();
-        cityStats.Init(5, 20, 5, 0, 0); // Initialize with health, gold, wood, enemiesKilled, and metaTrophies
+        cityStats.Init(5, 30, 5, 0, 0); // Initialize with health, gold, wood, enemiesKilled, and metaTrophies
         this.cityStats = cityStats;
 
         cityStatsDisplay.RefreshCityStatsUI(cityStats);
