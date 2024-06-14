@@ -128,6 +128,7 @@ public class BaseUnit_Script : MonoBehaviour
 
         if (currentHP <= 0f)
         {
+            gridManager.ReleaseCells(occupiedCells);
             // Implement logic for enemy death
             Destroy(gameObject);
         }

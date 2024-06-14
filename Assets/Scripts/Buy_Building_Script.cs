@@ -55,7 +55,6 @@ public class Buy_Building_Script : MonoBehaviour
                             if (createBuildingScript != null)
                             {
                                 createBuildingScript.enabled = true;
-                                Debug.Log("Create_Building_OnDrag für " + buildingClass.buildingName + " aktiviert.");
                             }
                             else
                             {

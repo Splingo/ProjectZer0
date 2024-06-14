@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
 
     public bool waiting = false;
 
+    private CityManager cityManager;
+
     protected void Start()
     {
         currentHP = maxHP;
@@ -41,11 +43,17 @@ public class Enemy : MonoBehaviour
         {
             enemyCollider = gameObject.AddComponent<BoxCollider2D>();
         }
+
+        // Find the CityManager in the scene
+        cityManager = FindObjectOfType<CityManager>();
+        if (cityManager == null)
+        {
+            Debug.LogError("CityManager not found in the scene!");
+        }
     }
 
     protected void Update()
     {
-
         if (targetFriendlyUnit == null)
         {
             DetectFriendlyUnit();
@@ -63,6 +71,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
     protected bool IsTargetInRange()
     {
         if (targetFriendlyUnit == null)
@@ -79,6 +88,7 @@ public class Enemy : MonoBehaviour
         hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
         hpBarInstance.transform.SetParent(transform);
     }
+
     protected void UpdateHPBar()
     {
         if (hpBarInstance != null)
@@ -91,6 +101,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
@@ -110,6 +121,13 @@ public class Enemy : MonoBehaviour
     protected void EnemyKilled()
     {
         EventManager.EnemyKilledEvent.Invoke();
+
+        // Add dropped gold to city resources
+        if (cityManager != null)
+        {
+            cityManager.AddGold(droppedGold);
+        }
+
         Destroy(gameObject);
     }
 
@@ -134,6 +152,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
     }
+
     protected void DetectFriendlyUnit()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(

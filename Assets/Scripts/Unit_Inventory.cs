@@ -18,6 +18,8 @@ public class Unit_Inventory : MonoBehaviour
         {
             unitGameObjects = new GameObject[12]; // Array to store game objects
         }
+        unitInInventoryCount[0] = 3;
+        unitInInventoryCount[1] = 3;
 
         // Initial check and update on start
         CheckAndUpdateGameObjectSaturation();
