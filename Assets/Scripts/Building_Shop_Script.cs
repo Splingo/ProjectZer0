@@ -14,11 +14,12 @@ public class Building_Shop_Script : MonoBehaviour
     // Referenz auf den Gridmanager
     public GridManager cityGrid;
 
-    
+    public int rerollCost = 0;
 
     // Methode, um ein zufälliges Prefab zu erzeugen
     public void CreatePrefab(Vector3 worldPosition)
     {
+        rerollCost++;
         if (prefabs != null && prefabs.Count > 0)
         {
             if (cityCanvas != null && cityGrid != null)

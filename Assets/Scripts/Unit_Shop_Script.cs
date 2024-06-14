@@ -11,12 +11,13 @@ public class Unit_Shop_Script : MonoBehaviour
     public Unit_Inventory unit_Inventory;
     public int randomNumber;
     public Sprite[] sprites;
+    public int rerollCost = 0;
     public void setRandomUnit()
     {
         randomNumber = Random.Range(0, 12);
         Sprite newSprite = sprites[randomNumber]; 
             targetObject.GetComponent<Image>().sprite = newSprite;
-
+        rerollCost++;
        
     }
 
