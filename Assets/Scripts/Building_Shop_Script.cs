@@ -5,63 +5,74 @@ using UnityEngine;
 public class Building_Shop_Script : MonoBehaviour
 {
     [SerializeField]
-    // Liste der Prefabs, die instanziiert werden können
     private List<GameObject> prefabs;
 
-    // Referenz auf den Canvas, in dem das Prefab erstellt werden soll
     public Canvas cityCanvas;
-
-    // Referenz auf den Gridmanager
     public GridManager cityGrid;
+
+    private CityManager cityManager; // Reference to CityManager
 
     public int rerollCost = 0;
 
-    // Methode, um ein zufälliges Prefab zu erzeugen
+    void Start()
+    {
+        cityManager = FindObjectOfType<CityManager>();
+        if (cityManager == null)
+        {
+            Debug.LogError("CityManager not found in the scene!");
+        }
+    }
+
     public void CreatePrefab(Vector3 worldPosition)
     {
-        rerollCost++;
-        if (prefabs != null && prefabs.Count > 0)
+        if (cityManager == null)
         {
-            if (cityCanvas != null && cityGrid != null)
+            Debug.LogError("CityManager is not assigned!");
+            return;
+        }
+
+        // Check if city can afford the reroll cost
+        if (cityManager.CanAffordReroll(rerollCost))
+        {
+            // Deduct the reroll cost from city resources
+            cityManager.DeductRerollCost(rerollCost);
+            rerollCost++;
+
+            // Convert world position to local Canvas coordinates
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                cityCanvas.transform as RectTransform,
+                worldPosition,
+                cityCanvas.worldCamera,
+                out Vector2 localPosition
+            );
+
+            // Check if there's an object at the position and destroy it
+            Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
+            foreach (Collider2D collider in colliders)
             {
-                // Konvertiere die Weltposition in lokale Canvas-Koordinaten
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    cityCanvas.transform as RectTransform, 
-                    worldPosition, 
-                    cityCanvas.worldCamera, 
-                    out Vector2 localPosition
-                );
-
-                // Überprüfe, ob ein Objekt an der Position existiert
-                Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
-                foreach (Collider2D collider in colliders)
+                if (collider.gameObject != null)
                 {
-                    if (collider.gameObject != null)
-                    {
-                        // Zerstöre das vorhandene Objekt
-                        Destroy(collider.gameObject);
-                    }
+                    Destroy(collider.gameObject);
                 }
+            }
 
-                // Wähle ein zufälliges Prefab aus der Liste
+            // Instantiate a random prefab from the list
+            if (prefabs != null && prefabs.Count > 0)
+            {
                 GameObject prefab = prefabs[Random.Range(0, prefabs.Count)];
-
-                // Prefab instanziieren und als Kind des Canvas setzen
                 GameObject instantiatedPrefab = Instantiate(prefab, worldPosition, Quaternion.identity);
                 instantiatedPrefab.transform.SetParent(cityCanvas.transform, false);
-
-                // Setze die lokale Position des instanziierten Prefabs
                 instantiatedPrefab.GetComponent<RectTransform>().localPosition = localPosition;
                 instantiatedPrefab.name += "_Shop";
 
-                // Setze den Gridmanager in Building_Class
+                // Set GridManager in Building_Class if available
                 Building_Class buildingClass = instantiatedPrefab.GetComponent<Building_Class>();
                 if (buildingClass != null)
                 {
                     buildingClass.gridManager = cityGrid;
                 }
 
-                // Setze den Gridmanager in DragAndDrop
+                // Set GridManager in DragAndDropBuilding if available
                 DragAndDropBuilding dragAndDrop = instantiatedPrefab.GetComponent<DragAndDropBuilding>();
                 if (dragAndDrop != null)
                 {
@@ -70,12 +81,12 @@ public class Building_Shop_Script : MonoBehaviour
             }
             else
             {
-                Debug.LogError("City Canvas oder City Grid ist nicht zugewiesen!");
+                Debug.LogError("Prefabs list is empty or not assigned!");
             }
         }
         else
         {
-            Debug.LogError("Prefabs-Liste ist leer oder nicht zugewiesen!");
+            Debug.Log("Not enough resources (gold) to reroll prefab.");
         }
     }
 }

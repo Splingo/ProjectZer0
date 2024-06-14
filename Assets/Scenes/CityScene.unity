@@ -28789,6 +28789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingInventory: {fileID: 215961776}
+  cityManager: {fileID: 920097307}
 --- !u!1 &469480268
 GameObject:
   m_ObjectHideFlags: 0
@@ -37917,7 +37918,6 @@ RectTransform:
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 466645250}
   - {fileID: 2120504946}
   - {fileID: 1936046214}
   - {fileID: 1400708121}
@@ -37944,6 +37944,7 @@ RectTransform:
   - {fileID: 653233119}
   - {fileID: 1601222595}
   - {fileID: 251119306}
+  - {fileID: 466645250}
   - {fileID: 390138194}
   - {fileID: 189194058}
   - {fileID: 1783212437}
