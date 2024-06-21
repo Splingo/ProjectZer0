@@ -11,7 +11,10 @@ public class EnemySpawner : MonoBehaviour
     public TextMeshProUGUI startFightButtonText;
     public float spawnInterval = 12.0f;
     public bool waiting = false;
-
+    private int wave = 1;
+    static private int enemiesPerWave = 2;
+    private int totalEnemiesThisWave = 0;
+    private int enemiesSpawned = 0;
 
     // Spawner spawns Enemy every X seconds (spawnInterval)
     private IEnumerator SpawnEnemyWithInterval()
@@ -35,29 +38,42 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemy()
     {
         System.Random rnd = new System.Random();
-        GameObject enemyPrefab = enemyPrefabs[rnd.Next(0,enemyPrefabs.Length)];
+        GameObject enemyPrefab = enemyPrefabs[rnd.Next(0, enemyPrefabs.Length)];
         // Spawn enemy on spawner
         GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+
 
         // Convert layer name to layer index
         int layerIndex = LayerMask.NameToLayer(enemyLayerName);
 
         // Set the layer of the spawned enemy
         enemy.layer = layerIndex;
+
+        enemiesSpawned++;
+        if (enemiesSpawned == totalEnemiesThisWave)
+        {
+                StopAllCoroutines();
+                waiting = false;
+        }
+    }
+
+    private void CalculateEnemiesCount()
+    {
+        enemiesSpawned = 0;
+
+        totalEnemiesThisWave = wave * enemiesPerWave;
+        wave++;
     }
 
 
     // Function called by Button on canvas
     public void ToggleEnemySpawn()
     {
+        CalculateEnemiesCount();
+
         if (startFightButtonText.text == "Start Fight")
         {
             StartCoroutine(SpawnEnemyWithInterval());
-        }
-        else
-        {
-            StopAllCoroutines();
-            waiting = false;
-        }
+        }        
     }
 }

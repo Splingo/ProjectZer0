@@ -11,7 +11,7 @@ public class StartFightButton : MonoBehaviour
     {
         if (buttonText.text == "Start Fight")
         {
-            buttonText.text = "Stop Fight";
+            buttonText.text = "Ongoing Wave";
         }
         else
         {

@@ -122,12 +122,6 @@ public class Enemy : MonoBehaviour
     {
         EventManager.EnemyKilledEvent.Invoke();
 
-        // Add dropped gold to city resources
-        if (cityManager != null)
-        {
-            cityManager.AddGold(droppedGold);
-        }
-
         Destroy(gameObject);
     }
 

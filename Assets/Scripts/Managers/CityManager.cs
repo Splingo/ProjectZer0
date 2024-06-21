@@ -44,6 +44,7 @@ public class CityManager : MonoBehaviour
     private void HandleEnemyKilled()
     {
         UpdateCityStat(CityStatistics.StatType.EnemiesKilled, 1);
+        UpdateCityStat(CityStatistics.StatType.Gold, 2);
         UpdateCityStat(CityStatistics.StatType.MetaTrophies, 1);
     }
 
