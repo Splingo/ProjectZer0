@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +11,7 @@ public class EnemyWaveManager : MonoBehaviour
     private int wave = 1;
     static private int enemiesPerWaveMultiplicationFactor = 2;
 
+    private int enemiesCleared = 0;
     private int totalEnemiesThisWave = 0;
     private int enemiesPerSpawner;
 
@@ -21,17 +24,20 @@ public class EnemyWaveManager : MonoBehaviour
 
     public void StartNewWave()
     {
-        var button = FindObjectOfType<StartFightButton>();
-        button.ToggleText();
+        var button = FindObjectOfType<StartWaveButton>();
+        button.setButtonText("Fighting Wave " + wave);
+        button.startWaveButton.enabled = false;
 
         var enemySpawners = FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None);
 
         CalculateEnemiesCount(enemySpawners.Length);
 
-        wave++;
+        enemiesCleared = 0;
 
         foreach (EnemySpawner spawner in enemySpawners)
             spawner.StartEnemySpawn(enemiesPerSpawner);
+
+        wave++;
     }
 
     private void CalculateEnemiesCount(int enemySpawnerCount)
@@ -42,17 +48,23 @@ public class EnemyWaveManager : MonoBehaviour
 
     private void InitializeEventListeners()
     {
-        EventManager.EnemyKilledEvent.AddListener(HandleEnemyKilled);
-        EventManager.EnemyDespawnedEvent.AddListener(HandleEnemyDespawned);
+        EventManager.EnemyKilledEvent.AddListener(HandleEnemyCleared);
+        EventManager.EnemyDespawnedEvent.AddListener(HandleEnemyCleared);
     }
 
-    private void HandleEnemyKilled()
+    private void EndWave()
     {
-
+        var button = FindObjectOfType<StartWaveButton>();
+        button.setButtonText("Start Wave" + wave);
+        button.startWaveButton.enabled =true;
     }
 
-    private void HandleEnemyDespawned()
+    private void HandleEnemyCleared()
     {
+        enemiesCleared++;
 
+        if (enemiesCleared == totalEnemiesThisWave)
+            EndWave();
     }
+
 }
