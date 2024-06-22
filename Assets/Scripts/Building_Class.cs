@@ -21,12 +21,15 @@ public class Building_Class : MonoBehaviour
     public Sprite buildingSprite;
     public int collectedResources;
     public int resourcesRequiredForUpgrade;
+    public int value;
     public bool canUpgrade;
     public int buildingCount;
     public List<Vector3Int> occupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public List<Vector3Int> previousOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public List<Vector3Int> hoverungOccupiedCells; // Liste der belegten Zellen (Zeile, Spalte)
     public bool activatedEffect = false;
+    public int buildingID;
+
 
     public List<Vector3Int> GetOccupiedCells(Vector3Int center)
     {
@@ -87,7 +90,7 @@ public class Building_Class : MonoBehaviour
 {
     shape = this.shape;
     this.occupiedCells = new List<Vector3Int>();
-
+    activatedEffect =true;
     switch (shape)
     {
         case BuildingShape.Block_2x2:

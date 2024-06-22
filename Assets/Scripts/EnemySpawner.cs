@@ -12,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
     public float spawnInterval = 12.0f;
     public bool waiting = false;
 
+    private int enemiesToSpawn = 0;
+    private int enemiesSpawned = 0;
 
     // Spawner spawns Enemy every X seconds (spawnInterval)
     private IEnumerator SpawnEnemyWithInterval()
@@ -32,32 +34,38 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    public void SpawnEnemy()
+    private void SpawnEnemy()
     {
         System.Random rnd = new System.Random();
-        GameObject enemyPrefab = enemyPrefabs[rnd.Next(0,enemyPrefabs.Length)];
+        GameObject enemyPrefab = enemyPrefabs[rnd.Next(0, enemyPrefabs.Length)];
         // Spawn enemy on spawner
         GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+
 
         // Convert layer name to layer index
         int layerIndex = LayerMask.NameToLayer(enemyLayerName);
 
         // Set the layer of the spawned enemy
         enemy.layer = layerIndex;
-    }
 
-
-    // Function called by Button on canvas
-    public void ToggleEnemySpawn()
-    {
-        if (startFightButtonText.text == "Start Fight")
-        {
-            StartCoroutine(SpawnEnemyWithInterval());
-        }
-        else
+        enemiesSpawned++;
+        if (enemiesSpawned == enemiesToSpawn)
         {
             StopAllCoroutines();
             waiting = false;
         }
+    }
+
+
+
+
+    // Function called by Button on canvas
+    public void StartEnemySpawn(int enemiesToSpawn)
+    {
+        enemiesSpawned = 0;
+
+        this.enemiesToSpawn = enemiesToSpawn;
+
+        StartCoroutine(SpawnEnemyWithInterval());
     }
 }
