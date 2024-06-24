@@ -9,29 +9,26 @@ public class CityStats : ScriptableObject
     {
         HealthPoints,
         Gold,
-        Wood,
         EnemiesKilled,
         MetaTrophies
     }
 
     private int HealthPoints;
     private int Gold;
-    private int Wood;
     private int EnemiesKilled;
     private int MetaTrophies;
 
-    public static CityStats CreateInstance(int healthPoints, int gold, int wood, int enemiesKilled, int metaTrophies)
+    public static CityStats CreateInstance(int healthPoints, int gold, int enemiesKilled, int metaTrophies)
     {
         var stats = CreateInstance<CityStats>();
-        stats.Init(healthPoints, gold, wood, enemiesKilled, metaTrophies);
+        stats.Init(healthPoints, gold, enemiesKilled, metaTrophies);
         return stats;
     }
 
-    public void Init(int healthPoints, int gold, int wood, int enemiesKilled, int metaTrophies)
+    public void Init(int healthPoints, int gold, int enemiesKilled, int metaTrophies)
     {
         HealthPoints = healthPoints;
         Gold = gold;
-        Wood = wood;
         EnemiesKilled = enemiesKilled;
         MetaTrophies = metaTrophies;
     }
@@ -43,8 +40,6 @@ public class CityStats : ScriptableObject
                 return HealthPoints;
             case StatType.Gold:
                 return Gold;
-            case StatType.Wood:
-                return Wood;
             case StatType.EnemiesKilled:
                 return EnemiesKilled;
             case StatType.MetaTrophies:
@@ -64,9 +59,6 @@ public class CityStats : ScriptableObject
                 break;
             case StatType.Gold:
                 Gold += value;
-                break;
-            case StatType.Wood:
-                Wood += value;
                 break;
             case StatType.EnemiesKilled:
                 EnemiesKilled += value;
