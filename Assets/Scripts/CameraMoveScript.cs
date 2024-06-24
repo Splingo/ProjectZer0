@@ -31,7 +31,7 @@ public class CameraMoveScript : MonoBehaviour
         }
         else // move camera to left
         {
-            newCameraPosition = new Vector3(-9.65f, -0.1f, -10f);
+            newCameraPosition = new Vector3(-10.6f, -0.1f, -10f);
             arrowRectTransform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             toRight = true;
             audioSourceLeftClick.Play();
@@ -44,7 +44,7 @@ public class CameraMoveScript : MonoBehaviour
         }
         if (zoomedIn)
         {
-            currentLerp = StartCoroutine(LerpToPosition(newCameraPosition, 6.95f, positionLerpSpeed, zoomLerpSpeed));
+            currentLerp = StartCoroutine(LerpToPosition(newCameraPosition,7.5f, positionLerpSpeed, zoomLerpSpeed));
             zoomedIn = false;
         }
         else

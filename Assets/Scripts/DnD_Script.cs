@@ -112,7 +112,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                     if (baseUnit != null)
                     {
-                        Debug.Log("innne");
                         baseUnit.hoveringOccupiedCells = baseUnit.GetOccupiedCells(cellPosition);
                     }
                     if (rangedUnit != null)

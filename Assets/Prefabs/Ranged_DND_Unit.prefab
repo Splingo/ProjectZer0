@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 5156855824958456572}
   - component: {fileID: 8014525939180341201}
   - component: {fileID: 4505312216161254105}
-  - component: {fileID: 224916893161348612}
   m_Layer: 0
   m_Name: Ranged_DND_Unit
   m_TagString: FriendlyUnit
@@ -206,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01908838c7d9510429d0b18c7c0ca485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitCost: 2
   maxHP: 10
   currentHP: 0
   defense: 0
@@ -213,6 +213,7 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 1.05
   targetEnemyUnit: {fileID: 0}
+  hpBarPrefab: {fileID: 771562769130956273, guid: d8f8295ea66cccd4c81d419ba97d92c7, type: 3}
   unitID: 1
   waiting: 0
   gridManager: {fileID: 0}
@@ -233,6 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece63b7e126d4e84d9e93167fcacab34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitCost: 1
   maxHP: 10
   currentHP: 0
   defense: 0

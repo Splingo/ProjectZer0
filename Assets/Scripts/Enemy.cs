@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     private System.Random rand = new System.Random();
+    public int droppedGold = 1;
     private float movementSpeed;
     private float maxHP = 5f;
     private float currentHP;
     private int defense;
-    private float attackDamage = 1f;
+    protected float attackDamage = 1f;
     protected float attackSpeed = 1f;
     private float attackRange = 1.05f;
 
@@ -24,6 +25,8 @@ public class Enemy : MonoBehaviour
     private bool shouldMove = true;
 
     public bool waiting = false;
+
+    private CityManager cityManager;
 
     protected void Start()
     {
@@ -40,11 +43,17 @@ public class Enemy : MonoBehaviour
         {
             enemyCollider = gameObject.AddComponent<BoxCollider2D>();
         }
+
+        // Find the CityManager in the scene
+        cityManager = FindObjectOfType<CityManager>();
+        if (cityManager == null)
+        {
+            Debug.LogError("CityManager not found in the scene!");
+        }
     }
 
     protected void Update()
     {
-
         if (targetFriendlyUnit == null)
         {
             DetectFriendlyUnit();
@@ -62,6 +71,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
     protected bool IsTargetInRange()
     {
         if (targetFriendlyUnit == null)
@@ -78,6 +88,7 @@ public class Enemy : MonoBehaviour
         hpBarInstance = Instantiate(hpBarPrefab, transform.position + new Vector3(0, 0.7f, 0), Quaternion.identity);
         hpBarInstance.transform.SetParent(transform);
     }
+
     protected void UpdateHPBar()
     {
         if (hpBarInstance != null)
@@ -90,6 +101,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
@@ -109,6 +121,7 @@ public class Enemy : MonoBehaviour
     protected void EnemyKilled()
     {
         EventManager.EnemyKilledEvent.Invoke();
+
         Destroy(gameObject);
     }
 
@@ -133,6 +146,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(attackSpeed);
         waiting = false;
     }
+
     protected void DetectFriendlyUnit()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(
