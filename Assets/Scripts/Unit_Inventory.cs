@@ -76,6 +76,8 @@ public class Unit_Inventory : MonoBehaviour
                     else
                     {
                         // Reset saturation to 1 for original color
+                        CreateUnitOnDrag_Script test =unitGameObjects[i].GetComponent<CreateUnitOnDrag_Script>();
+                        test.enabled = true;
                         imageComponent.color = Color.white;
                     }
                 }

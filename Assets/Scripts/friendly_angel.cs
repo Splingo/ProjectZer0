@@ -61,8 +61,8 @@ public class friendly_angel : BaseUnit_Script
     {
         if (transform.hasChanged)
         {
-            SetOccupiedCells(); // Wenn sich die Position geändert hat, rufe die Funktion auf, um den Layer zu aktualisieren
-            transform.hasChanged = false; // Setze transform.hasChanged zurück, um weitere Änderungen zu erkennen
+            SetOccupiedCells(); // Wenn sich die Position geï¿½ndert hat, rufe die Funktion auf, um den Layer zu aktualisieren
+            transform.hasChanged = false; // Setze transform.hasChanged zurï¿½ck, um weitere ï¿½nderungen zu erkennen
         }
         if (IsAnyFriendlyInRange())
         {

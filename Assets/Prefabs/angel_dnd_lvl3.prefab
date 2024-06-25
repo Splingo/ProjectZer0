@@ -186,7 +186,7 @@ MonoBehaviour:
   attackRange: 1.05
   targetEnemyUnit: {fileID: 0}
   hpBarPrefab: {fileID: 771562769130956273, guid: d8f8295ea66cccd4c81d419ba97d92c7, type: 3}
-  unitID: 3
+  unitID: 5
   waiting: 0
   gridManager: {fileID: 0}
   occupiedCells: []
