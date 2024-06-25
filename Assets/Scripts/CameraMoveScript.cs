@@ -11,6 +11,8 @@ public class CameraMoveScript : MonoBehaviour
     private bool toRight = true; // toggle for right-/leftside movement
     private bool zoomedIn = false; // track zoomin/zoomout
 
+    private bool enabled = true;
+
     // a coroutine is a method by unity to handle actions over multiple frames (movement, animation, etc.)
     // for this script to work properly the current Coroutine must be tracked (and stoped before another coroutine starts)
     private Coroutine currentLerp;
@@ -20,6 +22,9 @@ public class CameraMoveScript : MonoBehaviour
 
     public void SnapCameraToRight()
     {
+        if (!enabled)
+            return;
+
         Vector3 newCameraPosition; // vector for the NEXT camera position 
 
         if (toRight) // move camera to right
@@ -42,9 +47,10 @@ public class CameraMoveScript : MonoBehaviour
             // stop the current Coroutine if it's running
             StopCoroutine(currentLerp);
         }
+
         if (zoomedIn)
         {
-            currentLerp = StartCoroutine(LerpToPosition(newCameraPosition,7.5f, positionLerpSpeed, zoomLerpSpeed));
+            currentLerp = StartCoroutine(LerpToPosition(newCameraPosition, 7.5f, positionLerpSpeed, zoomLerpSpeed));
             zoomedIn = false;
         }
         else
@@ -83,5 +89,10 @@ public class CameraMoveScript : MonoBehaviour
         // Ensure the camera is at the exact target position and zoom level
         mainCamera.transform.position = targetPosition;
         mainCamera.orthographicSize = targetZoom;
+    }
+
+    public void setEnabled(bool enabled)
+    {
+        this.enabled = enabled;
     }
 }

@@ -24,9 +24,13 @@ public class EnemyWaveManager : MonoBehaviour
 
     public void StartNewWave()
     {
-        var button = FindObjectOfType<StartWaveButton>();
-        button.setButtonText("Fighting Wave " + wave);
-        button.startWaveButton.enabled = false;
+        var startWave = FindObjectOfType<StartWaveButton>();
+        startWave.setButtonText("Fighting Wave " + wave);
+        startWave.startWaveButton.enabled = false;
+
+        var moveCameraScript = FindObjectOfType<CameraMoveScript>();
+        moveCameraScript.setEnabled(false);
+
 
         var enemySpawners = FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None);
 
@@ -54,9 +58,12 @@ public class EnemyWaveManager : MonoBehaviour
 
     private void EndWave()
     {
-        var button = FindObjectOfType<StartWaveButton>();
-        button.setButtonText("Start Wave" + wave);
-        button.startWaveButton.enabled =true;
+        var startWave = FindObjectOfType<StartWaveButton>();
+        startWave.setButtonText("Start Wave" + wave);
+        startWave.startWaveButton.enabled =true;
+
+        var moveCameraScript = FindObjectOfType<CameraMoveScript>();
+        moveCameraScript.setEnabled(true);
     }
 
     private void HandleEnemyCleared()
