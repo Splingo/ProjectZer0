@@ -59,7 +59,7 @@ public class EnemyWaveManager : MonoBehaviour
     private void EndWave()
     {
         var startWave = FindObjectOfType<StartWaveButton>();
-        startWave.setButtonText("Start Wave" + wave);
+        startWave.setButtonText("Start Wave " + wave);
         startWave.startWaveButton.enabled =true;
 
         var moveCameraScript = FindObjectOfType<CameraMoveScript>();
