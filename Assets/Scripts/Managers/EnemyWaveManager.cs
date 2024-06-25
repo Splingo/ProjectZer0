@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class EnemyWaveManager : MonoBehaviour
 {
     private int wave = 1;
-    static private int enemiesPerWaveMultiplicationFactor = 2;
+    static private int enemiesPerWaveMultiplicationFactor = 1;
 
     private int enemiesCleared = 0;
     private int totalEnemiesThisWave = 0;
