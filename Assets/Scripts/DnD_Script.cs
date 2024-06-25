@@ -15,6 +15,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Vector3Int initialCellPosition;
     private BaseUnit_Script baseUnit;
     private friendly_ranged rangedUnit;
+    private friendly_angel angelUnit;
 
     public Unit_Inventory unit_Inventory;
 
@@ -30,6 +31,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         startPosition = initialPosition;
         baseUnit = GetComponent<BaseUnit_Script>();
         rangedUnit = GetComponent<friendly_ranged>();
+        angelUnit = GetComponent<friendly_angel>();
 
     }
 
@@ -68,6 +70,11 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 if (rangedUnit != null)
                 {
                     rangedUnit.previousOccupiedCells = baseUnit.GetOccupiedCells(initialCellPosition);
+
+                }
+                 if (angelUnit != null)
+                {
+                    angelUnit.previousOccupiedCells = baseUnit.GetOccupiedCells(initialCellPosition);
 
                 }
 
@@ -119,6 +126,11 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                         rangedUnit.hoveringOccupiedCells = rangedUnit.GetOccupiedCells(cellPosition);
                     }
+                    if (angelUnit != null)
+                    {
+
+                        angelUnit.hoveringOccupiedCells = angelUnit.GetOccupiedCells(cellPosition);
+                    }
                 }
             }
         }
@@ -135,7 +147,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 Vector3 dropPosition = transform.position;
                 Vector3Int cellPosition = gridManager.gridTilemap.WorldToCell(dropPosition);
-                if (IsWithinAllowedRange(dropPosition))
+                if (IsWithinAllowedRange(dropPosition) )
                 {
 
                     if (rangedUnit != null)
@@ -162,6 +174,35 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                             }
 
                             rangedUnit.onField = true;
+
+
+                            return; // Exit early if placement is successful
+                        }
+                    }
+                    else if (angelUnit != null)
+                    {
+                        List<Vector3Int> newOccupiedCells = angelUnit.GetOccupiedCells(cellPosition);
+
+                        if (!gridManager.AreCellsOccupied(newOccupiedCells))
+                        {
+
+                            // Release the previous occupied cells
+                            gridManager.ReleaseCells(angelUnit.previousOccupiedCells);
+
+                            // Occupy the new cells
+                            gridManager.OccupyCells(newOccupiedCells);
+
+                            // Snap to cell center
+                            Vector3 cellCenter = gridManager.gridTilemap.GetCellCenterWorld(cellPosition);
+                            transform.position = cellCenter;
+                            
+
+                            if (angelUnit.onField == false){
+
+                                unit_Inventory.AddUnitToField(angelUnit.unitID);
+                            }
+
+                            angelUnit.onField = true;
 
 
                             return; // Exit early if placement is successful
@@ -219,6 +260,30 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     unit_Inventory.AddUnitToInventory(1);
                     unit_Inventory.RemoveUnitFromField(1);
                      GameObject unit1 = GameObject.Find("Unit_1");
+                   CreateUnitOnDrag_Script createUnitOnDragScript = unit1.GetComponent<CreateUnitOnDrag_Script>();
+                    createUnitOnDragScript.enabled = true;
+
+
+                    Destroy(gameObject);
+                }
+               else if (angelUnit != null)
+                {
+
+                    List<Vector3Int> occupiedBattleCells = angelUnit.GetOccupiedCells(initialCellPosition);
+                    angelUnit.previousOccupiedCells = occupiedBattleCells;
+
+                    // Log the state of gridManager before releasing cells
+
+                    if (occupiedBattleCells != null && occupiedBattleCells.Count > 0)
+                    {
+
+                        gridManager.ReleaseCells(angelUnit.previousOccupiedCells);
+                    }
+
+                    // Log the state of gridManager after releasing cells
+                    unit_Inventory.AddUnitToInventory(angelUnit.unitID);
+                    unit_Inventory.RemoveUnitFromField(angelUnit.unitID);
+                     GameObject unit1 = GameObject.Find("Unit_"+angelUnit.unitID);
                    CreateUnitOnDrag_Script createUnitOnDragScript = unit1.GetComponent<CreateUnitOnDrag_Script>();
                     createUnitOnDragScript.enabled = true;
 
