@@ -45,7 +45,9 @@ public class Unit_Shop_Script : MonoBehaviour
 
         if (cityManager.CanAffordReroll(rerollCost))
         {
-            randomNumber = Random.Range(0, sprites.Length);
+            List<int> enemyIndices = new List<int> { 0, 1, 3, 4, 5 };
+
+            randomNumber = enemyIndices[Random.Range(0, enemyIndices.Count)];
             Sprite newSprite = sprites[randomNumber];
             targetObject.GetComponent<Image>().sprite = newSprite;
             if (setter)
